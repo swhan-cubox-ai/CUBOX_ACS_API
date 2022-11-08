@@ -1,13 +1,9 @@
-package aero;
+package aero.cubox.api;
 
 import org.junit.Test;
 
 import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Properties;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -24,14 +20,16 @@ public class KafkaTest {
             //kafka 브로커
             String kafkaBootstrapServer = "bpdev01.smartgbmo.go.kr:6667,bpdev02.smartgbmo.go.kr:6667,bpdev03.smartgbmo.go.kr:6667";
 
-            //kafka topic
+            //kafka topic -- 필요한 Tag 만 Add  
             ArrayList<String> topics = new ArrayList<String>();
             //opics.add("smartgbmo-cityhub-tag-info") ; // Tag 기준 정보
             //topics.add("smartgbmo-cityhub-tag-value"); // Tag Value
             topics.add("smartgbmo-cityhub-alarm"); // alarm 정보
+            
             //kafka consumer group
-            //String groupId = "kafka-group-bp"; // groupId는 kafka-group-시스템ID
-            String groupId = "kafka-group-ac"; // groupId는 kafka-group-시스템ID
+            // groupId는 kafka-group-시스템ID
+            //String groupId = "kafka-group-bp";
+            String groupId = "kafka-group-ac"; // ac 출입관리
 
             //kafka 연결 속성
             Properties properties = new Properties();

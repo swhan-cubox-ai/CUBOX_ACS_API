@@ -3,7 +3,7 @@ spring:
     jdbc-url: jdbc:mysql://192.168.0.224:3306/cubox_acs?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul
     username: acs
     password: cubox2022!
-    driver-class-name: org.mariadb.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       auto-commit: true
       maximum-pool-size: 15

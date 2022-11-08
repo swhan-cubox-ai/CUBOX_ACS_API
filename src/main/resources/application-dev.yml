@@ -1,6 +1,6 @@
 spring:
   datasource:
-    jdbc-url: jdbc:mysql://192.168.0.224:3306/cubox_acs?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul
+    jdbc-url: jdbc:mysql://13.209.174.31:3306/cubox_acs?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul
     username: acs
     password: cubox2022!
     driver-class-name: org.mariadb.jdbc.Driver
