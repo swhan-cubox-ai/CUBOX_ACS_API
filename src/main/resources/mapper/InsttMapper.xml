@@ -1,0 +1,33 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="aero.cubox.api.instt.mapper.InsttMapper">
+
+	<update id="updateInsttRcv" parameterType="map">
+		UPDATE TI_CMN_INSTT_RCV
+		SET PROCESS_YN_MDMSJSC = 'Y'
+		WHERE CNTC_SN = #{CNTC_SN}
+	</update>
+
+	<update id="updateDeptRcv" parameterType="map">
+		UPDATE TI_CMN_INSTT_RCV
+		SET PROCESS_YN_MDMSJSC = 'Y'
+		WHERE CNTC_SN = #{CNTC_SN}
+	</update>
+
+	<insert id="insertInsttRcv" parameterType="map">
+		INSERT INTO T_INSTTT
+			(ID, INSTT_CD, INSTT_NM)
+		VALUES
+			(#{CNTC_SN}, #{INSTT_CD}, #{INSTT_NM})
+	</insert>
+
+	<insert id="insertDeptRcv" parameterType="map">
+		INSERT INTO T_DEPT
+			(ID, DEPT_CD, DEPT_NM, INSTT_CD, INSTT_NM)
+		VALUES
+			(#{CNTC_SN}, #{DEPT_CD}, #{DEPT_NM}, #{INSTT_CD}, #{INSTT_NM})
+	</insert>
+
+</mapper>

@@ -8,6 +8,15 @@ spring:
       auto-commit: true
       maximum-pool-size: 15
       minimum-idle: 15
+  datasource2:
+    jdbc-url: jdbc:CUBRID:13.209.174.31:30000:GACS_MDM:dba:cuboxdba:?charset=UTF-8
+    username: dba
+    password: cuboxdba
+    driver-class-name: cubrid.jdbc.driver.CUBRIDDriver
+    hikari:
+      auto-commit: true
+      maximum-pool-size: 15
+      minimum-idle: 15
   jpa:
     show-sql: true
     database: mysql

@@ -1,0 +1,31 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="aero.cubox.api.mdm.mapper.MdmMapper">
+
+	<select id="test" resultType="map">
+		SELECT *
+		FROM tc_em_cgpn
+		WHERE rownum <![CDATA[<=]]> #{count}
+	</select>
+
+	<select id="getMdmInsttRcv" resultType="map">
+		SELECT CNTC_SN,
+			   INSTT_CODE,
+			   INSTT_NM,
+			   LOWEST_INSTT_CODE,
+			   LOWEST_INSTT_NM,
+			   PROCESS_YN_MDMSJSC,
+			   DECODE(INSTT_CODE, LOWEST_INSTT_CODE, 'Y', 'N') AS INSTT_YN
+		FROM   TI_CMN_INSTT_RCV
+		WHERE PROCESS_YN_MDMSJSC = 'N'
+	</select>
+
+
+	<update id="updateMdmInsttRcv" parameterType="map">
+		UPDATE TI_CMN_INSTT_RCV
+		SET PROCESS_YN_MDMSJSC = 'Y'
+		WHERE CNTC_SN = #{CNTC_SN}
+	</update>
+</mapper>
