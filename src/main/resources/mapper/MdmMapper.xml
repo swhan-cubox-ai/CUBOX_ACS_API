@@ -10,22 +10,30 @@
 		WHERE rownum <![CDATA[<=]]> #{count}
 	</select>
 
-	<select id="getMdmInsttRcv" resultType="map">
-		SELECT CNTC_SN,
-			   INSTT_CODE,
-			   INSTT_NM,
-			   LOWEST_INSTT_CODE,
-			   LOWEST_INSTT_NM,
-			   PROCESS_YN_MDMSJSC,
-			   DECODE(INSTT_CODE, LOWEST_INSTT_CODE, 'Y', 'N') AS INSTT_YN
+	<select id="getMdmInsttCount" resultType="map">
+		SELECT count(*) as cnt
 		FROM   TI_CMN_INSTT_RCV
-		WHERE PROCESS_YN_MDMSJSC = 'N'
+		WHERE process_yn_mdmsjsc = 'N'
+	</select>
+
+	<select id="getMdmInsttRcv" resultType="map">
+		SELECT cntc_sn,
+			   instt_code AS instt_cd,
+			   instt_nm,
+			   lowest_instt_code AS dept_cd,
+			   lowest_instt_nm AS dept_nm,
+			   process_yn_mdmsjsc,
+			   DECODE(instt_code, lowest_instt_code, 'Y', 'N') AS instt_yn
+		FROM   TI_CMN_INSTT_RCV
+		WHERE process_yn_mdmsjsc = 'N'
+		ORDER BY lowest_instt_code
+		LIMIT 10
 	</select>
 
 
 	<update id="updateMdmInsttRcv" parameterType="map">
 		UPDATE TI_CMN_INSTT_RCV
-		SET PROCESS_YN_MDMSJSC = 'Y'
-		WHERE CNTC_SN = #{CNTC_SN}
+		SET process_yn_mdmsjsc = 'Y'
+		WHERE cntc_sn = #{cntc_sn}
 	</update>
 </mapper>

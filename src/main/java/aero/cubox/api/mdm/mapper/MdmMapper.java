@@ -10,6 +10,8 @@ public interface MdmMapper {
 
     List<Map<String, Object>> test (Integer count);
 
+    Map<String, Object> getMdmInsttCount();
+
     List<Map<String, Object>> getMdmInsttRcv();
 
     int updateMdmInsttRcv(Map<String, Object> insttRcv);

@@ -4,30 +4,49 @@
 
 <mapper namespace="aero.cubox.api.instt.mapper.InsttMapper">
 
+	<select id="getInsttIsYn" resultType="map">
+		SELECT ( CASE count(*)
+				  WHEN 0 THEN 'N'
+				  ELSE 'Y' END) AS isYn
+		FROM T_INSTTT
+		WHERE instt_cd = #{instt_cd}
+	</select>
+
+	<select id="getDeptIsYn" resultType="map">
+		SELECT ( CASE count(*)
+					 WHEN 0 THEN 'N'
+					 ELSE 'Y' END) AS isYn
+		FROM T_DEPT
+		WHERE dept_cd = #{dept_cd}
+	</select>
+
+
 	<update id="updateInsttRcv" parameterType="map">
-		UPDATE TI_CMN_INSTT_RCV
-		SET PROCESS_YN_MDMSJSC = 'Y'
-		WHERE CNTC_SN = #{CNTC_SN}
+		UPDATE T_INSTTT SET
+			instt_nm = #{instt_nm}
+		WHERE instt_cd = #{instt_cd}
 	</update>
 
 	<update id="updateDeptRcv" parameterType="map">
-		UPDATE TI_CMN_INSTT_RCV
-		SET PROCESS_YN_MDMSJSC = 'Y'
-		WHERE CNTC_SN = #{CNTC_SN}
+		UPDATE T_DEPT
+		SET dept_nm = #{dept_nm},
+			instt_cd = #{instt_cd},
+	 		instt_nm = #{instt_nm}
+		WHERE dept_cd = #{dept_cd}
 	</update>
 
 	<insert id="insertInsttRcv" parameterType="map">
 		INSERT INTO T_INSTTT
-			(ID, INSTT_CD, INSTT_NM)
+			(instt_cd, instt_nm)
 		VALUES
-			(#{CNTC_SN}, #{INSTT_CD}, #{INSTT_NM})
+			(#{instt_cd}, #{instt_nm})
 	</insert>
 
 	<insert id="insertDeptRcv" parameterType="map">
 		INSERT INTO T_DEPT
-			(ID, DEPT_CD, DEPT_NM, INSTT_CD, INSTT_NM)
+			(dept_cd, dept_nm, instt_cd, instt_nm)
 		VALUES
-			(#{CNTC_SN}, #{DEPT_CD}, #{DEPT_NM}, #{INSTT_CD}, #{INSTT_NM})
+			(#{dept_cd}, #{dept_nm}, #{instt_cd}, #{instt_nm})
 	</insert>
 
 </mapper>
