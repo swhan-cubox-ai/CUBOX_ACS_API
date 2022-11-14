@@ -1,0 +1,41 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="aero.cubox.api.card.mapper.CardMapper">
+
+	<select id="getCardIsYn" resultType="map">
+		SELECT ( CASE count(*)
+				  WHEN 0 THEN 'N'
+				  ELSE 'Y' END) AS isYn
+		FROM T_CARD
+		WHERE card_no = #{card_no}
+	</select>
+
+	<update id="updateCard" parameterType="map">
+		UPDATE T_CARD SET
+			emp_id = 1,
+			emp_cd = #{emp_cd},
+		  	beg_dt = #{beg_dt},
+			end_dt = #{end_dt},
+			card_class_typ = #{card_class_typ},
+			card_state_typ = #{card_state_typ},
+			mdm_dt = #{mdm_dt}
+		WHERE card_no = #{card_no}
+	</update>
+
+	<insert id="insertCard" parameterType="map">
+		INSERT INTO T_CARD
+			(emp_id, emp_cd, card_no, beg_dt, end_dt, card_class_typ, card_state_typ, mdm_dt)
+		VALUES
+			(1, #{emp_cd}, #{card_no}, #{beg_dt}, #{end_dt},  #{card_class_typ}, #{card_state_typ}, #{mdm_dt})
+	</insert>
+
+	<update id="updateCardEmpId" parameterType="map">
+		UPDATE T_CARD SET
+			  emp_id = #{emp_id}
+		WHERE card_no = #{card_no}
+	</update>
+
+
+</mapper>

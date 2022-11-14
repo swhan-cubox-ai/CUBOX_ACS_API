@@ -36,4 +36,149 @@
 		SET process_yn_mdmsjsc = 'Y'
 		WHERE cntc_sn = #{cntc_sn}
 	</update>
+
+	<!-- 일반출입증 갯수-->
+	<select id="getMdmTcEmCgpnCount" resultType="map">
+		SELECT count(*) as cnt
+		FROM   TC_EM_CGPN
+		WHERE 1=1
+			AND ((card_se = '04')
+				AND (process_yn_mdmsjsc = 'N'
+					AND gbd_intrlck1='Y'))
+		   OR ((card_se = '05')
+			AND (process_yn_mdmsjsc = 'N'
+				AND gvrn_gbd_code = '05'))
+	</select>
+
+	<!-- mdm 일반출입증조회 -->
+	<select id="getMdmTcEmCgpn" resultType="map">
+		SELECT
+			em.cgpn_hr_sn,
+			em.hr_no as emp_cd,
+			em.gvrn_gbd_code,
+            em.instt_code as instt_cd,
+			ins.instt_nm,
+			em.dept_code as dept_cd,
+			dep.lowest_instt_nm as dept_nm,
+            em.cgpn_nm as emp_nm,
+            em.psitn_nm as belong_nm,
+            em.card_se as card_class_typ,
+            em.card_no,
+            em.issu_no,
+            em.card_sttus_se as card_state_typ,
+            em.cmg_begin_dt as beg_dt,
+            em.cmg_end_dt as end_dt,
+            em.recptn_info_applc_sttus_code,
+            em.data_applc_dt,
+            em.creat_dt as mdm_dt,
+            em.process_yn_mdmsjsc,
+            em.gbd_intrlck1,
+            em.gbd_intrlck2,
+            em.gbd_intrlck3,
+            em.gbd_intrlck4
+		FROM TC_EM_CGPN em
+		 LEFT OUTER JOIN TI_CMN_INSTT_RCV ins on em.instt_code  = ins.instt_code
+		 LEFT OUTER JOIN TI_CMN_INSTT_RCV dep on em.dept_code  = dep.lowest_instt_code
+		WHERE 1=1
+			AND ((em.card_se = '04')
+				AND (em.process_yn_mdmsjsc = 'N'
+					AND em.gbd_intrlck1='Y'))
+		   OR ((em.card_se = '05')
+			AND (em.process_yn_mdmsjsc = 'N'
+				AND em.gvrn_gbd_code = '05'))
+		LIMIT 1000
+	</select>
+
+	<update id="updateMdmTcEmCgpn" parameterType="map">
+		UPDATE TC_EM_CGPN
+		SET process_yn_mdmsjsc = 'Y'
+		WHERE card_no = #{card_no}
+	</update>
+
+	<!-- 공무원증 갯수-->
+	<select id="getMdmTcEmPbsvntCount" resultType="map">
+		SELECT count(*) as cnt
+		FROM   TC_EM_PBSVNT
+		WHERE process_yn_mdmsjsc = 'N'
+		  AND gbd_intrlck1 = 'Y'
+	</select>
+
+	<!-- mdm 공무원증조회 -->
+	<select id="getMdmTcEmPbsvnt" resultType="map">
+		SELECT em.cgpn_hr_sn,
+			   em.hr_no as emp_cd,
+			   em.gvrn_gbd_code,
+			   em.instt_code as instt_cd,
+			   ins.instt_nm,
+			   em.dept_code as dept_cd,
+			   dep.lowest_instt_nm as dept_nm,
+			   em.cgpn_nm as emp_nm,
+			   em.psitn_nm as belong_nm,
+			   em.card_se as card_class_typ,
+			   em.card_no,
+			   em.issu_no,
+			   em.card_sttus_se as card_state_typ,
+			   em.cmg_begin_dt as beg_dt,
+			   em.cmg_end_dt as end_dt,
+			   em.recptn_info_applc_sttus_code,
+			   em.data_applc_dt,
+			   em.creat_dt as mdm_dt,
+			   em.process_yn_mdmsjsc,
+			   em.gbd_intrlck1,
+			   em.gbd_intrlck2,
+			   em.gbd_intrlck3,
+			   em.gbd_intrlck4
+		FROM TC_EM_PBSVNT em
+		 LEFT OUTER JOIN TI_CMN_INSTT_RCV ins on em.instt_code  = ins.instt_code
+		 LEFT OUTER JOIN TI_CMN_INSTT_RCV dep on em.dept_code  = dep.lowest_instt_code
+		WHERE em.process_yn_mdmsjsc = 'N'
+		  AND em.gbd_intrlck1 = 'Y'
+		LIMIT 1000
+	</select>
+
+	<update id="updateMdmTcEmPbsvnt" parameterType="map">
+		UPDATE TC_EM_PBSVNT
+		SET process_yn_mdmsjsc = 'Y'
+		WHERE card_no = #{card_no}
+	</update>
+
+	<!--  방문증 갯수-->
+	<select id="getMdmTcEmVisitCount" resultType="map">
+		SELECT count(*) as cnt
+		FROM   TC_EM_VISIT
+		WHERE process_yn_mdmsjsc = 'N'
+	</select>
+
+	<!-- mdm 방문증조회 -->
+	<select id="getMdmTcEmVisit" resultType="map">
+		SELECT em.cgpn_hr_sn,
+			   em.hr_no as emp_cd,
+			   em.gvrn_gbd_code,
+			   em.instt_code as instt_cd,
+			   ins.instt_nm,
+			   em.dept_code as dept_cd,
+			   dep.lowest_instt_nm as dept_nm,
+			   em.cgpn_nm as emp_nm,
+			   em.psitn_nm as belong_nm,
+			   em.card_se as card_class_typ,
+			   em.card_no,
+			   em.issu_no,
+			   em.card_sttus_se as card_state_typ,
+			   em.cmg_begin_dt as beg_dt,
+			   em.cmg_end_dt as end_dt,
+			   em.recptn_info_applc_sttus_code,
+			   em.data_applc_dt,
+			   em.creat_dt as mdm_dt,
+			   em.process_yn_mdmsjsc
+		FROM TC_EM_VISIT em
+			 LEFT OUTER JOIN TI_CMN_INSTT_RCV ins on em.instt_code  = ins.instt_code
+			 LEFT OUTER JOIN TI_CMN_INSTT_RCV dep on em.dept_code  = dep.lowest_instt_code
+			WHERE em.process_yn_mdmsjsc = 'N'
+		LIMIT 1000
+	</select>
+	<update id="updateMdmTcEmVisit" parameterType="map">
+		UPDATE TC_EM_VISIT
+		SET process_yn_mdmsjsc = 'Y'
+		WHERE card_no = #{card_no}
+	</update>
 </mapper>
