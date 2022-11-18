@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    jdbc-url: jdbc:mysql://127.0.0.1:3306/cubox_acs?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul
+    username: acs
+    password: cubox2022!
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      auto-commit: true
+      maximum-pool-size: 15
+      minimum-idle: 15
+  jpa:
+    show-sql: true
+    database: mysql
+  devtools:
+    restart:
+      enabled: true
+    livereload:
+      enabled: true
+
+server:
+  port: 8080
+
+cuboxnia:
+  tokenTimeoutMinute: 600
+  refreshTokenTimeoutMinute: 1440
+  jwtSecretKey: fKbSemnZa9KSNauW
