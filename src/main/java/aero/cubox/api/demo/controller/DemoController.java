@@ -3,6 +3,7 @@ package aero.cubox.api.demo.controller;
 
 import aero.cubox.api.common.Constants;
 import aero.cubox.api.demo.service.DemoService;
+import aero.cubox.api.util.DigitalTwinUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kotlin.collections.ArrayDeque;
 import org.apache.http.client.methods.HttpPost;
@@ -26,8 +27,6 @@ import org.apache.http.client.HttpClient;
 @RequestMapping({ Constants.API.API_ACS_PREFIX + Constants.API.API_DEMO })
 public class DemoController {
 
-    @Autowired
-    DemoService demoService;
 
     @ResponseBody
     @GetMapping(value = {"/dt/terminal"})
@@ -152,7 +151,7 @@ public class DemoController {
 
         String dataJsonString = mapper.writeValueAsString( dataMap );
 
-        String encodeDataJsonString = demoService.EncodeForDigitalTwin(dataJsonString);
+        String encodeDataJsonString = DigitalTwinUtil.strEncode(dataJsonString);
 
         return encodeDataJsonString;
     }
@@ -183,7 +182,7 @@ public class DemoController {
 
         String dataJsonString = mapper.writeValueAsString( dataMap );
 
-        String encodeDataJsonString = demoService.EncodeForDigitalTwin(dataJsonString);
+        String encodeDataJsonString = DigitalTwinUtil.strDecode(dataJsonString);
 
         return encodeDataJsonString;
     }
@@ -196,7 +195,7 @@ public class DemoController {
 
         ObjectMapper resMapper = new ObjectMapper();
 
-        String data = demoService.DecodeForDigitalTwin(jsonBody);
+        String data = DigitalTwinUtil.strEncode(jsonBody);
 //        Map<String, String> map = resMapper.readValue( jsonBody, Map.class );
 //        String key = map.get( "terminalCd" );
 

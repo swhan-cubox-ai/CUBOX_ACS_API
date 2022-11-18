@@ -77,6 +77,7 @@ public class DemoTest {
             String planeText = "한글테스트";
             String encodeText = DigitalTwinUtil.strEncode(planeText);
             String decryptText = DigitalTwinUtil.strDecode(encodeText);
+            System.out.println("planeText : " + planeText);
             System.out.println("encodeText : " + encodeText);
             System.out.println("decryptText : " + decryptText);
 
@@ -90,7 +91,7 @@ public class DemoTest {
     }
 
     @Test
-    public void AesTestForDevice() {
+    public void AesTestForCuboxTerminal() {
 
         try
         {
