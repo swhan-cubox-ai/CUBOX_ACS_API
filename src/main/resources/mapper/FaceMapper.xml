@@ -1,0 +1,45 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="aero.cubox.api.face.mapper.FaceMapper">
+
+	<insert id="insertFace" parameterType="map">
+		INSERT INTO T_FACE
+			(emp_cd, face_img, face_state_typ)
+		VALUES
+			(#{emp_cd}, #{face_img, jdbcType=BLOB}, #{face_state_typ})
+	</insert>
+
+
+	<resultMap id="aaa" type="hashMap">
+		<result property="face_img" column="face_img" jdbcType="BLOB" javaType="[B"/>
+	</resultMap>
+
+	<select id="getFace001" parameterType="java.util.Map" resultMap="aaa">
+		select id as face_id, emp_cd, face_img FROM T_FACE
+		where face_state_typ ='FST001'
+	</select>
+
+	<insert id="insertFaceFeature" parameterType="map">
+		INSERT INTO T_FACE_FEATURE
+			(face_id, emp_cd, face_feature_typ, feature)
+		VALUES
+			(#{face_id} ,#{emp_cd}, #{face_feature_typ}, #{feature})
+	</insert>
+
+	<insert id="insertFaceFeatureErr" parameterType="map">
+		INSERT INTO T_FACE_FEATURE_ERR
+			(face_id, emp_cd, face_feature_typ, error)
+		VALUES
+			(#{face_id} ,#{emp_cd}, #{face_feature_typ}, #{error})
+	</insert>
+
+	<update id="updateFace" parameterType="map">
+		UPDATE T_FACE
+		SET face_state_typ = #{face_state_typ},
+			updated_at = CURRENT_DATE
+		WHERE id = #{face_id}
+	</update>
+
+</mapper>

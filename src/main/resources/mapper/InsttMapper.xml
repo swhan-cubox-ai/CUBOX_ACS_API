@@ -8,7 +8,7 @@
 		SELECT ( CASE count(*)
 				  WHEN 0 THEN 'N'
 				  ELSE 'Y' END) AS isYn
-		FROM T_INSTTT
+		FROM T_INSTT
 		WHERE instt_cd = #{instt_cd}
 	</select>
 
@@ -22,7 +22,7 @@
 
 
 	<update id="updateInsttRcv" parameterType="map">
-		UPDATE T_INSTTT SET
+		UPDATE T_INSTT SET
 			instt_nm = #{instt_nm}
 		WHERE instt_cd = #{instt_cd}
 	</update>
@@ -36,7 +36,7 @@
 	</update>
 
 	<insert id="insertInsttRcv" parameterType="map">
-		INSERT INTO T_INSTTT
+		INSERT INTO T_INSTT
 			(instt_cd, instt_nm)
 		VALUES
 			(#{instt_cd}, #{instt_nm})
