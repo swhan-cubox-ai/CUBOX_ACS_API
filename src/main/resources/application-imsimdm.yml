@@ -33,9 +33,10 @@ cuboxacs:
   tokenTimeoutMinute: 600
   refreshTokenTimeoutMinute: 1440
   jwtSecretKey: fKbSemnZa9KSNauW
-  syncmdm: N
+  syncmdm: Y
   syncface: N
   upload_directory : /home/gacs
   move_directory : /home/gacs
-  cubox_frs_host : 48 ?
-  archera_api_host : http://172.30.134.249:???
+  cubox_frs_host :
+  archera_api_host :
+

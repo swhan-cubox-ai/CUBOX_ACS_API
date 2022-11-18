@@ -20,13 +20,13 @@ import java.util.*;
 @Service
 public class JWTService {
 
-    @Value("${cuboxnia.jwtSecretKey}")
+    @Value("${cuboxacs.jwtSecretKey}")
     private String jwtSecretKey;
 
-    @Value("${cuboxnia.tokenTimeoutMinute}")
+    @Value("${cuboxacs.tokenTimeoutMinute}")
     private Integer tokenTimeoutMinute;
 
-    @Value("${cuboxnia.refreshTokenTimeoutMinute}")
+    @Value("${cuboxacs.refreshTokenTimeoutMinute}")
     private Integer refreshTokenTimeoutMinute;
 
     @Autowired

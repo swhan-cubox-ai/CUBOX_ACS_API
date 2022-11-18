@@ -4,7 +4,7 @@ pagehelper:
 
 spring:
   application:
-    name: cuboxnia_api
+    name: cuboxacs_api
   jpa:
     open-in-view: true
     hibernate:

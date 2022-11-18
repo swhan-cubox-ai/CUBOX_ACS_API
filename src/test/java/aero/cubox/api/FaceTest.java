@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.*;
 import org.springframework.test.context.ActiveProfiles;
@@ -27,17 +28,24 @@ import java.util.List;
 
 
 @RunWith(SpringRunner.class)
-@ActiveProfiles({"dev"})
+@ActiveProfiles({"local"})
 @SpringBootTest
 public class FaceTest {
+    @Value("${cuboxacs.upload_directory}")
+    String upload_directory;
+    @Value("${cuboxacs.move_directory}")
+    String move_directory;
+
 
     @Autowired
     private FaceService faceService;
 
     @Test
     public void insertFace() throws Exception {
-        String upload_directory = "C:\\imgTmp";
-        String move_directory = "C:\\imgBackup";
+
+//        String upload_directory = "C:\\imgTmp";
+//        String move_directory = "C:\\imgBackup";
+
         File uploadFile = new File(upload_directory);
         File[] fileList = uploadFile.listFiles();
         for(int i=0; i<fileList.length; i++){
