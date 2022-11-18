@@ -4,6 +4,8 @@ import aero.cubox.api.common.Constants;
 import aero.cubox.api.demo.controller.DemoController;
 import aero.cubox.api.demo.service.DemoService;
 import aero.cubox.api.security.TokenAuthenticationFilter;
+import aero.cubox.api.util.CuboxTerminalUtil;
+import aero.cubox.api.util.DigitalTwinUtil;
 import org.junit.Test;
 
 import java.io.BufferedReader;
@@ -40,7 +42,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc(addFilters = false)
-@WebMvcTest(value = DemoController.class)
+@WebMvcTest(value = DemoService.class)
 public class DemoTest {
 
     String message = "";
@@ -51,6 +53,21 @@ public class DemoTest {
     @MockBean
     private TokenAuthenticationFilter tokenAuthenticationFilter;
 
+    @Test
+    public void demoTest() throws Exception {
+
+        var mvcResult =
+                mockMvc
+                        .perform(
+                                get(Constants.API.API_ACS_PREFIX + Constants.API.API_DEMO + "/device/add")
+                        )
+                        .andDo(MockMvcResultHandlers.print())
+                        .andExpect(status().isOk())
+                        .andReturn();
+
+        System.out.println(mvcResult.getResponse());
+    }
+
 
     @Test
     public void AesTestForDigitalTwin() {
@@ -58,10 +75,8 @@ public class DemoTest {
         try
         {
             String planeText = "한글테스트";
-            String encodeText = this.EncodeForDigitalTwin(planeText);
-            String decryptText = this.DecodeForDigitalTwin(encodeText);
-
-            System.out.println("planeText : " + planeText);
+            String encodeText = DigitalTwinUtil.strEncode(planeText);
+            String decryptText = DigitalTwinUtil.strDecode(encodeText);
             System.out.println("encodeText : " + encodeText);
             System.out.println("decryptText : " + decryptText);
 
@@ -80,14 +95,27 @@ public class DemoTest {
         try
         {
             String planeText = "한글테스트";
-            String encodeText = this.EncodeForDevice(planeText);
-            String decryptText = this.DecodeForDevice(encodeText);
-
-            System.out.println("planeText : " + planeText);
-            System.out.println("encodeText : " + encodeText);
-            System.out.println("decryptText : " + decryptText);
+            String encodeText = CuboxTerminalUtil.byteArrEncode(planeText.getBytes("UTF-8"));
+            byte[] decryptBytes = CuboxTerminalUtil.byteArrDecode(encodeText);
+            String decryptText = new String( decryptBytes, "UTF-8");
+            System.out.println("plane : " + planeText);
+            System.out.println("encode : " + encodeText);
+            System.out.println("decode : " + decryptText);
 
             assertEquals(planeText, decryptText);
+
+            float[] fa1 = { 0.1F, 0.2F };
+            byte[] bytes = CuboxTerminalUtil.floatArrayToByteArray(fa1);
+            encodeText = CuboxTerminalUtil.byteArrEncode(bytes);
+            decryptBytes = CuboxTerminalUtil.byteArrDecode(encodeText);
+            float[] fa2 = CuboxTerminalUtil.byteArrayToFloatArray(decryptBytes);
+
+            System.out.println("plane : [0]" + String.valueOf(fa1[0]) + " [0]" + String.valueOf(fa1[1]));
+            System.out.println("encode : " + encodeText);
+            System.out.println("decode : [0]" + String.valueOf(fa2[0]) + " [1]" + String.valueOf(fa2[1]));
+
+            assertEquals(String.valueOf(fa1[0]), String.valueOf(fa2[0]) );
+
         }
         catch (Exception e)
         {
@@ -97,97 +125,12 @@ public class DemoTest {
 
     }
 
-    @Test
-    public void demoTest() throws Exception {
 
-        var mvcResult =
-            mockMvc
-                .perform(
-                    get(Constants.API.API_ACS_PREFIX + Constants.API.API_DEMO + "/device/add")
-                )
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(status().isOk())
-                .andReturn();
-
-        System.out.println(mvcResult.getResponse());
-    }
-
-    public static String EncodeForDigitalTwin(String planeText) throws Exception
-    {
-        String txtKey = "Yk1g690tRe1bMk12";
-        String txtIv = "H21nBU97L19Vc122";
-
-        byte[] key = txtKey.getBytes( "UTF-8" );
-        byte[] iv = txtIv.getBytes( "UTF-8" );
-        SecretKeySpec secretkey = new SecretKeySpec( key, "AES" );
-        IvParameterSpec param = new IvParameterSpec( iv );
-        Cipher cipher = Cipher.getInstance( "AES/CBC/PKCS5Padding" );
-        cipher.init( Cipher.ENCRYPT_MODE, secretkey, param );
-        byte[] encrypted = cipher.doFinal( planeText.getBytes( "UTF-8" ) );
-        byte[] encode = Base64.encodeBase64( encrypted );
-        String encodeText = new String( encode, "UTF-8" );
-
-        return encodeText;
-    }
-
-
-    public static String DecodeForDigitalTwin(String encodeText) throws Exception
-    {
-        String txtKey = "Yk1g690tRe1bMk12";
-        String txtIv = "H21nBU97L19Vc122";
-
-        byte[] key = txtKey.getBytes( "UTF-8" );
-        byte[] iv = txtIv.getBytes( "UTF-8" );
-        SecretKeySpec secretkey = new SecretKeySpec( key, "AES" );
-        IvParameterSpec param = new IvParameterSpec( iv );
-        Cipher cipher = Cipher.getInstance( "AES/CBC/PKCS5Padding" );
-        cipher.init( Cipher.DECRYPT_MODE, secretkey, param );
-
-        byte[] decrypt = cipher.doFinal( Base64.decodeBase64( encodeText.getBytes( "UTF-8" ) ) );
-        String decryptText = new String( decrypt, "UTF-8");
-
-        return decryptText;
-    }
-
-
-    public static String EncodeForDevice(String planeText) throws Exception
-    {
-        String txtKey = "s8LiEwT3if89Yq3i90hIo3HepqPfOhVd";
-        String txtIv = "0000000000000000";
-
-        byte[] key = txtKey.getBytes( "UTF-8" );
-        byte[] iv = txtIv.getBytes( "UTF-8" );
-        SecretKeySpec secretkey = new SecretKeySpec( key, "AES" );
-        IvParameterSpec param = new IvParameterSpec( iv );
-        Cipher cipher = Cipher.getInstance( "AES/CBC/PKCS5Padding");
-        cipher.init( Cipher.ENCRYPT_MODE, secretkey, param );
-        byte[] encrypted = cipher.doFinal( planeText.getBytes( "UTF-8" ) );
-        byte[] encode = Base64.encodeBase64( encrypted );
-        String encodeText = new String( encode, "UTF-8" );
-
-        return encodeText;
-    }
-
-
-    public static String DecodeForDevice(String encodeText) throws Exception
-    {
-        String txtKey = "s8LiEwT3if89Yq3i90hIo3HepqPfOhVd";
-        String txtIv = "0000000000000000";
-
-        byte[] key = txtKey.getBytes( "UTF-8" );
-        byte[] iv = txtIv.getBytes( "UTF-8" );
-        SecretKeySpec secretkey = new SecretKeySpec( key, "AES" );
-        IvParameterSpec param = new IvParameterSpec( iv );
-        Cipher cipher = Cipher.getInstance( "AES/CBC/PKCS5Padding");
-        cipher.init( Cipher.DECRYPT_MODE, secretkey, param );
-
-        byte[] decrypt = cipher.doFinal( Base64.decodeBase64( encodeText.getBytes( "UTF-8" ) ) );
-        String decryptText = new String( decrypt, "UTF-8");
-
-        return decryptText;
-    }
-
-
+    /***
+     * 디지털트윈 소스 - 참고용
+     * @param jsonString
+     * @throws Exception
+     */
     public void RestAesTest_Proc(String jsonString) throws Exception {
 
         //유종화

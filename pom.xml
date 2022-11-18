@@ -313,6 +313,13 @@
 			<version>10.2.8.8904</version>
 		</dependency>
 
+		<!-- AES/CBC/PKCS7-->
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcprov-jdk15on</artifactId>
+			<version>1.70</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
