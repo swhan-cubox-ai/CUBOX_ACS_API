@@ -27,7 +27,7 @@
 		FROM   TI_CMN_INSTT_RCV
 		WHERE process_yn_mdmsjsc = 'N'
 		ORDER BY lowest_instt_code
-		LIMIT 10
+		LIMIT 1000
 	</select>
 
 

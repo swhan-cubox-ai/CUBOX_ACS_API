@@ -37,5 +37,5 @@ cuboxacs:
   syncface: Y
   upload_directory : C:\\Inetpub\\ftproot
   move_directory : C:\\Inetpub\\ftproot
-  cubox_frs_host : 48 ?
-  archera_api_host : http://172.30.134.249:???
+  cubox_frs_host: http://172.30.134.248::8081
+  archera_api_host: http://172.30.134.249::9297

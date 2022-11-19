@@ -37,5 +37,5 @@ cuboxacs:
   syncface: N
   upload_directory : C:\\imgTmp
   move_directory : C:\\imgBackup
-  cubox_frs_host : 클라우드
-  archera_api_host : 로컬
+  cubox_frs_host : http://3.35.157.138:8081
+  archera_api_host : http://192.168.26.188:9297

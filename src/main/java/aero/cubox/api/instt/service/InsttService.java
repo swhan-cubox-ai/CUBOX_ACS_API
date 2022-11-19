@@ -1,16 +1,60 @@
 package aero.cubox.api.instt.service;
 
 import aero.cubox.api.instt.mapper.InsttMapper;
+import aero.cubox.api.mdm.service.MdmService;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Service
+@Slf4j
+@EnableScheduling
 public class InsttService {
 
     @Autowired
     private InsttMapper mapper;
+
+    @Autowired
+    private MdmService mdmService;
+
+
+
+    // 기관, 부서 동기화
+    @Scheduled(cron = "0/10 * * * * *")
+    public void syncInstt() throws Exception {
+        log.debug("syncInstt....");
+        int totalCount = mdmService.getMdmInsttCount();
+        int pageNo = totalCount/1000;
+
+        List<Map<String, Object>> mdmInsttRcv = new ArrayList<>();
+        for(var k=0; k<pageNo; k++) {
+            // mdm에서 부서정보 가져오기
+            mdmInsttRcv = mdmService.getMdmInsttRcv();
+
+            for (int i = 0; i < mdmInsttRcv.size(); i++) {
+                Map<String, Object> insttInfo = mdmInsttRcv.get(i);
+                String insttYn = String.valueOf(insttInfo.get("instt_yn"));
+                int updatedCnt = 0;
+                if ("Y".equals(insttYn)) {
+                    // 기관여부가 Y 인경우 기관테이블에 입력
+                    updatedCnt = updateInsttRcv(insttInfo);
+                } else if ("N".equals(insttYn)) {
+                    // 기관여부가 N 인경우 부서테이블에 입력
+                    updatedCnt = updateDeptRcv(insttInfo);
+                }
+                // 동기화 진행한 데이터는 연계데이터처리유무컬럼(process_yn_mdmsjsc => Y) 업데이트  (PK = cntn_sn)
+                if (updatedCnt == 1) mdmService.updateMdmInsttRcv(insttInfo);
+            }
+        }
+    }
+
 
     // mdm 기관정보를 동기화
     public int updateInsttRcv(Map<String, Object> insttRcv){

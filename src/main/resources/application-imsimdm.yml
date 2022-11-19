@@ -37,6 +37,6 @@ cuboxacs:
   syncface: N
   upload_directory : /home/gacs
   move_directory : /home/gacs
-  cubox_frs_host :
-  archera_api_host :
+  cubox_frs_host: http://172.30.134.248::8081
+  archera_api_host: http://172.30.134.249::9297
 
