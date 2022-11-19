@@ -35,8 +35,8 @@ public class Card implements Serializable {
     @Column(name = "emp_cd")
     private String empCd;
 
-    @Column(name = "bet_dt")
-    private Timestamp betDt;
+    @Column(name = "beg_dt")
+    private Timestamp begDt;
 
     @Column(name = "end_dt")
     private Timestamp endDt;

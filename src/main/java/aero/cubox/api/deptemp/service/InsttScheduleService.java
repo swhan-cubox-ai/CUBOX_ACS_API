@@ -54,9 +54,9 @@ public class InsttScheduleService {
 
 
                 Map<String, Object> insttInfo = mdmInsttRcv.get(i);
-                String insttCode = String.valueOf(insttInfo.get("instt_code"));
+                String insttCd = String.valueOf(insttInfo.get("instt_cd"));
                 String insttNm = String.valueOf(insttInfo.get("instt_nm"));
-                String deptCode = String.valueOf(insttInfo.get("dept_code"));
+                String deptCd = String.valueOf(insttInfo.get("dept_cd"));
                 String deptNm = String.valueOf(insttInfo.get("dept_nm"));
                 String insttYn = String.valueOf(insttInfo.get("instt_yn"));
 
@@ -66,47 +66,47 @@ public class InsttScheduleService {
                     //updatedCnt = updateInsttRcv(insttInfo);
 
                     Instt instt = null;
-                    Optional<Instt> oInstt = insttService.findByInsttCd(insttCode);
-                    if ( oInstt.isPresent())
+                    Optional<Instt> oInstt = insttService.findByInsttCd(insttCd);
+                    if ( oInstt.isEmpty())
                     {
-                        instt = oInstt.get();
-                        instt.setInsttNm(insttNm);
-                        instt.setUpdatedAt(new DateTime(new Timestamp(new Date().getTime())));
+                        instt = Instt.builder()
+                                .insttCd(insttCd)
+                                .insttNm(insttNm)
+                                .createdAt(new Timestamp(new Date().getTime()))
+                                .build()
+                        ;
                     }
                     else
                     {
-                        instt = Instt.builder()
-                                .insttCd(insttCode)
-                                .insttNm(insttNm)
-                                .createdAt(new DateTime(new Timestamp(new Date().getTime())))
-                                .build()
-                                ;
+                        instt = oInstt.get();
+                        instt.setInsttNm(insttNm);
+                        instt.setUpdatedAt(new Timestamp(new Date().getTime()));
                     }
                     insttService.save(instt);
 
                 } else if ("N".equals(insttYn)) {
 
                     Dept dept = null;
-                    Optional<Dept> oDept = deptService.findByDeptCd(deptCode);
-                    if ( oDept.isPresent())
+                    Optional<Dept> oDept = deptService.findByDeptCd(deptCd);
+                    if ( oDept.isEmpty())
                     {
-                        dept = oDept.get();
-                        dept.setDeptCd(deptCode);
-                        dept.setDeptNm(deptNm);
-                        dept.setInsttCd(insttCode);
-                        dept.setInsttNm(insttNm);
-                        dept.setUpdatedAt(new DateTime(new Timestamp(new Date().getTime())));
+                        dept = Dept.builder()
+                                .deptCd(deptCd)
+                                .deptNm(deptNm)
+                                .insttCd(insttCd)
+                                .insttNm(insttNm)
+                                .createdAt(new Timestamp(new Date().getTime()))
+                                .build()
+                        ;
                     }
                     else
                     {
-                        dept = Dept.builder()
-                                .deptCd(deptCode)
-                                .deptNm(deptNm)
-                                .insttCd(insttCode)
-                                .insttNm(insttNm)
-                                .createdAt(new DateTime(new Timestamp(new Date().getTime())))
-                                .build()
-                        ;
+                        dept = oDept.get();
+                        dept.setDeptCd(deptCd);
+                        dept.setDeptNm(deptNm);
+                        dept.setInsttCd(insttCd);
+                        dept.setInsttNm(insttNm);
+                        dept.setUpdatedAt(new Timestamp(new Date().getTime()));
                     }
                     deptService.save(dept);
 
@@ -115,8 +115,11 @@ public class InsttScheduleService {
                     //updatedCnt = updateDeptRcv(insttInfo);
                 }
 
+                // TO-DO
+                // SYNC_DEPT_ERR
+
                 // 동기화 진행한 데이터는 연계데이터처리유무컬럼(process_yn_mdmsjsc => Y) 업데이트  (PK = cntn_sn)
-                if (updatedCnt == 1) mdmService.updateMdmInsttRcv(insttInfo);
+                mdmService.updateMdmInsttRcv(insttInfo);
 
             }
         }

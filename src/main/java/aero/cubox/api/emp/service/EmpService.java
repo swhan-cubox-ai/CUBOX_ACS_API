@@ -34,7 +34,7 @@ public class EmpService {
     @Value("${cuboxacs.syncmdm}")
     String syncmdm;
 
-    @Scheduled(cron = "0/10 * * * * *")
+    //@Scheduled(cron = "0/10 * * * * *")
     public void syncCard() {
         if("N".equals(syncmdm)) return;
         log.info("syncCard....");
