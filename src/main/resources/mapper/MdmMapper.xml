@@ -56,8 +56,8 @@
 			em.cgpn_hr_sn,
 			em.hr_no as emp_cd,
 			em.gvrn_gbd_code,
-            em.instt_code as instt_cd,
-			ins.instt_nm,
+			dep.instt_code as instt_cd,
+			dep.instt_nm,
 			em.dept_code as dept_cd,
 			dep.lowest_instt_nm as dept_nm,
             em.cgpn_nm as emp_nm,
@@ -77,7 +77,6 @@
             em.gbd_intrlck3,
             em.gbd_intrlck4
 		FROM TC_EM_CGPN em
-		 LEFT OUTER JOIN TI_CMN_INSTT_RCV ins on em.instt_code  = ins.instt_code
 		 LEFT OUTER JOIN TI_CMN_INSTT_RCV dep on em.dept_code  = dep.lowest_instt_code
 		WHERE 1=1
 			AND ((em.card_se = '04')
@@ -108,8 +107,8 @@
 		SELECT em.cgpn_hr_sn,
 			   em.hr_no as emp_cd,
 			   em.gvrn_gbd_code,
-			   em.instt_code as instt_cd,
-			   ins.instt_nm,
+			   dep.instt_code as instt_cd,
+			   dep.instt_nm,
 			   em.dept_code as dept_cd,
 			   dep.lowest_instt_nm as dept_nm,
 			   em.cgpn_nm as emp_nm,
@@ -129,7 +128,6 @@
 			   em.gbd_intrlck3,
 			   em.gbd_intrlck4
 		FROM TC_EM_PBSVNT em
-		 LEFT OUTER JOIN TI_CMN_INSTT_RCV ins on em.instt_code  = ins.instt_code
 		 LEFT OUTER JOIN TI_CMN_INSTT_RCV dep on em.dept_code  = dep.lowest_instt_code
 		WHERE em.process_yn_mdmsjsc = 'N'
 		  AND em.gbd_intrlck1 = 'Y'
@@ -154,8 +152,8 @@
 		SELECT em.cgpn_hr_sn,
 			   em.hr_no as emp_cd,
 			   em.gvrn_gbd_code,
-			   em.instt_code as instt_cd,
-			   ins.instt_nm,
+			   dep.instt_code as instt_cd,
+			   dep.instt_nm,
 			   em.dept_code as dept_cd,
 			   dep.lowest_instt_nm as dept_nm,
 			   em.cgpn_nm as emp_nm,
@@ -171,7 +169,6 @@
 			   em.creat_dt as mdm_dt,
 			   em.process_yn_mdmsjsc
 		FROM TC_EM_VISIT em
-			 LEFT OUTER JOIN TI_CMN_INSTT_RCV ins on em.instt_code  = ins.instt_code
 			 LEFT OUTER JOIN TI_CMN_INSTT_RCV dep on em.dept_code  = dep.lowest_instt_code
 			WHERE em.process_yn_mdmsjsc = 'N'
 		LIMIT 1000

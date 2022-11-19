@@ -21,7 +21,8 @@
 			instt_nm = #{instt_nm},
 			belong_nm =  #{belong_nm},
 			expired_dt = #{end_dt},
-			mdm_dt = #{mdm_dt}
+			mdm_dt = #{mdm_dt},
+			updated_at = current_timestamp(6)
 		WHERE emp_cd = #{emp_cd}
 		AND mdm_dt <![CDATA[<=]]> #{mdm_dt}
 		<selectKey keyColumn="id" keyProperty="id" resultType="int" order="AFTER">
@@ -34,11 +35,14 @@
 
 	<insert id="insertEmp" parameterType="map" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO T_EMP
-			(emp_nm, emp_cd, dept_cd, dept_nm, instt_cd, instt_nm, belong_nm, expired_dt, mdm_dt)
+			(emp_nm, emp_cd, dept_cd, dept_nm, instt_cd, instt_nm, belong_nm, face_id, expired_dt, mdm_dt, created_at, updated_at)
 		VALUES
 			(#{emp_nm}, #{emp_cd}, #{dept_cd}, #{dept_nm},  #{instt_cd},
-		    #{instt_nm}, #{belong_nm}, #{end_dt}, #{mdm_dt})
+		    #{instt_nm}, #{belong_nm}, #{face_id}, #{end_dt}, #{mdm_dt}, current_timestamp(6), current_timestamp(6))
 	</insert>
 
+	<select id="getIdByEmpcd" resultType="map">
+		SELECT id FROM T_EMP WHERE emp_cd = #{emp_cd}
+	</select>
 
 </mapper>

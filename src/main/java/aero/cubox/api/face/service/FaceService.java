@@ -1,5 +1,6 @@
 package aero.cubox.api.face.service;
 
+import aero.cubox.api.emp.mapper.EmpMapper;
 import aero.cubox.api.face.mapper.FaceMapper;
 import aero.cubox.api.util.CuboxTerminalUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +34,9 @@ public class FaceService {
     @Autowired
     private FaceMapper mapper;
 
+    @Autowired
+    private EmpMapper empMapper;
+
     @Value("${cuboxacs.upload_directory}")
     String upload_directory;
     @Value("${cuboxacs.move_directory}")
@@ -44,9 +48,16 @@ public class FaceService {
     @Value("${cuboxacs.archera_api_host}")
     String archera_host;
 
+    @Value("${cuboxacs.syncmdm}")
+    String syncmdm;
+
+    @Value("${cuboxacs.syncface}")
+    String syncface;
+
     @Scheduled(cron = "0/10 * * * * *")
     public void insertFace() throws Exception {
-        log.debug("insertFace....");
+        if("N".equals(syncface)) return;
+        log.info("insertFace....");
         File uploadFile = new File(upload_directory);
         File[] fileList = uploadFile.listFiles();
         for(int i=0; i<fileList.length; i++){
@@ -64,7 +75,16 @@ public class FaceService {
             faceInfo.put("face_img", face_img);
             faceInfo.put("face_state_typ", "FST001"); // 대기상태
 
+            Map<String, String> empInfo = empMapper.getIdByEmpcd(emp_cd);
+            if (empInfo != null && !empInfo.isEmpty()) {
+                faceInfo.put("emp_id", empInfo.get("id"));
+            }
+
             int insertFace = insertFace(faceInfo);
+
+            if (empInfo != null && !empInfo.isEmpty()) {
+                //todo empMapper.updateEmp()
+            }
 
             // 파일 동기화 처리 이후 파일 이동.
             String filePath = file.getPath();
@@ -81,18 +101,19 @@ public class FaceService {
 
     @Scheduled(cron = "0/10 * * * * *")
     public void getFeatures() throws JSONException {
-        log.debug("getFeatures....");
+        if("N".equals(syncface)) return;
+        log.info("getFeatures....");
         List<Map<String, Object>> faceInfoList = getFace001();
         for(int i=0; i<faceInfoList.size(); i++) {
             //for(int i=69; i<72; i++) {
             Map<String, Object> faceInfoItem = faceInfoList.get(i);
             int cnt = 0;
             String cuboxStatus = cuboxApi(faceInfoItem);
-            System.out.println(i + " data complete. cubox Status : " + cuboxStatus);
+            log.info(i + " data complete. cubox Status : " + cuboxStatus);
             if("ok".equals(cuboxStatus)) cnt++;
 
             String archeraStatus = archeraApi(faceInfoItem);
-            System.out.println(i + " data complete.  Archera Status" + archeraStatus);
+            log.info(i + " data complete.  Archera Status" + archeraStatus);
             if("ok".equals(archeraStatus)) cnt++;
 
 
@@ -158,8 +179,8 @@ public class FaceService {
                 featureStatus = "ok";
             } else if (statusCode == 422) {
                 // Validation Error
-                System.out.println(faceInfoItem.get("emp_cd"));
-                System.out.println("data validation Error");
+
+                log.info("data validation Error");
                 faceInfoItem.put("error", "data validation Error. StatusCode = 422" );
                 insertFaceFeatureErr(faceInfoItem); // 실패
             };

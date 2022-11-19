@@ -6,9 +6,9 @@
 
 	<insert id="insertFace" parameterType="map">
 		INSERT INTO T_FACE
-			(emp_cd, face_img, face_state_typ)
+			(emp_cd, face_img, emp_id, face_state_typ, created_at, updated_at)
 		VALUES
-			(#{emp_cd}, #{face_img, jdbcType=BLOB}, #{face_state_typ})
+			(#{emp_cd}, #{face_img, jdbcType=BLOB}, #{emp_id}, #{face_state_typ}, current_timestamp(6),current_timestamp(6))
 	</insert>
 
 
@@ -23,23 +23,27 @@
 
 	<insert id="insertFaceFeature" parameterType="map">
 		INSERT INTO T_FACE_FEATURE
-			(face_id, emp_cd, face_feature_typ, feature)
+			(face_id, emp_cd, face_feature_typ, feature, created_at, updated_at)
 		VALUES
-			(#{face_id} ,#{emp_cd}, #{face_feature_typ}, #{feature})
+			(#{face_id} ,#{emp_cd}, #{face_feature_typ}, #{feature}, current_timestamp(6), current_timestamp(6))
 	</insert>
 
 	<insert id="insertFaceFeatureErr" parameterType="map">
 		INSERT INTO T_FACE_FEATURE_ERR
-			(face_id, emp_cd, face_feature_typ, error)
+			(face_id, emp_cd, face_feature_typ, error, created_at)
 		VALUES
-			(#{face_id} ,#{emp_cd}, #{face_feature_typ}, #{error})
+			(#{face_id} ,#{emp_cd}, #{face_feature_typ}, #{error}, current_timestamp(6))
 	</insert>
 
 	<update id="updateFace" parameterType="map">
 		UPDATE T_FACE
 		SET face_state_typ = #{face_state_typ},
-			updated_at = CURRENT_DATE
+			updated_at =current_timestamp(6)
 		WHERE id = #{face_id}
 	</update>
+
+	<select id="getFaceIdByEmpCd" resultType="map">
+		SELECT face_id FROM T_FACE where emp_cd = #{emp_cd} order by id desc limit 1
+	</select>
 
 </mapper>

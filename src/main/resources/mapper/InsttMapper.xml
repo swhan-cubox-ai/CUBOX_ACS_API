@@ -23,7 +23,8 @@
 
 	<update id="updateInsttRcv" parameterType="map">
 		UPDATE T_INSTT SET
-			instt_nm = #{instt_nm}
+			instt_nm = #{instt_nm},
+			updated_at = current_timestamp(6)
 		WHERE instt_cd = #{instt_cd}
 	</update>
 
@@ -31,22 +32,23 @@
 		UPDATE T_DEPT
 		SET dept_nm = #{dept_nm},
 			instt_cd = #{instt_cd},
-	 		instt_nm = #{instt_nm}
+	 		instt_nm = #{instt_nm},
+			updated_at = current_timestamp(6)
 		WHERE dept_cd = #{dept_cd}
 	</update>
 
 	<insert id="insertInsttRcv" parameterType="map">
 		INSERT INTO T_INSTT
-			(instt_cd, instt_nm)
+			(instt_cd, instt_nm, created_at, updated_at)
 		VALUES
-			(#{instt_cd}, #{instt_nm})
+			(#{instt_cd}, #{instt_nm}, current_timestamp(6), current_timestamp(6))
 	</insert>
 
 	<insert id="insertDeptRcv" parameterType="map">
 		INSERT INTO T_DEPT
-			(dept_cd, dept_nm, instt_cd, instt_nm)
+			(dept_cd, dept_nm, instt_cd, instt_nm, created_at, updated_at)
 		VALUES
-			(#{dept_cd}, #{dept_nm}, #{instt_cd}, #{instt_nm})
+			(#{dept_cd}, #{dept_nm}, #{instt_cd}, #{instt_nm}, current_timestamp(6), current_timestamp(6))
 	</insert>
 
 </mapper>

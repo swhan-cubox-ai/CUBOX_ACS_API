@@ -13,4 +13,6 @@ public interface EmpMapper {
 
     int updateEmp(Map<String, Object> cardItem);
 
+    Map<String, String> getIdByEmpcd(String emp_cd);
+
 }

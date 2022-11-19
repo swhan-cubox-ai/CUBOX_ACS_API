@@ -17,4 +17,9 @@ public interface FaceMapper {
     int insertFaceFeatureErr(Map<String, Object> faceInfo);
 
     int updateFace(Map<String, Object> faceInfo);
+
+    Map<String, String> getFaceIdByEmpCd(String emp_cd);
+
+
+
 }

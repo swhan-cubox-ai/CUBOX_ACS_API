@@ -5,6 +5,7 @@ import aero.cubox.api.mdm.service.MdmService;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -24,20 +25,20 @@ public class InsttService {
     @Autowired
     private MdmService mdmService;
 
+    @Value("${cuboxacs.syncmdm}")
+    String syncmdm;
 
 
     // 기관, 부서 동기화
     @Scheduled(cron = "0/10 * * * * *")
     public void syncInstt() throws Exception {
-        log.debug("syncInstt....");
-        int totalCount = mdmService.getMdmInsttCount();
-        int pageNo = totalCount/1000;
-
-        List<Map<String, Object>> mdmInsttRcv = new ArrayList<>();
-        for(var k=0; k<pageNo; k++) {
-            // mdm에서 부서정보 가져오기
-            mdmInsttRcv = mdmService.getMdmInsttRcv();
-
+        if("N".equals(syncmdm)) return;
+        log.info("syncInstt....");
+        while (true) {
+            List<Map<String, Object>> mdmInsttRcv = mdmService.getMdmInsttRcv();
+            if (mdmInsttRcv.size() == 0) {
+                break;
+            }
             for (int i = 0; i < mdmInsttRcv.size(); i++) {
                 Map<String, Object> insttInfo = mdmInsttRcv.get(i);
                 String insttYn = String.valueOf(insttInfo.get("instt_yn"));
