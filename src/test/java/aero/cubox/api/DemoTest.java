@@ -6,10 +6,15 @@ import aero.cubox.api.demo.service.DemoService;
 import aero.cubox.api.security.TokenAuthenticationFilter;
 import aero.cubox.api.util.CuboxTerminalUtil;
 import aero.cubox.api.util.DigitalTwinUtil;
+import com.google.api.client.util.DateTime;
+import org.apache.poi.poifs.crypt.dsig.services.TimeStampService;
+import org.joda.time.DateTimeZone;
 import org.junit.Test;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import javax.crypto.Cipher;
@@ -230,4 +235,14 @@ public class DemoTest {
 
     }
 
+    @Test
+    public void testTime()
+    {
+        Timestamp ts = new Timestamp(new Date().getTime());
+        DateTime dt = new DateTime(new Timestamp(new Date().getTime()));
+        System.out.println(ts);
+        System.out.println(dt);
+        System.out.println(new Date());
+        System.out.println(LocalDateTime.now());
+    }
 }
