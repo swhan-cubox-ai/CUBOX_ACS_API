@@ -4,8 +4,6 @@ import aero.cubox.api.domain.entity.Emp;
 import aero.cubox.api.domain.entity.Face;
 import aero.cubox.api.domain.entity.FaceFeature;
 import aero.cubox.api.domain.entity.FaceFeatureErr;
-import aero.cubox.api.emp.mapper.EmpMapper;
-import aero.cubox.api.face.mapper.FaceMapper;
 import aero.cubox.api.util.CuboxTerminalUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;

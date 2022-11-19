@@ -2,53 +2,6 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="aero.cubox.api.instt.mapper.InsttMapper">
-
-	<select id="getInsttIsYn" resultType="map">
-		SELECT ( CASE count(*)
-				  WHEN 0 THEN 'N'
-				  ELSE 'Y' END) AS isYn
-		FROM T_INSTT
-		WHERE instt_cd = #{instt_cd}
-	</select>
-
-	<select id="getDeptIsYn" resultType="map">
-		SELECT ( CASE count(*)
-					 WHEN 0 THEN 'N'
-					 ELSE 'Y' END) AS isYn
-		FROM T_DEPT
-		WHERE dept_cd = #{dept_cd}
-	</select>
-
-
-	<update id="updateInsttRcv" parameterType="map">
-		UPDATE T_INSTT SET
-			instt_nm = #{instt_nm},
-			updated_at = current_timestamp(6)
-		WHERE instt_cd = #{instt_cd}
-	</update>
-
-	<update id="updateDeptRcv" parameterType="map">
-		UPDATE T_DEPT
-		SET dept_nm = #{dept_nm},
-			instt_cd = #{instt_cd},
-	 		instt_nm = #{instt_nm},
-			updated_at = current_timestamp(6)
-		WHERE dept_cd = #{dept_cd}
-	</update>
-
-	<insert id="insertInsttRcv" parameterType="map">
-		INSERT INTO T_INSTT
-			(instt_cd, instt_nm, created_at, updated_at)
-		VALUES
-			(#{instt_cd}, #{instt_nm}, current_timestamp(6), current_timestamp(6))
-	</insert>
-
-	<insert id="insertDeptRcv" parameterType="map">
-		INSERT INTO T_DEPT
-			(dept_cd, dept_nm, instt_cd, instt_nm, created_at, updated_at)
-		VALUES
-			(#{dept_cd}, #{dept_nm}, #{instt_cd}, #{instt_nm}, current_timestamp(6), current_timestamp(6))
-	</insert>
+<mapper namespace="aero.cubox.api.deptemp.mapper.InsttMapper">
 
 </mapper>

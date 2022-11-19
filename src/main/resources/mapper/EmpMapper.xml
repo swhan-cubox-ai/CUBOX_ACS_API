@@ -2,47 +2,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="aero.cubox.api.emp.mapper.EmpMapper">
+<mapper namespace="aero.cubox.api.deptemp.mapper.EmpMapper">
 
-	<select id="getEmpIsYn" resultType="map">
-		SELECT ( CASE count(*)
-					 WHEN 0 THEN 'N'
-					 ELSE 'Y' END) AS isYn
-		FROM T_EMP
-		WHERE emp_cd = #{emp_cd}
-	</select>
-
-	<update id="updateEmp" parameterType="map">
-		UPDATE T_EMP SET
-			emp_nm = #{emp_nm},
-			dept_cd = #{dept_cd},
-			dept_nm = #{dept_nm},
-			instt_cd = #{instt_cd},
-			instt_nm = #{instt_nm},
-			belong_nm =  #{belong_nm},
-			expired_dt = #{end_dt},
-			mdm_dt = #{mdm_dt},
-			updated_at = current_timestamp(6)
-		WHERE emp_cd = #{emp_cd}
-		AND mdm_dt <![CDATA[<=]]> #{mdm_dt}
-		<selectKey keyColumn="id" keyProperty="id" resultType="int" order="AFTER">
-			SELECT
-				id
-			FROM	T_EMP
-			WHERE emp_cd = #{emp_cd}
-		</selectKey>
-	</update>
-
-	<insert id="insertEmp" parameterType="map" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO T_EMP
-			(emp_nm, emp_cd, dept_cd, dept_nm, instt_cd, instt_nm, belong_nm, face_id, expired_dt, mdm_dt, created_at, updated_at)
-		VALUES
-			(#{emp_nm}, #{emp_cd}, #{dept_cd}, #{dept_nm},  #{instt_cd},
-		    #{instt_nm}, #{belong_nm}, #{face_id}, #{end_dt}, #{mdm_dt}, current_timestamp(6), current_timestamp(6))
-	</insert>
-
-	<select id="getIdByEmpcd" resultType="map">
-		SELECT id FROM T_EMP WHERE emp_cd = #{emp_cd}
-	</select>
 
 </mapper>

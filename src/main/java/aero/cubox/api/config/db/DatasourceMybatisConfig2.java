@@ -17,7 +17,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableTransactionManagement
-@MapperScan(basePackages = { "aero.cubox.api.mdm"}, sqlSessionFactoryRef = "db2SqlSessionFactory2")
+@MapperScan(basePackages = { "aero.cubox.api.mdm" }, sqlSessionFactoryRef = "db2SqlSessionFactory2")
 public class DatasourceMybatisConfig2 {
 
         // @Autowired

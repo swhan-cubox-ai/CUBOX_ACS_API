@@ -1,16 +1,40 @@
 package aero.cubox.api.demo.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
-@Deprecated
+@Slf4j
 @Service
 public class DemoService {
+
+    //@Scheduled(cron = "0/1 * * * * *")
+    public void test001() throws Exception
+    {
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss.SSS");
+        Date begDt = new Date();
+        log.debug("test001 [BEG] " + sdf.format(begDt));
+        Thread.sleep(1000);
+        log.debug("test001 [END] " + sdf.format(begDt) + " ~ " + sdf.format(new Date()));
+    }
+
+    //@Scheduled(cron = "0/5 * * * * *")
+    public void test005() throws Exception
+    {
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss.SSS");
+        Date begDt = new Date();
+        log.debug("test003 [BEG] " + sdf.format(begDt));
+        Thread.sleep(1000);
+        log.debug("test001 [END] " + sdf.format(begDt) + " ~ " + sdf.format(new Date()));
+    }
 
     public String EncodeForDigitalTwin(String planeText) throws Exception
     {
