@@ -30,7 +30,7 @@ public class InsttService {
 
 
     // 기관, 부서 동기화
-    @Scheduled(cron = "0/10 * * * * *")
+    //@Scheduled(cron = "0/10 * * * * *")
     public void syncInstt() throws Exception {
         if("N".equals(syncmdm)) return;
         log.info("syncInstt....");
