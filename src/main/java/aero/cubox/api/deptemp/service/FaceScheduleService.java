@@ -197,7 +197,7 @@ public class FaceScheduleService {
                 FaceFeature faceFeature = FaceFeature.builder()
                         .faceId(face.getId())
                         .empCd(face.getEmpCd())
-                        .faceStateTyp("FFT001") //씨유박스 CPU
+                        .faceFeatureTyp("FFT001") //씨유박스 CPU
                         .feature(feature)
                         .createdAt(new Timestamp(new Date().getTime()))
                         .build();
@@ -224,7 +224,7 @@ public class FaceScheduleService {
         FaceFeatureErr faceFeatureErr = FaceFeatureErr.builder()
                 .faceId(face.getId())
                 .empCd(face.getEmpCd())
-                .faceStateTyp(faceStateTyp) //씨유박스 CPU
+                .faceFeatureTyp(faceStateTyp) //씨유박스 CPU
                 .error(errMsg)
                 .createdAt(new Timestamp(new Date().getTime()))
                 .build();
@@ -276,7 +276,7 @@ public class FaceScheduleService {
                     FaceFeature faceFeature = FaceFeature.builder()
                             .faceId(face.getId())
                             .empCd(face.getEmpCd())
-                            .faceStateTyp("FFT003") // 알체라 CPU
+                            .faceFeatureTyp("FFT003") // 알체라 CPU
                             .feature(feature)
                             .createdAt(new Timestamp(new Date().getTime()))
                             .build();
