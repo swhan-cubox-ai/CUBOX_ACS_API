@@ -91,13 +91,13 @@ public class FaceScheduleService {
             }
             face = faceService.save(face);
 
-            if ( oEmp.isPresent())
-            {
-                Emp emp  = oEmp.get();
-                emp.setFaceId(face.getId());
-                emp.setUpdatedAt(new Timestamp(new Date().getTime()));
-                empService.save(emp);
-            }
+//            if ( oEmp.isPresent())
+//            {
+//                Emp emp  = oEmp.get();
+//                emp.setFaceId(face.getId());
+//                emp.setUpdatedAt(new Timestamp(new Date().getTime()));
+//                empService.save(emp);
+//            }
 
 
             // 파일 동기화 처리 이후 파일 이동.

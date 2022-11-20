@@ -50,6 +50,20 @@
         </root>
     </springProfile>
 
+    <springProfile name="imsimdm">
+        <root level="INFO">
+            <appender-ref ref="FILE"/>
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="imsiface">
+        <root level="INFO">
+            <appender-ref ref="FILE"/>
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+
     <springProfile name="prod">
         <root level="INFO">
             <appender-ref ref="FILE"/>
