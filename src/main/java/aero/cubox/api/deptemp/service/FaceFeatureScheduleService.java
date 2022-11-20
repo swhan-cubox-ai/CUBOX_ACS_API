@@ -26,13 +26,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
 @EnableScheduling
-@Profile("imsiface")
-public class FaceScheduleService {
+@Profile("imsimdm")
+public class FaceFeatureScheduleService {
 
     @Autowired
     private FaceService faceService;
@@ -51,62 +53,6 @@ public class FaceScheduleService {
 
     @Value("${cuboxacs.archera_api_host}")
     String archera_host;
-
-    @Scheduled(cron = "0/10 * * * * *")
-    public void insertFace() throws Exception {
-
-        log.info("insertFace....");
-
-        File uploadFile = new File(upload_directory);
-        File[] fileList = uploadFile.listFiles();
-
-        for(int i=0; i<fileList.length; i++){
-
-            File file = fileList[i];
-            String fileName = file.getName();
-
-            //파일명 => 직원코드 . 확장자
-            int index = fileName.lastIndexOf(".");
-            String extension = fileName.substring(index + 1);
-
-            String emp_cd = fileName.substring(0,index);
-
-            byte[] face_img = Files.readAllBytes(file.toPath());
-
-            Face face = Face.builder()
-                    .empCd(emp_cd)
-                    .faceImg(face_img)
-                    .faceStateTyp("FST001") // 대기상태
-                    .createdAt(new Timestamp(new Date().getTime()))
-                    .build();
-            Optional<Emp> oEmp = empService.findByEmpCd(emp_cd);
-            if ( oEmp.isPresent())
-            {
-                face.setEmpId(oEmp.get().getId());
-            }
-            face = faceService.save(face);
-
-//            if ( oEmp.isPresent())
-//            {
-//                Emp emp  = oEmp.get();
-//                emp.setFaceId(face.getId());
-//                emp.setUpdatedAt(new Timestamp(new Date().getTime()));
-//                empService.save(emp);
-//            }
-
-
-            // 파일 동기화 처리 이후 파일 이동.
-            String filePath = file.getPath();
-            Path resourcePath = Paths.get(filePath);
-            Path backupPath = Paths.get(move_directory+"\\" + fileName);
-
-            // TO-DO
-            // ERROR
-
-            Files.move(resourcePath, backupPath, StandardCopyOption.REPLACE_EXISTING);
-
-        }
-    }
 
     @Scheduled(cron = "0/10 * * * * *")
     public void getFeatures() throws JSONException {

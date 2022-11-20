@@ -33,8 +33,6 @@ cuboxacs:
   tokenTimeoutMinute: 600
   refreshTokenTimeoutMinute: 1440
   jwtSecretKey: fKbSemnZa9KSNauW
-  syncmdm: N
-  syncface: Y
   upload_directory : C:\\Inetpub\\ftproot
   move_directory : C:\\Inetpub\\ftproot\\imgBackup
   cubox_frs_host: http://172.30.134.248::8081

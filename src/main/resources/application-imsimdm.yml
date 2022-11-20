@@ -33,8 +33,6 @@ cuboxacs:
   tokenTimeoutMinute: 600
   refreshTokenTimeoutMinute: 1440
   jwtSecretKey: fKbSemnZa9KSNauW
-  syncmdm: Y
-  syncface: N
   upload_directory : /home/gacs
   move_directory : /home/gacs
   cubox_frs_host: http://172.30.134.248::8081

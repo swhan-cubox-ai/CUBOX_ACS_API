@@ -33,8 +33,6 @@ cuboxacs:
   tokenTimeoutMinute: 600
   refreshTokenTimeoutMinute: 1440
   jwtSecretKey: fKbSemnZa9KSNauW
-  syncmdm: Y
-  syncface: Y
   upload_directory : C:\\imgTmp
   move_directory : C:\\imgBackup
   cubox_frs_host : http://3.35.157.138:8081

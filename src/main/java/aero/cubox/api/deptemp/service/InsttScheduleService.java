@@ -6,6 +6,7 @@ import aero.cubox.api.mdm.service.MdmService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import java.util.Optional;
 @Service
 @Slf4j
 @EnableScheduling
+@Profile("imsimdm")
 public class InsttScheduleService {
 
     @Autowired
@@ -29,13 +31,11 @@ public class InsttScheduleService {
 
     @Autowired
     private MdmService mdmService;
-    @Value("${cuboxacs.syncmdm}")
-    String syncmdm;
 
     // 기관, 부서 동기화
     @Scheduled(cron = "0/10 * * * * *")
     public void syncInstt() throws Exception {
-        if("N".equals(syncmdm)) return;
+
         log.info("syncInstt....");
 
         while (true) {

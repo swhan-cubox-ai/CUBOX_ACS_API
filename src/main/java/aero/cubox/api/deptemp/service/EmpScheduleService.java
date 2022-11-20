@@ -5,6 +5,7 @@ import aero.cubox.api.mdm.service.MdmService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import java.util.Optional;
 @Service
 @Slf4j
 @EnableScheduling
+@Profile("imsimdm")
 public class EmpScheduleService {
 
     @Autowired
@@ -38,8 +40,6 @@ public class EmpScheduleService {
 
     @Autowired
     private MdmService mdmService;
-    @Value("${cuboxacs.syncmdm}")
-    String syncmdm;
 
     public void SaveEmp(Map<String, Object> mdmEmp)
     {
@@ -149,7 +149,7 @@ public class EmpScheduleService {
     // 일반출입증/공무원증은 10분 마다, 방문증은 10초마다 동기화하고 있는데
     @Scheduled(cron = "0/10 * * * * *")
     public void syncCard10sec() {
-        if("N".equals(syncmdm)) return;
+
         log.info("syncCard 10 sec ....");
 
         // 방문자출입증
@@ -175,7 +175,7 @@ public class EmpScheduleService {
     // 일반출입증/공무원증은 10분 마다, 방문증은 10초마다 동기화하고 있는데
     @Scheduled(cron = "* 0/10 * * * *")
     public void syncCard10Min() {
-        if("N".equals(syncmdm)) return;
+
         log.info("syncCard 10 Min ....");
 
         // 일반출입증
