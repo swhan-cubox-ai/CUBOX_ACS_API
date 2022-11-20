@@ -91,7 +91,7 @@
 	<update id="updateMdmTcEmCgpn" parameterType="map">
 		UPDATE TC_EM_CGPN
 		SET process_yn_mdmsjsc = 'Y'
-		WHERE card_no = #{card_no}
+		WHERE cgpn_hr_sn = #{cgpn_hr_sn}
 	</update>
 
 	<!-- 공무원증 갯수-->
@@ -137,7 +137,7 @@
 	<update id="updateMdmTcEmPbsvnt" parameterType="map">
 		UPDATE TC_EM_PBSVNT
 		SET process_yn_mdmsjsc = 'Y'
-		WHERE card_no = #{card_no}
+		WHERE cgpn_hr_sn = #{cgpn_hr_sn}
 	</update>
 
 	<!--  방문증 갯수-->
@@ -176,6 +176,6 @@
 	<update id="updateMdmTcEmVisit" parameterType="map">
 		UPDATE TC_EM_VISIT
 		SET process_yn_mdmsjsc = 'Y'
-		WHERE card_no = #{card_no}
+		WHERE cgpn_hr_sn = #{cgpn_hr_sn}
 	</update>
 </mapper>

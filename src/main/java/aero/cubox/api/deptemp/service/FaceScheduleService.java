@@ -91,13 +91,13 @@ public class FaceScheduleService {
             }
             face = faceService.save(face);
 
-            if ( oEmp.isPresent())
-            {
-                Emp emp  = oEmp.get();
-                emp.setFaceId(face.getId());
-                emp.setUpdatedAt(new Timestamp(new Date().getTime()));
-                empService.save(emp);
-            }
+//            if ( oEmp.isPresent())
+//            {
+//                Emp emp  = oEmp.get();
+//                emp.setFaceId(face.getId());
+//                emp.setUpdatedAt(new Timestamp(new Date().getTime()));
+//                empService.save(emp);
+//            }
 
 
             // 파일 동기화 처리 이후 파일 이동.
@@ -197,7 +197,7 @@ public class FaceScheduleService {
                 FaceFeature faceFeature = FaceFeature.builder()
                         .faceId(face.getId())
                         .empCd(face.getEmpCd())
-                        .faceStateTyp("FFT001") //씨유박스 CPU
+                        .faceFeatureTyp("FFT001") //씨유박스 CPU
                         .feature(feature)
                         .createdAt(new Timestamp(new Date().getTime()))
                         .build();
@@ -224,7 +224,7 @@ public class FaceScheduleService {
         FaceFeatureErr faceFeatureErr = FaceFeatureErr.builder()
                 .faceId(face.getId())
                 .empCd(face.getEmpCd())
-                .faceStateTyp(faceStateTyp) //씨유박스 CPU
+                .faceFeatureTyp(faceStateTyp) //씨유박스 CPU
                 .error(errMsg)
                 .createdAt(new Timestamp(new Date().getTime()))
                 .build();
@@ -276,7 +276,7 @@ public class FaceScheduleService {
                     FaceFeature faceFeature = FaceFeature.builder()
                             .faceId(face.getId())
                             .empCd(face.getEmpCd())
-                            .faceStateTyp("FFT003") // 알체라 CPU
+                            .faceFeatureTyp("FFT003") // 알체라 CPU
                             .feature(feature)
                             .createdAt(new Timestamp(new Date().getTime()))
                             .build();

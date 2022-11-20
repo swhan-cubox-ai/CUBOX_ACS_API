@@ -32,8 +32,8 @@ public class FaceFeatureErr implements Serializable {
     @Column(name = "emp_cd")
     private String empCd;
 
-    @Column(name = "face_state_typ")
-    private String faceStateTyp;
+    @Column(name = "face_feature_typ")
+    private String faceFeatureTyp;
 
     @Column(name = "error")
     private String error;

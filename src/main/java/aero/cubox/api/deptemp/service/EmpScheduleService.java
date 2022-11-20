@@ -59,7 +59,7 @@ public class EmpScheduleService {
         {
             emp = Emp.builder()
                     .empCd(empCd)
-                    .empNm(String.valueOf(mdmEmp.get("emp_cd")))
+                    .empNm(String.valueOf(mdmEmp.get("emp_nm")))
                     .deptCd(String.valueOf(mdmEmp.get("dept_cd")))
                     .deptNm(String.valueOf(mdmEmp.get("dept_nm")))
                     .insttCd(String.valueOf(mdmEmp.get("instt_cd")))
@@ -80,7 +80,7 @@ public class EmpScheduleService {
         else
         {
             emp = oEmp.get();
-            emp.setEmpNm(String.valueOf(mdmEmp.get("emp_cd")));
+            emp.setEmpNm(String.valueOf(mdmEmp.get("emp_nm")));
             emp.setDeptCd(String.valueOf(mdmEmp.get("dept_cd")));
             emp.setDeptNm(String.valueOf(mdmEmp.get("dept_nm")));
             emp.setInsttCd(String.valueOf(mdmEmp.get("instt_cd")));
@@ -165,7 +165,7 @@ public class EmpScheduleService {
 
 
     // 일반출입증/공무원증은 10분 마다, 방문증은 10초마다 동기화하고 있는데
-    @Scheduled(cron = "0/10 * * * * *")
+    @Scheduled(cron = "* 0/10 * * * *")
     public void syncCard10Min() {
         if("N".equals(syncmdm)) return;
         log.info("syncCard 10 Min ....");
