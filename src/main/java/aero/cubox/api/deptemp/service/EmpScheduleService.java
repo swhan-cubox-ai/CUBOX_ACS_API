@@ -80,6 +80,13 @@ public class EmpScheduleService {
         else
         {
             emp = oEmp.get();
+
+            if ( emp.getMdmDt().compareTo((Timestamp)mdmEmp.get("mdm_dt")) > 0)
+            {
+                return;
+            }
+
+
             emp.setEmpNm(String.valueOf(mdmEmp.get("emp_nm")));
             emp.setDeptCd(String.valueOf(mdmEmp.get("dept_cd")));
             emp.setDeptNm(String.valueOf(mdmEmp.get("dept_nm")));
@@ -87,6 +94,7 @@ public class EmpScheduleService {
             emp.setInsttNm(String.valueOf(mdmEmp.get("instt_nm")));
             emp.setBelongNm(String.valueOf(mdmEmp.get("belong_nm")));
             emp.setExpiredDt((Timestamp)mdmEmp.get("expired_dt"));
+            emp.setMdmDt((Timestamp)mdmEmp.get("mdm_dt"));
             emp.setUpdatedAt(new Timestamp(new Date().getTime()));
 
         }

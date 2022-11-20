@@ -78,13 +78,9 @@
             em.gbd_intrlck4
 		FROM TC_EM_CGPN em
 		 LEFT OUTER JOIN TI_CMN_INSTT_RCV dep on em.dept_code  = dep.lowest_instt_code
-		WHERE 1=1
-			AND ((em.card_se = '04')
-				AND (em.process_yn_mdmsjsc = 'N'
-					AND em.gbd_intrlck1='Y'))
-		   OR ((em.card_se = '05')
-			AND (em.process_yn_mdmsjsc = 'N'
-				AND em.gvrn_gbd_code = '05'))
+		WHERE (em.card_se = '04' AND em.process_yn_mdmsjsc = 'N' AND em.gbd_intrlck1='Y')
+		   OR (em.card_se = '05' AND em.process_yn_mdmsjsc = 'N' AND em.gvrn_gbd_code = '05')
+		ORDER BY em.creat_dt ASC, em.hr_no ASC
 		LIMIT 1000
 	</select>
 
@@ -131,6 +127,7 @@
 		 LEFT OUTER JOIN TI_CMN_INSTT_RCV dep on em.dept_code  = dep.lowest_instt_code
 		WHERE em.process_yn_mdmsjsc = 'N'
 		  AND em.gbd_intrlck1 = 'Y'
+		ORDER BY em.creat_dt ASC, em.hr_no ASC
 		LIMIT 1000
 	</select>
 
@@ -169,8 +166,9 @@
 			   em.creat_dt as mdm_dt,
 			   em.process_yn_mdmsjsc
 		FROM TC_EM_VISIT em
-			 LEFT OUTER JOIN TI_CMN_INSTT_RCV dep on em.dept_code  = dep.lowest_instt_code
-			WHERE em.process_yn_mdmsjsc = 'N'
+		LEFT OUTER JOIN TI_CMN_INSTT_RCV dep on em.dept_code  = dep.lowest_instt_code
+		WHERE em.process_yn_mdmsjsc = 'N'
+		ORDER BY em.creat_dt ASC, em.hr_no ASC
 		LIMIT 1000
 	</select>
 	<update id="updateMdmTcEmVisit" parameterType="map">
