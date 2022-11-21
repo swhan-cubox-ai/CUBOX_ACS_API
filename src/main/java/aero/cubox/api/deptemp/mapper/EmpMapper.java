@@ -1,8 +1,16 @@
 package aero.cubox.api.deptemp.mapper;
 
+import aero.cubox.api.sync.vo.EmpVo;
 import org.springframework.stereotype.Component;
+
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.Map;
 
 @Component
 public interface EmpMapper {
+
+    public List<EmpVo> getEmpList(Map<String, Object> params);
+
 
 }
