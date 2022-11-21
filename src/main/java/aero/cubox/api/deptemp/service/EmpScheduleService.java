@@ -1,15 +1,18 @@
 package aero.cubox.api.deptemp.service;
 
+import aero.cubox.api.deptemp.repository.CardRepository;
+import aero.cubox.api.deptemp.repository.EmpRepository;
+import aero.cubox.api.deptemp.repository.FaceRepository;
 import aero.cubox.api.domain.entity.*;
 import aero.cubox.api.mdm.service.MdmService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -23,135 +26,27 @@ import java.util.Optional;
 public class EmpScheduleService {
 
     @Autowired
-    InsttService insttService;
+    EmpRepository empRepository;
 
     @Autowired
-    EmpService empService;
+    CardRepository cardRepository;
 
     @Autowired
-    CardService cardService;
-
-    @Autowired
-    DeptService deptService;
-
-    @Autowired
-    FaceService facdService;
-
+    FaceRepository faceRepository;
 
     @Autowired
     private MdmService mdmService;
 
-    public void SaveEmp(Map<String, Object> mdmEmp)
-    {
-        /*
-		INSERT INTO T_EMP
-			(emp_nm, emp_cd, dept_cd, dept_nm, instt_cd, instt_nm, belong_nm, face_id, expired_dt, mdm_dt, created_at, updated_at)
-		VALUES
-			(#{emp_nm}, #{emp_cd}, #{dept_cd}, #{dept_nm},  #{instt_cd},
-		    #{instt_nm}, #{belong_nm}, #{face_id}, #{end_dt}, #{mdm_dt}, current_timestamp(6), current_timestamp(6))
-
-        * */
-        String empCd = String.valueOf(mdmEmp.get("emp_cd"));
-
-        Emp emp = null;
-        Optional<Emp> oEmp = empService.findByEmpCd(empCd);
-        if ( oEmp.isEmpty() )
-        {
-            emp = Emp.builder()
-                    .empCd(empCd)
-                    .empNm(String.valueOf(mdmEmp.get("emp_nm")))
-                    .deptCd(String.valueOf(mdmEmp.get("dept_cd")))
-                    .deptNm(String.valueOf(mdmEmp.get("dept_nm")))
-                    .insttCd(String.valueOf(mdmEmp.get("instt_cd")))
-                    .insttNm(String.valueOf(mdmEmp.get("instt_nm")))
-                    .belongNm(String.valueOf(mdmEmp.get("belong_nm")))
-                    .expiredDt((Timestamp)mdmEmp.get("expired_dt"))
-                    .mdmDt((Timestamp)mdmEmp.get("mdm_dt"))
-                    .createdAt(new Timestamp(new Date().getTime()))
-                    .build();
-
-
-            Optional<Face> oFace = facdService.findFirstByEmpCd(empCd);
-            if ( oFace.isPresent())
-            {
-                emp.setFaceId(oFace.get().getId());
-            }
-        }
-        else
-        {
-            emp = oEmp.get();
-
-            if ( emp.getMdmDt().compareTo((Timestamp)mdmEmp.get("mdm_dt")) > 0)
-            {
-                return;
-            }
-
-
-            emp.setEmpNm(String.valueOf(mdmEmp.get("emp_nm")));
-            emp.setDeptCd(String.valueOf(mdmEmp.get("dept_cd")));
-            emp.setDeptNm(String.valueOf(mdmEmp.get("dept_nm")));
-            emp.setInsttCd(String.valueOf(mdmEmp.get("instt_cd")));
-            emp.setInsttNm(String.valueOf(mdmEmp.get("instt_nm")));
-            emp.setBelongNm(String.valueOf(mdmEmp.get("belong_nm")));
-            emp.setExpiredDt((Timestamp)mdmEmp.get("expired_dt"));
-            emp.setMdmDt((Timestamp)mdmEmp.get("mdm_dt"));
-            emp.setUpdatedAt(new Timestamp(new Date().getTime()));
-
-        }
-        empService.save(emp);
-
-    }
-
-
-
-    public void SaveCard(Map<String, Object> mdmEmp)
-    {
-        /*
-		INSERT INTO T_CARD
-			(emp_id, emp_cd, card_no, beg_dt, end_dt, card_class_typ, card_state_typ, mdm_dt, created_at, updated_at)
-		VALUES
-			(1, #{emp_cd}, #{issu_no}, #{beg_dt}, #{end_dt},  #{card_class_typ}, #{card_state_typ}, #{mdm_dt}, current_timestamp(6), current_timestamp(6))
-
-        * */
-        String cardNo = String.valueOf(mdmEmp.get("card_no"));
-
-        Card card = null;
-        Optional<Card> oCard = cardService.findByCardNo(cardNo);
-        if ( oCard.isEmpty() )
-        {
-            card = Card.builder()
-                    .cardNo(cardNo)
-                    .empCd(String.valueOf(mdmEmp.get("emp_cd")))
-                    .begDt((Timestamp)mdmEmp.get("beg_dt"))
-                    .endDt((Timestamp)mdmEmp.get("end_dt"))
-                    .cardClassTyp(String.valueOf(mdmEmp.get("card_class_typ")))
-                    .cardStateTyp(String.valueOf(mdmEmp.get("card_state_typ")))
-                    .mdmDt((Timestamp)mdmEmp.get("mdm_dt"))
-                    .createdAt(new Timestamp(new Date().getTime()))
-                    .build();
-        }
-        else
-        {
-            card = oCard.get();
-            card.setEmpCd(String.valueOf(mdmEmp.get("emp_cd")));
-            card.setBegDt((Timestamp)mdmEmp.get("beg_dt"));
-            card.setEndDt((Timestamp)mdmEmp.get("end_dt"));
-            card.setCardStateTyp(String.valueOf(mdmEmp.get("card_state_typ")));
-            card.setMdmDt((Timestamp)mdmEmp.get("mdm_dt"));
-            card.setUpdatedAt(new Timestamp(new Date().getTime()));
-
-        }
-        cardService.save(card);
-
-    }
-
+    @Autowired
+    private EmpTxService empTxService;
 
     // 일반출입증/공무원증은 10분 마다, 방문증은 10초마다 동기화하고 있는데
-    @Scheduled(cron = "0/10 * * * * *")
+    @Scheduled(cron = "0/10 * * * * *") // 10초
     public void syncCard10sec() {
 
         log.info("syncCard 10 sec ....");
 
+        // TC_EM_VISIT
         // 방문자출입증
         while (true) {
             List<Map<String, Object>> mdmVisitList = mdmService.getMdmTcEmVisit();
@@ -160,24 +55,33 @@ public class EmpScheduleService {
             }
 
             for (int i = 0; i < mdmVisitList.size(); i++) {
-                Map<String, Object> cardItem = mdmVisitList.get(i);
-                this.SaveEmp(cardItem);
+                Map<String, Object> mdmItem = mdmVisitList.get(i);
 
-                this.SaveCard(cardItem);
+//                this.SaveEmp(mdmItem);
+//                this.SaveCard(mdmItem);
+//                // 동기화 진행한 데이터는 연계데이터처리유무컬럼(process_yn_mdmsjsc => Y) 업데이트  (PK = card_no)
 
-                // 동기화 진행한 데이터는 연계데이터처리유무컬럼(process_yn_mdmsjsc => Y) 업데이트  (PK = card_no)
-                mdmService.updateMdmTcEmVisit(cardItem);
+                try {
+                    empTxService.SaveEmpCard(mdmItem);
+                }
+                catch(Exception ex)
+                {
+                    // TO-DO EMP_SYNC_ERR
+                }
+
+                mdmService.updateMdmTcEmVisit(mdmItem);
             }
         }
     }
 
 
     // 일반출입증/공무원증은 10분 마다, 방문증은 10초마다 동기화하고 있는데
-    @Scheduled(cron = "* 0/10 * * * *")
+    @Scheduled(cron = "* 0/10 * * * *") // 10분
     public void syncCard10Min() {
 
         log.info("syncCard 10 Min ....");
 
+        // TC_EM_CGPN
         // 일반출입증
         while (true) {
 
@@ -188,23 +92,25 @@ public class EmpScheduleService {
 
             for (int i = 0; i < mdmCgpnList.size(); i++) {
 
-                Map<String, Object> cardItem = mdmCgpnList.get(i);
-
-                this.SaveEmp(cardItem);
-
-                this.SaveCard(cardItem);
-
-                // TO-DO
-                // SYNC_EMPCARD_ERR
+                Map<String, Object> mdmItem = mdmCgpnList.get(i);
+//                this.SaveEmp(mdmItem);
+//                this.SaveCard(mdmItem);
+                try {
+                    empTxService.SaveEmpCard(mdmItem);
+                }
+                catch(Exception ex)
+                {
+                    // TO-DO EMP_SYNC_ERR
+                }
 
                 // 동기화 진행한 데이터는 연계데이터처리유무컬럼(process_yn_mdmsjsc N => Y) 업데이트  (PK = card_no)
-                mdmService.updateMdmTcEmCgpn(cardItem);
+                mdmService.updateMdmTcEmCgpn(mdmItem);
             }
         }
 
 
+        // TC_EM_PBSVNT
         // 공무원증
-
         while (true) {
             List<Map<String, Object>> mdmPbsvntist = mdmService.getMdmTcEmPbsvnt();
             if (mdmPbsvntist.size() == 0) {
@@ -212,14 +118,20 @@ public class EmpScheduleService {
             }
 
             for (int i = 0; i < mdmPbsvntist.size(); i++) {
-                Map<String, Object> cardItem = mdmPbsvntist.get(i);
+                Map<String, Object> mdmItem = mdmPbsvntist.get(i);
 
-                this.SaveEmp(cardItem);
-
-                this.SaveCard(cardItem);
+//                this.SaveEmp(mdmItem);
+//                this.SaveCard(mdmItem);
+                try {
+                    empTxService.SaveEmpCard(mdmItem);
+                }
+                catch(Exception ex)
+                {
+                    // TO-DO MDM_SYNC_ERR
+                }
 
                 // 동기화 진행한 데이터는 연계데이터처리유무컬럼(process_yn_mdmsjsc => Y) 업데이트  (PK = card_no)
-                mdmService.updateMdmTcEmPbsvnt(cardItem);
+                mdmService.updateMdmTcEmPbsvnt(mdmItem);
 
             }
         }
