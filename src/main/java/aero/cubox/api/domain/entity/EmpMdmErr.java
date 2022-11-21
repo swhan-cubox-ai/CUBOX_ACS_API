@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 @Entity
 @DynamicInsert
 @DynamicUpdate
-@Table(name = "T_FACE_FEATURE_ERR")
+@Table(name = "T_EMP_MDM_ERR")
 public class EmpMdmErr implements Serializable {
 
     private static final long serialVersionUID = -8264423736734082213L;
