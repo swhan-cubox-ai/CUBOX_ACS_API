@@ -30,10 +30,12 @@ public class Constants {
 
         public static final String API_MDM = "/mdm";
 
+        public static final String API_ACTLOG = "/actlog";
 
         // AUTH
         public static final String API_ACSADM_PREFIX = "/acsadm/v1";
 
+        public static final String API_USER = "/user";
 
     }
 
