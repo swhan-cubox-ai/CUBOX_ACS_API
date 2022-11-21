@@ -26,7 +26,7 @@ import lombok.Setter;
 @Table(name = "T_USER")
 public class User implements Serializable {
 
-    private static final long serialVersionUID = 1758041395891941432L;
+    private static final long serialVersionUID = 1287284372570055604L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

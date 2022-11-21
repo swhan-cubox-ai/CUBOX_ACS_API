@@ -19,7 +19,7 @@ import java.sql.Timestamp;
 @Table(name = "T_FACE_FEATURE_ERR")
 public class FaceFeatureErr implements Serializable {
 
-    private static final long serialVersionUID = 1758041395891941432L;
+    private static final long serialVersionUID = 8317446186805435324L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

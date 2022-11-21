@@ -20,6 +20,7 @@ import java.sql.Timestamp;
 @Table(name = "T_INSTT")
 public class Instt implements Serializable {
 
+    private static final long serialVersionUID = 1870133863472549676L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

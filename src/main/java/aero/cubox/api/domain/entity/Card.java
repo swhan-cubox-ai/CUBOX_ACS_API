@@ -19,7 +19,7 @@ import java.sql.Timestamp;
 @Table(name = "T_CARD")
 public class Card implements Serializable {
 
-    private static final long serialVersionUID = 1758041395891941432L;
+    private static final long serialVersionUID = 5767679112312671454L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

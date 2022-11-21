@@ -19,7 +19,7 @@ import java.sql.Timestamp;
 @Table(name = "T_ACT_LOG")
 public class ActLog implements Serializable {
 
-    private static final long serialVersionUID = 4419617238793108742L;
+    private static final long serialVersionUID = -4705380042522503495L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

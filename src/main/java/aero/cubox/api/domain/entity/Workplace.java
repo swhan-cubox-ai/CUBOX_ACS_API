@@ -19,7 +19,7 @@ import java.sql.Timestamp;
 @Table(name = "T_WORKPLACE")
 public class Workplace implements Serializable {
 
-    private static final long serialVersionUID = -1181705568487399792L;
+    private static final long serialVersionUID = 5240913260591154242L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

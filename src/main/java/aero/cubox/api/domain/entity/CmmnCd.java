@@ -25,7 +25,7 @@ import lombok.Setter;
 @Table(name = "T_CMMN_CD")
 public class CmmnCd implements Serializable {
 
-    private static final long serialVersionUID = 1758041395891941432L;
+    private static final long serialVersionUID = -6068690526465168630L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

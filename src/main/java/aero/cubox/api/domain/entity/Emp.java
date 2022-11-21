@@ -19,7 +19,7 @@ import java.sql.Timestamp;
 @Table(name = "T_EMP")
 public class Emp implements Serializable {
 
-    private static final long serialVersionUID = 1758041395891941432L;
+    private static final long serialVersionUID = 8188848922466210151L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
