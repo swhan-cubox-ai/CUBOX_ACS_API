@@ -59,7 +59,7 @@ public class FaceFeatureScheduleService {
 
         log.info("getFeatures....");
 
-        List<Face> faceList = faceService.findAllByFaceStateTyp("FST001"); // 대기상태
+        List<Face> faceList = faceService.findTop100ByFaceStateTyp("FST001"); // 대기상태
 
         for(int i=0; i<faceList.size(); i++) {
 
@@ -133,13 +133,28 @@ public class FaceFeatureScheduleService {
 
                 String feature = (String) jObj.get("feature");
 
-                FaceFeature faceFeature = FaceFeature.builder()
-                        .faceId(face.getId())
-                        .empCd(face.getEmpCd())
-                        .faceFeatureTyp("FFT001") //씨유박스 CPU
-                        .feature(feature)
-                        .createdAt(new Timestamp(new Date().getTime()))
-                        .build();
+                FaceFeature faceFeature = null;
+                Optional<FaceFeature> oFaceFeature = faceService.findFaceFeatrue(face.getId(), face.getEmpCd(), "FFT001");
+                if ( oFaceFeature.isEmpty())
+                {
+                    faceFeature = FaceFeature.builder()
+                            .faceId(face.getId())
+                            .empCd(face.getEmpCd())
+                            .faceFeatureTyp("FFT001") //씨유박스 CPU
+                            .feature(feature)
+                            .createdAt(new Timestamp(new Date().getTime()))
+                            .build();
+                }
+                else
+                {
+                    faceFeature = oFaceFeature.get();
+                    faceFeature.setFaceId(face.getId());
+                    faceFeature.setEmpCd(face.getEmpCd());
+                    faceFeature.setFaceFeatureTyp("FFT001"); //씨유박스 CPU;
+                    faceFeature.setFeature(feature);
+                    faceFeature.setCreatedAt(new Timestamp(new Date().getTime()));
+                }
+
                 faceService.saveFaceFeatrue(faceFeature);
 
                 featureStatus = "ok";
@@ -212,15 +227,29 @@ public class FaceFeatureScheduleService {
                     byte[] bytes = CuboxTerminalUtil.floatArrayToByteArray(vectors);
                     String feature = CuboxTerminalUtil.byteArrEncode(bytes);
 
-                    FaceFeature faceFeature = FaceFeature.builder()
-                            .faceId(face.getId())
-                            .empCd(face.getEmpCd())
-                            .faceFeatureTyp("FFT003") // 알체라 CPU
-                            .feature(feature)
-                            .createdAt(new Timestamp(new Date().getTime()))
-                            .build();
-                    faceService.saveFaceFeatrue(faceFeature);
+                    FaceFeature faceFeature = null;
+                    Optional<FaceFeature> oFaceFeature = faceService.findFaceFeatrue(face.getId(), face.getEmpCd(), "FFT001");
+                    if ( oFaceFeature.isEmpty())
+                    {
+                        faceFeature = FaceFeature.builder()
+                                .faceId(face.getId())
+                                .empCd(face.getEmpCd())
+                                .faceFeatureTyp("FFT003") //씨유박스 CPU
+                                .feature(feature)
+                                .createdAt(new Timestamp(new Date().getTime()))
+                                .build();
+                    }
+                    else
+                    {
+                        faceFeature = oFaceFeature.get();
+                        faceFeature.setFaceId(face.getId());
+                        faceFeature.setEmpCd(face.getEmpCd());
+                        faceFeature.setFaceFeatureTyp("FFT003"); //씨유박스 CPU;
+                        faceFeature.setFeature(feature);
+                        faceFeature.setCreatedAt(new Timestamp(new Date().getTime()));
+                    }
 
+                    faceService.saveFaceFeatrue(faceFeature);
 
                     featureStatus = "ok";
                 } else if (statusCode == 400) {

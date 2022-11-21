@@ -35,5 +35,5 @@ cuboxacs:
   jwtSecretKey: fKbSemnZa9KSNauW
   upload_directory : /home/gacs
   move_directory : /home/gacs
-  cubox_frs_host : http://172.30.134.248::8081
-  archera_api_host : http://172.30.134.249::9297
+  cubox_frs_host : http://172.30.134.248:8081
+  archera_api_host : http://172.30.134.249:9297

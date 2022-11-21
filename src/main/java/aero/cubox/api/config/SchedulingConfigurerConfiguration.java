@@ -12,7 +12,7 @@ public class SchedulingConfigurerConfiguration implements SchedulingConfigurer {
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
         ThreadPoolTaskScheduler taskScheduler = new ThreadPoolTaskScheduler();
         // DEPT, EMPCARD_10S, EMPCARD_10M, FILE, FEATURE
-        taskScheduler.setPoolSize(5);
+        taskScheduler.setPoolSize(2);
         taskScheduler.initialize();
         taskRegistrar.setTaskScheduler(taskScheduler);
     }

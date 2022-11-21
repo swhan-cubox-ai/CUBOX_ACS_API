@@ -81,7 +81,7 @@
 		WHERE (em.card_se = '04' AND em.process_yn_mdmsjsc = 'N' AND em.gbd_intrlck1='Y')
 		   OR (em.card_se = '05' AND em.process_yn_mdmsjsc = 'N' AND em.gvrn_gbd_code = '05')
 		ORDER BY em.creat_dt ASC, em.hr_no ASC
-		LIMIT 1000
+		LIMIT 500
 	</select>
 
 	<update id="updateMdmTcEmCgpn" parameterType="map">
@@ -128,7 +128,7 @@
 		WHERE em.process_yn_mdmsjsc = 'N'
 		  AND em.gbd_intrlck1 = 'Y'
 		ORDER BY em.creat_dt ASC, em.hr_no ASC
-		LIMIT 1000
+		LIMIT 500
 	</select>
 
 	<update id="updateMdmTcEmPbsvnt" parameterType="map">
@@ -169,7 +169,7 @@
 		LEFT OUTER JOIN TI_CMN_INSTT_RCV dep on em.dept_code  = dep.lowest_instt_code
 		WHERE em.process_yn_mdmsjsc = 'N'
 		ORDER BY em.creat_dt ASC, em.hr_no ASC
-		LIMIT 1000
+		LIMIT 500
 	</select>
 	<update id="updateMdmTcEmVisit" parameterType="map">
 		UPDATE TC_EM_VISIT

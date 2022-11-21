@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface FaceFeatureRepository extends JpaRepository<FaceFeature, Integer> {
 
+    Optional<FaceFeature> findFirstByFaceIdAndEmpCdAndFaceFeatureTyp(Integer faceId, String empCd, String faceFeatureTyp);
 }

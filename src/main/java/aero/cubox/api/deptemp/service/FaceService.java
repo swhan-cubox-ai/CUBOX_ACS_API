@@ -44,9 +44,9 @@ public class FaceService extends AbstractService<Face, Integer> {
         return repository.findFirstByEmpCdOrderByIdDesc(empCd);
     }
 
-    public List<Face> findAllByFaceStateTyp(String faceStateTyp)
+    public List<Face> findTop100ByFaceStateTyp(String faceStateTyp)
     {
-        return repository.findAllByFaceStateTyp(faceStateTyp);
+        return repository.findTop100ByFaceStateTypOrderByCreatedAt(faceStateTyp);
     }
 
     public void saveFaceFeatrue(FaceFeature faceFeature)
@@ -57,6 +57,12 @@ public class FaceService extends AbstractService<Face, Integer> {
     public void saveFaceFeatrueErr(FaceFeatureErr faceFeatureErr)
     {
         faceFeatureErrRepo.save(faceFeatureErr);
+    }
+
+
+    public Optional<FaceFeature> findFaceFeatrue(Integer faceId, String empCd, String faceFeatureTyp)
+    {
+        return faceFeatureRepo.findFirstByFaceIdAndEmpCdAndFaceFeatureTyp(faceId, empCd, faceFeatureTyp);
     }
 
 }
