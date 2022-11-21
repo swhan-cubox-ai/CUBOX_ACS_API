@@ -18,9 +18,6 @@ public class ActLogService extends AbstractService<ActLog, Integer> {
     @Autowired
     private ActLogRepository repository;
 
-    @Autowired
-    private ActLogTxService actLogTxService;
-
     @Override
     protected JpaRepository<ActLog, Integer> getRepository() {
         return repository;

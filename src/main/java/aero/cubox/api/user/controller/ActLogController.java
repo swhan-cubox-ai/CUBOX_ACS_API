@@ -26,8 +26,6 @@ public class ActLogController {
     @ApiOperation(value="활동로그조회", notes="활동로그조회")
     public ResultVo actlog() {
 
-        actLogService.test();
-
         List<ActLog> list = actLogService.findAll();
         return ResultVo.ok(list);
     }
