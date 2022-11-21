@@ -74,6 +74,7 @@ public class EmpScheduleService {
                             .tblNm("TC_EM_VISIT")
                             .cgpnHrSn(String.valueOf(mdmItem.get("cgpn_hr_sn")))
                             .hrNo(String.valueOf(mdmItem.get("emp_cd")))
+                            .error(ex.toString())
                             .createdAt(new Timestamp(new Date().getTime()))
                             .build();
                     empMdmErrService.save(empMdmErr);
@@ -114,6 +115,7 @@ public class EmpScheduleService {
                             .tblNm("TC_EM_CGPN")
                             .cgpnHrSn(String.valueOf(mdmItem.get("cgpn_hr_sn")))
                             .hrNo(String.valueOf(mdmItem.get("emp_cd")))
+                            .error(ex.toString())
                             .createdAt(new Timestamp(new Date().getTime()))
                             .build();
                     empMdmErrService.save(empMdmErr);
@@ -147,6 +149,7 @@ public class EmpScheduleService {
                             .tblNm("TC_EM_PBSVNT")
                             .cgpnHrSn(String.valueOf(mdmItem.get("cgpn_hr_sn")))
                             .hrNo(String.valueOf(mdmItem.get("emp_cd")))
+                            .error(ex.toString())
                             .createdAt(new Timestamp(new Date().getTime()))
                             .build();
                     empMdmErrService.save(empMdmErr);
