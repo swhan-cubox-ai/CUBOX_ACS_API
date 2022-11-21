@@ -23,7 +23,6 @@ import java.util.Optional;
 
 @Service
 @Slf4j
-@EnableScheduling
 @Profile("imsimdm")
 public class EmpTxService {
 

@@ -19,7 +19,6 @@ import java.util.Optional;
 
 @Service
 @Slf4j
-@EnableScheduling
 public class FaceService extends AbstractService<Face, Integer> {
 
     @Autowired

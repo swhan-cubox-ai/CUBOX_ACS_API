@@ -30,7 +30,6 @@ import java.util.*;
 
 @Service
 @Slf4j
-@EnableScheduling
 @Profile("imsiface")
 public class FaceScheduleService {
 

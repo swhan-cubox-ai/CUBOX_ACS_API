@@ -14,7 +14,6 @@ import java.util.Optional;
 
 @Service
 @Slf4j
-@EnableScheduling
 public class InsttService extends AbstractService<Instt, Integer> {
 
     @Autowired

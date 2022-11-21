@@ -14,7 +14,6 @@ import java.util.Optional;
 
 @Service
 @Slf4j
-@EnableScheduling
 public class CardService extends AbstractService<Card, Integer> {
 
     @Autowired
