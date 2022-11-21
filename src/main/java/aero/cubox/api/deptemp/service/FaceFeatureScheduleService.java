@@ -59,29 +59,36 @@ public class FaceFeatureScheduleService {
 
         log.info("getFeatures....");
 
-        List<Face> faceList = faceService.findTop100ByFaceStateTyp("FST001"); // 대기상태
-
-        for(int i=0; i<faceList.size(); i++) {
-
-            Face face = faceList.get(i);
-
-            int cnt = 0;
-            String cuboxStatus = cuboxApi(face);
-            log.info(i + " data complete. cubox Status : " + cuboxStatus);
-            if("ok".equals(cuboxStatus)) cnt++;
-
-            String archeraStatus = archeraApi(face);
-            log.info(i + " data complete.  Archera Status" + archeraStatus);
-            if("ok".equals(archeraStatus)) cnt++;
-
-            // cubox, Alchera 둘다 성공시 FACE 정보 업데이트.
-            if(cnt == 2){
-                face.setFaceStateTyp("FST002"); // 성공
-            } else { // 둘중하나라도 실패시 추출실패.
-                face.setFaceStateTyp("FST003"); // 실패
+        while ( true )
+        {
+            List<Face> faceList = faceService.findTop100ByFaceStateTyp("FST001"); // 대기상태
+            if ( faceList.size() == 0)
+            {
+                break;
             }
-            faceService.save(face);
 
+            for(int i=0; i<faceList.size(); i++) {
+
+                Face face = faceList.get(i);
+
+                int cnt = 0;
+                String cuboxStatus = cuboxApi(face);
+                log.info(i + " data complete. cubox Status : " + cuboxStatus);
+                if("ok".equals(cuboxStatus)) cnt++;
+
+                String archeraStatus = archeraApi(face);
+                log.info(i + " data complete.  Archera Status" + archeraStatus);
+                if("ok".equals(archeraStatus)) cnt++;
+
+                // cubox, Alchera 둘다 성공시 FACE 정보 업데이트.
+                if(cnt == 2){
+                    face.setFaceStateTyp("FST002"); // 성공
+                } else { // 둘중하나라도 실패시 추출실패.
+                    face.setFaceStateTyp("FST003"); // 실패
+                }
+                faceService.save(face);
+
+            }
         }
 
     }
