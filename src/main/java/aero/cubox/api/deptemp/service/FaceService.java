@@ -40,11 +40,6 @@ public class FaceService extends AbstractService<Face, Integer> {
         return repository;
     }
 
-
-    public Optional<Face> findFirstByEmpCd(String empCd) {
-        return repository.findFirstByEmpCdOrderByIdDesc(empCd);
-    }
-
     public List<Face> findTop100ByFaceStateTyp(String faceStateTyp)
     {
         return repository.findTop100ByFaceStateTypOrderByCreatedAt(faceStateTyp);

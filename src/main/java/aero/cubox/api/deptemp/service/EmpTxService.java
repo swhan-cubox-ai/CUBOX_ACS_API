@@ -74,7 +74,7 @@ public class EmpTxService {
                     .build();
 
             // 성공분 중 가장 최근에 등록된 사진
-            Optional<Face> oFace = faceRepository.findFirstByEmpCdAAndFaceStateTypOrderByIdDesc(empCd, "FST002");
+            Optional<Face> oFace = faceRepository.findFirstByEmpCdAndFaceStateTypOrderByIdDesc(empCd, "FST002");
             if (oFace.isPresent()) {
                 emp.setFaceId(oFace.get().getId());
             }

@@ -10,7 +10,7 @@ public interface FaceRepository extends JpaRepository<Face, Integer> {
 
     List<Face> findAllByEmpCd(String empCd);
 
-    Optional<Face> findFirstByEmpCdAAndFaceStateTypOrderByIdDesc(String empCd, String faceStateTyp);
+    Optional<Face> findFirstByEmpCdAndFaceStateTypOrderByIdDesc(String empCd, String faceStateTyp);
 
     List<Face> findTop100ByFaceStateTypOrderByCreatedAt(String faceStateTyp);
 
