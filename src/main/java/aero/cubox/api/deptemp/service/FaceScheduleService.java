@@ -66,11 +66,16 @@ public class FaceScheduleService {
 
             File file = fileList[i];
             String fileName = file.getName();
-            log.info("#################      "+fileName);
+
             //파일명 => 직원코드 . 확장자
             int index = fileName.lastIndexOf(".");
-            String extension = fileName.substring(index + 1);
 
+            if ( index < 1 )
+            {
+                continue;
+            }
+
+            String extension = fileName.substring(index + 1);
             String emp_cd = fileName.substring(0,index);
 
             byte[] face_img = Files.readAllBytes(file.toPath());
