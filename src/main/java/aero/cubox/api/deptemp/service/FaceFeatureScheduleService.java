@@ -84,6 +84,17 @@ public class FaceFeatureScheduleService {
                 // cubox, Alchera 둘다 성공시 FACE 정보 업데이트.
                 if(cnt == 2){
                     face.setFaceStateTyp("FST002"); // 성공
+
+                    // 이미지 특징점 추출 성공 시 T_EMP.face_id 갱신
+                    Optional<Emp> oEmp = empService.findByEmpCd(face.getEmpCd());
+                    if ( oEmp.isPresent())
+                    {
+                        Emp emp  = oEmp.get();
+                        emp.setFaceId(face.getId());
+                        emp.setUpdatedAt(new Timestamp(new Date().getTime()));
+                        empService.save(emp);
+                    }
+                    
                 } else { // 둘중하나라도 실패시 추출실패.
                     face.setFaceStateTyp("FST003"); // 실패
                 }

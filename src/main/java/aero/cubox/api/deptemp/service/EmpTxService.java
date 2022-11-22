@@ -54,7 +54,10 @@ public class EmpTxService {
 
         Emp emp = null;
         Optional<Emp> oEmp = empRepository.findByEmpCd(empCd);
+
+        boolean isEmpty = false;
         if (oEmp.isEmpty()) {
+            isEmpty = true;
             emp = Emp.builder()
                     .empCd(empCd)
                     .empNm(String.valueOf(mdmItem.get("emp_nm")))
@@ -63,15 +66,20 @@ public class EmpTxService {
                     .insttCd(String.valueOf(mdmItem.get("instt_cd")))
                     .insttNm(String.valueOf(mdmItem.get("instt_nm")))
                     .belongNm(String.valueOf(mdmItem.get("belong_nm")))
+                    .cardClassTyp(String.valueOf(mdmItem.get("card_class_typ")))
+                    .cardStateTyp(String.valueOf(mdmItem.get("card_state_typ")))
                     .expiredDt((Timestamp) mdmItem.get("expired_dt"))
                     .mdmDt((Timestamp) mdmItem.get("mdm_dt"))
                     .createdAt(new Timestamp(new Date().getTime()))
                     .build();
 
-            Optional<Face> oFace = faceRepository.findFirstByEmpCdOrderByIdDesc(empCd);
+            // 성공분 중 가장 최근에 등록된 사진
+            Optional<Face> oFace = faceRepository.findFirstByEmpCdAAndFaceStateTypOrderByIdDesc(empCd, "FST002");
             if (oFace.isPresent()) {
                 emp.setFaceId(oFace.get().getId());
             }
+
+
         } else {
             emp = oEmp.get();
 
@@ -86,13 +94,26 @@ public class EmpTxService {
             emp.setInsttCd(String.valueOf(mdmItem.get("instt_cd")));
             emp.setInsttNm(String.valueOf(mdmItem.get("instt_nm")));
             emp.setBelongNm(String.valueOf(mdmItem.get("belong_nm")));
+            emp.setCardClassTyp(String.valueOf(mdmItem.get("card_class_typ")));
+            emp.setCardStateTyp(String.valueOf(mdmItem.get("card_state_typ")));
             emp.setExpiredDt((Timestamp) mdmItem.get("expired_dt"));
             emp.setMdmDt((Timestamp) mdmItem.get("mdm_dt"));
             emp.setUpdatedAt(new Timestamp(new Date().getTime()));
 
         }
+        emp = empRepository.save(emp);
 
-        empRepository.save(emp);
+
+        if (isEmpty) {
+            // MDM보다 먼저 올라온 사진
+            List<Face> faceList = faceRepository.findAllByEmpCd(empCd);
+            for(Face face : faceList)
+            {
+                face.setEmpId(emp.getId());
+                faceRepository.save(face);
+            }
+        }
+
     }
 
 
@@ -112,6 +133,7 @@ public class EmpTxService {
                     .endDt((Timestamp)mdmItem.get("end_dt"))
                     .cardClassTyp(String.valueOf(mdmItem.get("card_class_typ")))
                     .cardStateTyp(String.valueOf(mdmItem.get("card_state_typ")))
+                    .cardSttusSe(String.valueOf(mdmItem.get("card_sttus_se")))
                     .mdmDt((Timestamp)mdmItem.get("mdm_dt"))
                     .createdAt(new Timestamp(new Date().getTime()))
                     .build();
@@ -123,6 +145,7 @@ public class EmpTxService {
             card.setBegDt((Timestamp)mdmItem.get("beg_dt"));
             card.setEndDt((Timestamp)mdmItem.get("end_dt"));
             card.setCardStateTyp(String.valueOf(mdmItem.get("card_state_typ")));
+            card.setCardSttusSe(String.valueOf(mdmItem.get("card_sttus_se")));
             card.setMdmDt((Timestamp)mdmItem.get("mdm_dt"));
             card.setUpdatedAt(new Timestamp(new Date().getTime()));
 

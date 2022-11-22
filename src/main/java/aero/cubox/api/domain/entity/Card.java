@@ -47,6 +47,9 @@ public class Card implements Serializable {
     @Column(name = "card_state_typ")
     private String cardStateTyp;
 
+    @Column(name = "card_sttus_se")
+    private String cardSttusSe;
+
     @Column(name = "mdm_dt")
     private Timestamp mdmDt;
 

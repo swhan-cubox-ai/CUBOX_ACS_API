@@ -8,7 +8,9 @@ import java.util.Optional;
 
 public interface FaceRepository extends JpaRepository<Face, Integer> {
 
-    Optional<Face> findFirstByEmpCdOrderByIdDesc(String empCd);
+    List<Face> findAllByEmpCd(String empCd);
+
+    Optional<Face> findFirstByEmpCdAAndFaceStateTypOrderByIdDesc(String empCd, String faceStateTyp);
 
     List<Face> findTop100ByFaceStateTypOrderByCreatedAt(String faceStateTyp);
 

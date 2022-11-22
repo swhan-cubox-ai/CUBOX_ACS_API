@@ -37,6 +37,33 @@
 		WHERE cntc_sn = #{cntc_sn}
 	</update>
 
+	<select id="card_state_typ">
+	case
+	when em.card_se in ('07','08') then
+		case when em.card_sttus_se = '02' then 'CST002'
+			when em.card_sttus_se = '04' then 'CST003'
+			when em.card_sttus_se = '05' then 'CST004'
+		end
+	when em.card_se = '04' then
+		case when em.card_sttus_se = '04' then 'CST002'
+			when em.card_sttus_se = '06' then 'CST003'
+			when em.card_sttus_se = '07' then 'CST004'
+			when em.card_sttus_se = '11' then 'CST005'
+		end
+	when em.card_se = '05' then
+		case when em.card_sttus_se = '02' then 'CST002'
+			when em.card_sttus_se = '04' then 'CST003'
+			when em.card_sttus_se = '06' then 'CST001'
+		end
+	when em.card_se in ( '01', '02', '03', '11' ) then
+		case when em.card_sttus_se = '01' then 'CST002'
+			when em.card_sttus_se = '02' then 'CST005'
+			when em.card_sttus_se = '03' then 'CST004'
+			when em.card_sttus_se = '04' then 'CST006'
+		end
+	end
+	</select>
+
 	<!-- 일반출입증 갯수-->
 	<select id="getMdmTcEmCgpnCount" resultType="map">
 		SELECT count(*) as cnt
@@ -64,7 +91,8 @@
             em.psitn_nm as belong_nm,
             em.card_se as card_class_typ,
             em.issu_no as card_no,
-            em.card_sttus_se as card_state_typ,
+			<include refid="card_state_typ"/> as card_state_typ,
+			em.card_sttus_se,
             em.cmg_begin_dt as beg_dt,
             em.cmg_end_dt as end_dt,
 			em.cmg_end_dt as expired_dt,
@@ -111,7 +139,8 @@
 			   em.psitn_nm as belong_nm,
 			   em.card_se as card_class_typ,
 			   em.issu_no as card_no,
-			   em.card_sttus_se as card_state_typ,
+			   <include refid="card_state_typ"/> as card_state_typ,
+		       em.card_sttus_se,
 			   em.cmg_begin_dt as beg_dt,
 			   em.cmg_end_dt as end_dt,
 			   em.cmg_end_dt as expired_dt,
@@ -157,7 +186,8 @@
 			   em.psitn_nm as belong_nm,
 			   em.card_se as card_class_typ,
 			   em.issu_no as card_no,
-			   em.card_sttus_se as card_state_typ,
+			   <include refid="card_state_typ"/> as card_state_typ,
+			   em.card_sttus_se,
 			   em.cmg_begin_dt as beg_dt,
 			   em.cmg_end_dt as end_dt,
 			   em.cmg_end_dt as expired_dt,

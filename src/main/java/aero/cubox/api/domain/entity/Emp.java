@@ -47,6 +47,12 @@ public class Emp implements Serializable {
     @Column(name = "belong_nm")
     private String belongNm;
 
+    @Column(name = "card_class_typ")
+    private String cardClassTyp;
+
+    @Column(name = "card_state_typ")
+    private String cardStateTyp;
+
     @Column(name = "face_id")
     private Integer faceId;
 
