@@ -43,5 +43,5 @@ public class EmpVo implements Serializable {
 
     private Timestamp updatedAt;
 
-    private String featrue;
+    private String feature;
 }

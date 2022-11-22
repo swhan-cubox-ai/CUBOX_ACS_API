@@ -5,6 +5,7 @@ import aero.cubox.api.deptemp.repository.EmpRepository;
 import aero.cubox.api.deptemp.repository.FaceRepository;
 import aero.cubox.api.domain.entity.Card;
 import aero.cubox.api.domain.entity.Emp;
+import aero.cubox.api.domain.entity.EmpMdmErr;
 import aero.cubox.api.domain.entity.Face;
 import aero.cubox.api.mdm.service.MdmService;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -23,6 +25,7 @@ import java.util.Optional;
 
 @Service
 @Slf4j
+//@Profile("local")
 @Profile("imsimdm")
 public class EmpTxService {
 
@@ -35,6 +38,8 @@ public class EmpTxService {
     @Autowired
     FaceRepository faceRepository;
 
+    @Autowired
+    EmpMdmErrService empMdmErrService;
 
     @Transactional
     public void SaveEmpCard(Map<String, Object> mdmItem)
@@ -49,8 +54,7 @@ public class EmpTxService {
 
         Emp emp = null;
         Optional<Emp> oEmp = empRepository.findByEmpCd(empCd);
-        if ( oEmp.isEmpty() )
-        {
+        if (oEmp.isEmpty()) {
             emp = Emp.builder()
                     .empCd(empCd)
                     .empNm(String.valueOf(mdmItem.get("emp_nm")))
@@ -59,24 +63,20 @@ public class EmpTxService {
                     .insttCd(String.valueOf(mdmItem.get("instt_cd")))
                     .insttNm(String.valueOf(mdmItem.get("instt_nm")))
                     .belongNm(String.valueOf(mdmItem.get("belong_nm")))
-                    .expiredDt((Timestamp)mdmItem.get("expired_dt"))
-                    .mdmDt((Timestamp)mdmItem.get("mdm_dt"))
+                    .expiredDt((Timestamp) mdmItem.get("expired_dt"))
+                    .mdmDt((Timestamp) mdmItem.get("mdm_dt"))
                     .createdAt(new Timestamp(new Date().getTime()))
                     .build();
 
             Optional<Face> oFace = faceRepository.findFirstByEmpCdOrderByIdDesc(empCd);
-            if ( oFace.isPresent())
-            {
+            if (oFace.isPresent()) {
                 emp.setFaceId(oFace.get().getId());
             }
-        }
-        else
-        {
+        } else {
             emp = oEmp.get();
 
             // 현재 저장된게 더 최신이면 Skip
-            if ( emp.getMdmDt().compareTo((Timestamp)mdmItem.get("mdm_dt")) > 0)
-            {
+            if (emp.getMdmDt().compareTo((Timestamp) mdmItem.get("mdm_dt")) > 0) {
                 return;
             }
 
@@ -86,14 +86,13 @@ public class EmpTxService {
             emp.setInsttCd(String.valueOf(mdmItem.get("instt_cd")));
             emp.setInsttNm(String.valueOf(mdmItem.get("instt_nm")));
             emp.setBelongNm(String.valueOf(mdmItem.get("belong_nm")));
-            emp.setExpiredDt((Timestamp)mdmItem.get("expired_dt"));
-            emp.setMdmDt((Timestamp)mdmItem.get("mdm_dt"));
+            emp.setExpiredDt((Timestamp) mdmItem.get("expired_dt"));
+            emp.setMdmDt((Timestamp) mdmItem.get("mdm_dt"));
             emp.setUpdatedAt(new Timestamp(new Date().getTime()));
 
         }
 
         empRepository.save(emp);
-
     }
 
 

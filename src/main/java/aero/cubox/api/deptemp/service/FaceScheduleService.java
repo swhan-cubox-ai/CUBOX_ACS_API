@@ -30,6 +30,7 @@ import java.util.*;
 
 @Service
 @Slf4j
+@EnableScheduling
 @Profile("imsiface")
 public class FaceScheduleService {
 
@@ -59,11 +60,13 @@ public class FaceScheduleService {
         File uploadFile = new File(upload_directory);
         File[] fileList = uploadFile.listFiles();
 
+        log.info("upload:"  + upload_directory);
+
         for(int i=0; i<fileList.length; i++){
 
             File file = fileList[i];
             String fileName = file.getName();
-
+            log.info("#################      "+fileName);
             //파일명 => 직원코드 . 확장자
             int index = fileName.lastIndexOf(".");
             String extension = fileName.substring(index + 1);

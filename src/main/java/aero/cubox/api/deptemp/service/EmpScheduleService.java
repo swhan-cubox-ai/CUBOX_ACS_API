@@ -24,6 +24,7 @@ import java.util.Optional;
 @Slf4j
 @EnableScheduling
 @Profile("imsimdm")
+//@Profile("local")
 public class EmpScheduleService {
 
     @Autowired
@@ -61,10 +62,6 @@ public class EmpScheduleService {
             for (int i = 0; i < mdmVisitList.size(); i++) {
                 Map<String, Object> mdmItem = mdmVisitList.get(i);
 
-//                this.SaveEmp(mdmItem);
-//                this.SaveCard(mdmItem);
-//                // 동기화 진행한 데이터는 연계데이터처리유무컬럼(process_yn_mdmsjsc => Y) 업데이트  (PK = card_no)
-
                 try {
                     empTxService.SaveEmpCard(mdmItem);
                 }
@@ -80,6 +77,7 @@ public class EmpScheduleService {
                     empMdmErrService.save(empMdmErr);
                 }
 
+                // 동기화 진행한 데이터는 연계데이터처리유무컬럼(process_yn_mdmsjsc => Y) 업데이트  (PK = card_no)
                 mdmService.updateMdmTcEmVisit(mdmItem);
             }
         }
@@ -102,10 +100,7 @@ public class EmpScheduleService {
             }
 
             for (int i = 0; i < mdmCgpnList.size(); i++) {
-
-                Map<String, Object> mdmItem = mdmCgpnList.get(i);
-//                this.SaveEmp(mdmItem);
-//                this.SaveCard(mdmItem);
+                    Map<String, Object> mdmItem = mdmCgpnList.get(i);
                 try {
                     empTxService.SaveEmpCard(mdmItem);
                 }
@@ -138,8 +133,6 @@ public class EmpScheduleService {
             for (int i = 0; i < mdmPbsvntist.size(); i++) {
                 Map<String, Object> mdmItem = mdmPbsvntist.get(i);
 
-//                this.SaveEmp(mdmItem);
-//                this.SaveCard(mdmItem);
                 try {
                     empTxService.SaveEmpCard(mdmItem);
                 }

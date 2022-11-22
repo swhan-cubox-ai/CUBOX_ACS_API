@@ -2,7 +2,9 @@ package aero.cubox.api.sync.controller;
 
 
 import aero.cubox.api.common.Constants;
+import aero.cubox.api.deptemp.service.CardService;
 import aero.cubox.api.deptemp.service.EmpService;
+import aero.cubox.api.domain.entity.Card;
 import aero.cubox.api.domain.vo.ResultVo;
 import aero.cubox.api.sync.vo.EmpVo;
 import io.swagger.annotations.ApiOperation;
@@ -25,13 +27,16 @@ public class SyncEmpCardController {
     @Autowired
     EmpService empService;
 
+    @Autowired
+    CardService cardService;
+
     @GetMapping(value = {Constants.API.API_EMP})
     @ApiOperation(value="사원정보", notes="사원정보")
     public ResultVo<EmpVo> syncEmp(
             @ApiParam(value = "특징점유형 FFT001:씨유박스CPU FFT003:알체라CPU", required = true) @RequestParam String featureTyp
             , @ApiParam(value = "최종조회사원일시", required = true) @RequestParam String lastSyncDt
             , @ApiParam(value = "최종조회사원코드", required = true) @RequestParam String lastSyncEmpCd
-            , @ApiParam(value = "조회건수", required = false, defaultValue = "100") @RequestParam Integer pageSize
+            , @ApiParam(value = "조회건수", required = false, defaultValue = "100") @RequestParam(required = false, defaultValue = "100") Integer pageSize
     ) {
         Map<String, Object> params = new HashMap<>();
         params.put("featureTyp", featureTyp);
@@ -39,6 +44,23 @@ public class SyncEmpCardController {
         params.put("lastSyncEmpCd", lastSyncEmpCd);
         params.put("pageSize", pageSize);
         List<EmpVo> list = empService.getEmpList(params);
+        return ResultVo.ok(list);
+    }
+
+    @GetMapping(value = {Constants.API.API_CARD})
+    @ApiOperation(value="카드정보", notes="카드정보")
+    public ResultVo<Card> syncCard(
+            @ApiParam(value = "최종조회카드일시", required = true) @RequestParam String lastSyncDt
+            , @ApiParam(value = "최종조회사원코드", required = true) @RequestParam String lastSyncEmpCd
+            , @ApiParam(value = "조회건수", required = false, defaultValue = "100") @RequestParam(required = false, defaultValue = "100") Integer pageSize
+    ) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("lastSyncDt", lastSyncDt);
+        params.put("lastSyncEmpCd", lastSyncEmpCd);
+        params.put("pageSize", pageSize);
+        System.out.println(params);
+        List<Card> list = cardService.getCardList(params);
+
         return ResultVo.ok(list);
     }
 

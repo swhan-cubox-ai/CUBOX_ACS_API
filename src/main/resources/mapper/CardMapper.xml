@@ -3,6 +3,12 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="aero.cubox.api.deptemp.mapper.CardMapper">
-
+    <select id="getCardList" resultType="aero.cubox.api.domain.entity.Card">
+        SELECT *
+        FROM T_CARD
+        WHERE mdm_dt >= ${lastSyncDt} AND C.emp_cd > ${lastSyncEmpCd}
+        ORDER BY mdm_dt ASC, E.emp_cd ASC
+            LIMIT #{pageSize}
+    </select>
 
 </mapper>
