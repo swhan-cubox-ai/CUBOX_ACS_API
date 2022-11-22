@@ -4,16 +4,18 @@ package aero.cubox.api.sync.controller;
 import aero.cubox.api.common.Constants;
 import aero.cubox.api.deptemp.service.CardService;
 import aero.cubox.api.deptemp.service.EmpService;
+import aero.cubox.api.deptemp.service.EntHistService;
+import aero.cubox.api.deptemp.service.FaceService;
 import aero.cubox.api.domain.entity.Card;
+import aero.cubox.api.domain.entity.EntHist;
+import aero.cubox.api.domain.entity.Face;
 import aero.cubox.api.domain.vo.ResultVo;
 import aero.cubox.api.sync.vo.EmpVo;
+import aero.cubox.api.util.CuboxTerminalUtil;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +31,13 @@ public class SyncEmpCardController {
 
     @Autowired
     CardService cardService;
+
+    @Autowired
+    FaceService faceService;
+
+    @Autowired
+    EntHistService entHistService;
+
 
     @GetMapping(value = {Constants.API.API_EMP})
     @ApiOperation(value="사원정보", notes="사원정보")
@@ -58,10 +67,35 @@ public class SyncEmpCardController {
         params.put("lastSyncDt", lastSyncDt);
         params.put("lastSyncEmpCd", lastSyncEmpCd);
         params.put("pageSize", pageSize);
-        System.out.println(params);
         List<Card> list = cardService.getCardList(params);
-
         return ResultVo.ok(list);
+    }
+
+
+    @GetMapping(value = {Constants.API.API_FACE})
+    @ApiOperation(value="사진", notes="사진")
+    public ResultVo<String> syncFace(
+           @ApiParam(value = "사원코드", required = true) @RequestParam String empCd
+    ) throws Exception {
+        Map<String, Object> params = new HashMap<>();
+        params.put("empCd", empCd);
+        Face face = faceService.getFace(params);
+        byte[] imgBytes = face.getFaceImg();
+
+        String encodeImg = CuboxTerminalUtil.byteArrEncode(imgBytes);
+
+        return ResultVo.ok(encodeImg);
+    }
+
+    @PostMapping(value = {"/enthist"})
+    @ApiOperation(value="출입기록등록", notes="출입기록등록")
+    public ResultVo<String> insertEntHist(@RequestBody EntHist entHist) throws Exception {
+        try {
+            entHistService.saveEntHist(entHist);
+        } catch (Exception ex){
+            return ResultVo.fail("save fail", ex);
+        }
+        return ResultVo.ok("save complete!");
     }
 
 }

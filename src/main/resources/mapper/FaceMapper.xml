@@ -3,6 +3,10 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="aero.cubox.api.deptemp.mapper.FaceMapper">
-
+    <select id="getFace" resultType="aero.cubox.api.domain.entity.Face">
+        SELECT face_img
+        FROM T_FACE
+        WHERE emp_cd = ${empCd}
+    </select>
 
 </mapper>
