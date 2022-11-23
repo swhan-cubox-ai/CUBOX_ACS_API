@@ -29,6 +29,10 @@ public class EmpVo implements Serializable {
 
     private String belongNm;
 
+    private String cardClassTyp;
+
+    private String cardStateTyp;
+
     private Integer faceId;
 
     private Timestamp expiredDt;
