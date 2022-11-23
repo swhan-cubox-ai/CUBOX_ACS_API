@@ -2,12 +2,11 @@ package aero.cubox.api.sync.controller;
 
 
 import aero.cubox.api.common.Constants;
-import aero.cubox.api.deptemp.service.CardService;
-import aero.cubox.api.deptemp.service.EmpService;
-import aero.cubox.api.deptemp.service.EntHistService;
-import aero.cubox.api.deptemp.service.FaceService;
+import aero.cubox.api.deptemp.service.*;
+import aero.cubox.api.deptemp.vo.EntHistVO;
 import aero.cubox.api.domain.entity.Card;
 import aero.cubox.api.domain.entity.EntHist;
+import aero.cubox.api.domain.entity.EntHistBio;
 import aero.cubox.api.domain.entity.Face;
 import aero.cubox.api.domain.vo.ResultVo;
 import aero.cubox.api.sync.vo.EmpVo;
@@ -17,6 +16,8 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +39,8 @@ public class SyncEmpCardController {
     @Autowired
     EntHistService entHistService;
 
+    @Autowired
+    EntHistBioService entHistBioService;
 
     @GetMapping(value = {Constants.API.API_EMP})
     @ApiOperation(value="사원정보", notes="사원정보")
@@ -89,13 +92,13 @@ public class SyncEmpCardController {
 
     @PostMapping(value = {"/enthist"})
     @ApiOperation(value="출입기록등록", notes="출입기록등록")
-    public ResultVo<String> insertEntHist(@RequestBody EntHist entHist) throws Exception {
+    public ResultVo<String> insertEntHist(EntHistVO entHist) throws Exception {
         try {
             entHistService.saveEntHist(entHist);
         } catch (Exception ex){
             return ResultVo.fail("save fail", ex);
         }
-        return ResultVo.ok("save complete!");
+        return ResultVo.ok();
     }
 
 }
