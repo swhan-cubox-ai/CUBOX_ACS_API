@@ -1,9 +1,6 @@
 package aero.cubox.api.deptemp.service;
 
-import aero.cubox.api.deptemp.repository.CardRepository;
-import aero.cubox.api.deptemp.repository.EmpMdmErrRepository;
-import aero.cubox.api.deptemp.repository.EmpRepository;
-import aero.cubox.api.deptemp.repository.FaceRepository;
+import aero.cubox.api.deptemp.repository.*;
 import aero.cubox.api.domain.entity.*;
 import aero.cubox.api.mdm.service.MdmService;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +40,9 @@ public class EmpScheduleService {
     private EmpMdmErrService empMdmErrService;
 
     @Autowired
+    private CardMdmHistService cardMdmHistService;
+
+    @Autowired
     private EmpTxService empTxService;
 
     // 일반출입증/공무원증은 10분 마다, 방문증은 10초마다 동기화하고 있는데
@@ -50,6 +50,8 @@ public class EmpScheduleService {
     public void syncCard10sec() {
 
         log.info("syncCard 10 sec ....");
+
+        String tblNm = "TC_EM_VISIT";
 
         // TC_EM_VISIT
         // 방문자출입증
@@ -68,7 +70,7 @@ public class EmpScheduleService {
                 catch(Exception ex)
                 {
                     EmpMdmErr empMdmErr = EmpMdmErr.builder()
-                            .tblNm("TC_EM_VISIT")
+                            .tblNm(tblNm)
                             .cgpnHrSn(String.valueOf(mdmItem.get("cgpn_hr_sn")))
                             .hrNo(String.valueOf(mdmItem.get("emp_cd")))
                             .error(ex.toString())
@@ -77,6 +79,7 @@ public class EmpScheduleService {
                     empMdmErrService.save(empMdmErr);
                 }
 
+                cardMdmHistService.SaveCard(tblNm, mdmItem);
                 // 동기화 진행한 데이터는 연계데이터처리유무컬럼(process_yn_mdmsjsc => Y) 업데이트  (PK = card_no)
                 mdmService.updateMdmTcEmVisit(mdmItem);
             }
@@ -89,6 +92,8 @@ public class EmpScheduleService {
     public void syncCard10Min() {
 
         log.info("syncCard 10 Min ....");
+
+        String tblNm = "TC_EM_CGPN";
 
         // TC_EM_CGPN
         // 일반출입증
@@ -107,7 +112,7 @@ public class EmpScheduleService {
                 catch(Exception ex)
                 {
                     EmpMdmErr empMdmErr = EmpMdmErr.builder()
-                            .tblNm("TC_EM_CGPN")
+                            .tblNm(tblNm)
                             .cgpnHrSn(String.valueOf(mdmItem.get("cgpn_hr_sn")))
                             .hrNo(String.valueOf(mdmItem.get("emp_cd")))
                             .error(ex.toString())
@@ -116,10 +121,14 @@ public class EmpScheduleService {
                     empMdmErrService.save(empMdmErr);
                 }
 
+                cardMdmHistService.SaveCard(tblNm, mdmItem);
                 // 동기화 진행한 데이터는 연계데이터처리유무컬럼(process_yn_mdmsjsc N => Y) 업데이트  (PK = card_no)
                 mdmService.updateMdmTcEmCgpn(mdmItem);
             }
         }
+
+
+        tblNm = "TC_EM_PBSVNT";
 
 
         // TC_EM_PBSVNT
@@ -139,7 +148,7 @@ public class EmpScheduleService {
                 catch(Exception ex)
                 {
                     EmpMdmErr empMdmErr = EmpMdmErr.builder()
-                            .tblNm("TC_EM_PBSVNT")
+                            .tblNm(tblNm)
                             .cgpnHrSn(String.valueOf(mdmItem.get("cgpn_hr_sn")))
                             .hrNo(String.valueOf(mdmItem.get("emp_cd")))
                             .error(ex.toString())
@@ -148,6 +157,7 @@ public class EmpScheduleService {
                     empMdmErrService.save(empMdmErr);
                 }
 
+                cardMdmHistService.SaveCard(tblNm, mdmItem);
                 // 동기화 진행한 데이터는 연계데이터처리유무컬럼(process_yn_mdmsjsc => Y) 업데이트  (PK = card_no)
                 mdmService.updateMdmTcEmPbsvnt(mdmItem);
 
