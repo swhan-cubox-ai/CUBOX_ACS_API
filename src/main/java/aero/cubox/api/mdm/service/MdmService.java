@@ -13,20 +13,7 @@ public class MdmService  {
     @Autowired
     private MdmMapper mapper;
 
-    // multi datasource test -- 추후삭제
-    public List<Map<String, Object>> test (Integer count){
-        List<Map<String, Object>> result = mapper.test(count);
-        return result;
-    }
-
     // 기관
-    // mdm 데이터 갯수 조회 -- 동기화 분할처리용
-    public int getMdmInsttCount(){
-        Map<String, Object> result = mapper.getMdmInsttCount();
-        int tot = Integer.parseInt( result.get("cnt").toString());
-        return tot;
-    };
-
     // mdm 데이터조회
     public List<Map<String, Object>> getMdmInsttRcv(){
         List<Map<String, Object>> result = mapper.getMdmInsttRcv();
@@ -45,12 +32,6 @@ public class MdmService  {
         List<Map<String, Object>> result = mapper.getMdmTcEmCgpn();
         return result;
     }
-    // mdm 데이터 갯수 조회 -- 동기화 분할처리용
-    public int getMdmTcEmCgpnCount(){
-        Map<String, Object> result = mapper.getMdmTcEmCgpnCount();
-        int tot = Integer.parseInt( result.get("cnt").toString());
-        return tot;
-    };
     // 스마트세종청사컬럼 수정
     public void updateMdmTcEmCgpn(Map<String, Object> cardItem){
         mapper.updateMdmTcEmCgpn(cardItem);
@@ -61,12 +42,6 @@ public class MdmService  {
         List<Map<String, Object>> result = mapper.getMdmTcEmPbsvnt();
         return result;
     }
-    // mdm 데이터 갯수 조회 -- 동기화 분할처리용
-    public int getMdmTcEmPbsvntCount(){
-        Map<String, Object> result = mapper.getMdmTcEmPbsvntCount();
-        int tot = Integer.parseInt( result.get("cnt").toString());
-        return tot;
-    };
     // 스마트세종청사컬럼 수정
     public void updateMdmTcEmPbsvnt(Map<String, Object> cardItem){
         mapper.updateMdmTcEmPbsvnt(cardItem);
@@ -79,12 +54,6 @@ public class MdmService  {
         List<Map<String, Object>> result = mapper.getMdmTcEmVisit();
         return result;
     }
-    // mdm 데이터 갯수 조회 -- 동기화 분할처리용
-    public int getMdmTcEmVisitCount(){
-        Map<String, Object> result = mapper.getMdmTcEmVisitCount();
-        int tot = Integer.parseInt( result.get("cnt").toString());
-        return tot;
-    };
     // 스마트세종청사컬럼 수정
     public void updateMdmTcEmVisit(Map<String, Object> cardItem){
         mapper.updateMdmTcEmVisit(cardItem);

@@ -4,18 +4,6 @@
 
 <mapper namespace="aero.cubox.api.mdm.mapper.MdmMapper">
 
-	<select id="test" resultType="map">
-		SELECT *
-		FROM tc_em_cgpn
-		WHERE rownum <![CDATA[<=]]> #{count}
-	</select>
-
-	<select id="getMdmInsttCount" resultType="map">
-		SELECT count(*) as cnt
-		FROM   TI_CMN_INSTT_RCV
-		WHERE process_yn_mdmsjsc = 'N'
-	</select>
-
 	<select id="getMdmInsttRcv" resultType="map">
 		SELECT cntc_sn,
 			   instt_code AS instt_cd,
@@ -64,23 +52,9 @@
 	end
 	</sql>
 
-	<!-- 일반출입증 갯수-->
-	<select id="getMdmTcEmCgpnCount" resultType="map">
-		SELECT count(*) as cnt
-		FROM   TC_EM_CGPN
-		WHERE 1=1
-			AND ((card_se = '04')
-				AND (process_yn_mdmsjsc = 'N'
-					AND gbd_intrlck1='Y'))
-		   OR ((card_se = '05')
-			AND (process_yn_mdmsjsc = 'N'
-				AND gvrn_gbd_code = '05'))
-	</select>
-
 	<!-- mdm 일반출입증조회 -->
 	<select id="getMdmTcEmCgpn" resultType="map">
 		SELECT
-			em.cgpn_hr_sn,
 			em.hr_no as emp_cd,
 			em.gvrn_gbd_code,
 			dep.instt_code as instt_cd,
@@ -115,20 +89,13 @@
 	<update id="updateMdmTcEmCgpn" parameterType="map">
 		UPDATE TC_EM_CGPN
 		SET process_yn_mdmsjsc = 'Y'
-		WHERE cgpn_hr_sn = #{cgpn_hr_sn}
+		WHERE hr_no = #{emp_cd}
+		AND creat_dt = #{mdm_dt}
 	</update>
-
-	<!-- 공무원증 갯수-->
-	<select id="getMdmTcEmPbsvntCount" resultType="map">
-		SELECT count(*) as cnt
-		FROM   TC_EM_PBSVNT
-		WHERE process_yn_mdmsjsc = 'N'
-		  AND gbd_intrlck1 = 'Y'
-	</select>
 
 	<!-- mdm 공무원증조회 -->
 	<select id="getMdmTcEmPbsvnt" resultType="map">
-		SELECT em.cgpn_hr_sn,
+		SELECT
 			   em.hr_no as emp_cd,
 			   em.gvrn_gbd_code,
 			   dep.instt_code as instt_cd,
@@ -163,19 +130,13 @@
 	<update id="updateMdmTcEmPbsvnt" parameterType="map">
 		UPDATE TC_EM_PBSVNT
 		SET process_yn_mdmsjsc = 'Y'
-		WHERE cgpn_hr_sn = #{cgpn_hr_sn}
+		WHERE hr_no = #{emp_cd}
+		  AND creat_dt = #{mdm_dt}
 	</update>
-
-	<!--  방문증 갯수-->
-	<select id="getMdmTcEmVisitCount" resultType="map">
-		SELECT count(*) as cnt
-		FROM   TC_EM_VISIT
-		WHERE process_yn_mdmsjsc = 'N'
-	</select>
 
 	<!-- mdm 방문증조회 -->
 	<select id="getMdmTcEmVisit" resultType="map">
-		SELECT em.cgpn_hr_sn,
+		SELECT
 			   em.hr_no as emp_cd,
 			   em.gvrn_gbd_code,
 			   dep.instt_code as instt_cd,
@@ -204,6 +165,7 @@
 	<update id="updateMdmTcEmVisit" parameterType="map">
 		UPDATE TC_EM_VISIT
 		SET process_yn_mdmsjsc = 'Y'
-		WHERE cgpn_hr_sn = #{cgpn_hr_sn}
+		WHERE hr_no = #{emp_cd}
+		  AND creat_dt = #{mdm_dt}
 	</update>
 </mapper>
