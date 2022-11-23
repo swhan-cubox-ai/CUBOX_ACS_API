@@ -37,7 +37,7 @@
 		WHERE cntc_sn = #{cntc_sn}
 	</update>
 
-	<select id="card_state_typ">
+	<sql id="card_state_typ">
 	case
 	when em.card_se in ('07','08') then
 		case when em.card_sttus_se = '02' then 'CST002'
@@ -62,7 +62,7 @@
 			when em.card_sttus_se = '04' then 'CST006'
 		end
 	end
-	</select>
+	</sql>
 
 	<!-- 일반출입증 갯수-->
 	<select id="getMdmTcEmCgpnCount" resultType="map">

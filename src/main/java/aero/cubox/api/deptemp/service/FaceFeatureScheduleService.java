@@ -33,8 +33,8 @@ import java.util.Optional;
 @Service
 @Slf4j
 @EnableScheduling
-//@Profile("imsimdm")
-@Profile("facefeature")
+@Profile("imsimdm")
+//@Profile("facefeature")
 public class FaceFeatureScheduleService {
 
     @Autowired
