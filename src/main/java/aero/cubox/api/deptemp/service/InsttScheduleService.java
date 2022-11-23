@@ -68,6 +68,7 @@ public class InsttScheduleService {
                                 .insttCd(insttCd)
                                 .insttNm(insttNm)
                                 .createdAt(new Timestamp(new Date().getTime()))
+                                .updatedAt(new Timestamp(new Date().getTime()))
                                 .build()
                         ;
                     }
@@ -91,6 +92,7 @@ public class InsttScheduleService {
                                 .insttCd(insttCd)
                                 .insttNm(insttNm)
                                 .createdAt(new Timestamp(new Date().getTime()))
+                                .updatedAt(new Timestamp(new Date().getTime()))
                                 .build()
                         ;
                     }

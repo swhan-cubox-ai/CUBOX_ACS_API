@@ -85,6 +85,7 @@ public class FaceScheduleService {
                     .faceImg(face_img)
                     .faceStateTyp("FST001") // 대기상태
                     .createdAt(new Timestamp(new Date().getTime()))
+                    .updatedAt(new Timestamp(new Date().getTime()))
                     .build();
             Optional<Emp> oEmp = empService.findByEmpCd(emp_cd);
             if ( oEmp.isPresent())

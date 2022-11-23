@@ -71,6 +71,7 @@ public class EmpTxService {
                     .expiredDt((Timestamp) mdmItem.get("expired_dt"))
                     .mdmDt((Timestamp) mdmItem.get("mdm_dt"))
                     .createdAt(new Timestamp(new Date().getTime()))
+                    .updatedAt(new Timestamp(new Date().getTime()))
                     .build();
 
             // 성공분 중 가장 최근에 등록된 사진
@@ -136,6 +137,7 @@ public class EmpTxService {
                     .cardSttusSe(String.valueOf(mdmItem.get("card_sttus_se")))
                     .mdmDt((Timestamp)mdmItem.get("mdm_dt"))
                     .createdAt(new Timestamp(new Date().getTime()))
+                    .updatedAt(new Timestamp(new Date().getTime()))
                     .build();
         }
         else

@@ -33,8 +33,8 @@ import java.util.Optional;
 @Service
 @Slf4j
 @EnableScheduling
-@Profile("imsimdm")
-//@Profile("facefeature")
+//@Profile("imsimdm")
+@Profile("facefeature")
 public class FaceFeatureScheduleService {
 
     @Autowired
@@ -179,6 +179,7 @@ public class FaceFeatureScheduleService {
                     .faceFeatureTyp("FFT001") //씨유박스 CPU
                     .feature(feature)
                     .createdAt(new Timestamp(new Date().getTime()))
+                    .updatedAt(new Timestamp(new Date().getTime()))
                     .build();
                 faceService.saveFaceFeatrue(faceFeature);
 
@@ -206,6 +207,7 @@ public class FaceFeatureScheduleService {
                 .faceFeatureTyp(faceStateTyp) //씨유박스 CPU
                 .error(errMsg)
                 .createdAt(new Timestamp(new Date().getTime()))
+                .updateAt(new Timestamp(new Date().getTime()))
                 .build();
         faceService.saveFaceFeatrueErr(faceFeatureErr);
     }
