@@ -71,8 +71,9 @@ public class EmpScheduleService {
                 {
                     EmpMdmErr empMdmErr = EmpMdmErr.builder()
                             .tblNm(tblNm)
-                            .cgpnHrSn(String.valueOf(mdmItem.get("cgpn_hr_sn")))
-                            .hrNo(String.valueOf(mdmItem.get("emp_cd")))
+                            .empCd(String.valueOf(mdmItem.get("emp_cd")))
+                            .cardNo(String.valueOf(mdmItem.get("card_no")))
+                            .mdmDt((Timestamp)mdmItem.get("mdm_dt"))
                             .error(ex.toString())
                             .createdAt(new Timestamp(new Date().getTime()))
                             .build();
@@ -113,8 +114,9 @@ public class EmpScheduleService {
                 {
                     EmpMdmErr empMdmErr = EmpMdmErr.builder()
                             .tblNm(tblNm)
-                            .cgpnHrSn(String.valueOf(mdmItem.get("cgpn_hr_sn")))
-                            .hrNo(String.valueOf(mdmItem.get("emp_cd")))
+                            .empCd(String.valueOf(mdmItem.get("emp_cd")))
+                            .cardNo(String.valueOf(mdmItem.get("card_no")))
+                            .mdmDt((Timestamp)mdmItem.get("mdm_dt"))
                             .error(ex.toString())
                             .createdAt(new Timestamp(new Date().getTime()))
                             .build();
@@ -149,8 +151,9 @@ public class EmpScheduleService {
                 {
                     EmpMdmErr empMdmErr = EmpMdmErr.builder()
                             .tblNm(tblNm)
-                            .cgpnHrSn(String.valueOf(mdmItem.get("cgpn_hr_sn")))
-                            .hrNo(String.valueOf(mdmItem.get("emp_cd")))
+                            .empCd(String.valueOf(mdmItem.get("emp_cd")))
+                            .cardNo(String.valueOf(mdmItem.get("card_no")))
+                            .mdmDt((Timestamp)mdmItem.get("mdm_dt"))
                             .error(ex.toString())
                             .createdAt(new Timestamp(new Date().getTime()))
                             .build();

@@ -29,11 +29,14 @@ public class EmpMdmErr implements Serializable {
     @Column(name = "tbl_nm")
     private String tblNm;
 
-    @Column(name = "cgpn_hr_sn")
-    private String cgpnHrSn;
+    @Column(name = "emp_cd")
+    private String empCd;
 
-    @Column(name = "hr_no")
-    private String hrNo;
+    @Column(name = "card_no")
+    private String cardNo;
+
+    @Column(name = "mdm_dt")
+    private Timestamp mdmDt;
 
     @Column(name = "error")
     private String error;
