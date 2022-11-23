@@ -46,6 +46,12 @@ public class EntHistService extends AbstractService<EntHist, Integer> {
     @Transactional
     public EntHist saveEntHist(EntHistVO entHistVo) throws Exception {
 
+        byte[] img = null;
+        if (entHistVo.getEntFaceImg() != null && !"".equals(entHistVo.getEntFaceImg())) {
+            img = CuboxTerminalUtil.byteArrDecode(entHistVo.getEntFaceImg());
+        }
+
+
         EntHist entHist = new EntHist();
         entHist.setEvtDt(entHistVo.getEvtDt());
         entHist.setEntEvtTyp(entHistVo.getEntEvtTyp());
@@ -79,20 +85,10 @@ public class EntHistService extends AbstractService<EntHist, Integer> {
 
         entHist = repository.save(entHist);
 
-        if (entHistVo.getEntFaceImg() != null && !"".equals(entHistVo.getEntFaceImg())) {
+        if (img != null) {
             EntHistBio entHistBio = new EntHistBio();
             entHistBio.setEnd_hist_id(entHist.getId());
-
-            byte[] img = null;
-            try {
-                img = CuboxTerminalUtil.byteArrDecode(entHistVo.getEntFaceImg());
-
-            }catch(Exception ex)
-            {
-                throw ex;
-            }
             entHistBio.setEnt_face_img(img);
-
             entHistBiorepository.save(entHistBio);
         }
         return entHist;
