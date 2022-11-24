@@ -129,7 +129,7 @@ public class EmpTxService {
             cardNo = cardNo.replaceFirst("^0+(?!$)", "");
             if ( cardNo.length() < 8)
             {
-                cardNo = StringUtils.leftPad(cardNo, 8, "0'");
+                cardNo = StringUtils.leftPad(cardNo, 8, "0");
             }
         }
 
