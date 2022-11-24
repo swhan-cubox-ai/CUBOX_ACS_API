@@ -123,20 +123,23 @@ public class EmpTxService {
     public void SaveCard(Map<String, Object> mdmItem)
     {
         String cardNo = String.valueOf(mdmItem.get("card_no"));
+        String cardClassTyp = String.valueOf(mdmItem.get("card_class_typ"));
+        if ( "04".equals(cardClassTyp))
+        {
+            cardNo = cardNo.replaceFirst("^0+(?!$)", "");
+            if ( cardNo.length() < 8)
+            {
+                cardNo = StringUtils.leftPad(cardNo, 8, "0'");
+            }
+        }
 
         Card card = null;
         Optional<Card> oCard = cardRepository.findByCardNo(cardNo);
         if ( oCard.isEmpty() )
         {
-            String cardNoEx = cardNo.replaceFirst("^0+(?!$)", "");
-            if ( cardNoEx.length() < 8)
-            {
-                cardNoEx = StringUtils.leftPad(cardNoEx, 8, "0'");
-            }
 
             card = Card.builder()
                     .cardNo(cardNo)
-                    .cardNoEx(cardNoEx)
                     .empCd(String.valueOf(mdmItem.get("emp_cd")))
                     .begDt((Timestamp)mdmItem.get("beg_dt"))
                     .endDt((Timestamp)mdmItem.get("end_dt"))
