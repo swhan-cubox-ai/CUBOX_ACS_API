@@ -80,13 +80,13 @@ public class EntHist implements Serializable {
     private Timestamp tagAt;
 
     @Column(name = "tag_card_no")
-    private Float tagCardNo;
+    private String tagCardNo;
 
     @Column(name = "tag_emp_cd")
-    private Float tagEmpCd;
+    private String tagEmpCd;
 
     @Column(name = "temper")
-    private Float temper;
+    private Double temper;
 
     @Column(name = "mask_confidence")
     private Float maskConfidence;

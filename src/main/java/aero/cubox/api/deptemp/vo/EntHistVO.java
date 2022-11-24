@@ -43,11 +43,11 @@ public class EntHistVO {
 
     private Timestamp tagAt;
 
-    private Float tagCardNo;
+    private String tagCardNo;
 
-    private Float tagEmpCd;
+    private String tagEmpCd;
 
-    private Float temper;
+    private Double temper;
 
     private Float maskConfidence;
 
@@ -215,27 +215,27 @@ public class EntHistVO {
         this.tagAt = tagAt;
     }
 
-    public Float getTagCardNo() {
+    public String getTagCardNo() {
         return tagCardNo;
     }
 
-    public void setTagCardNo(Float tagCardNo) {
+    public void setTagCardNo(String tagCardNo) {
         this.tagCardNo = tagCardNo;
     }
 
-    public Float getTagEmpCd() {
+    public String getTagEmpCd() {
         return tagEmpCd;
     }
 
-    public void setTagEmpCd(Float tagEmpCd) {
+    public void setTagEmpCd(String tagEmpCd) {
         this.tagEmpCd = tagEmpCd;
     }
 
-    public Float getTemper() {
+    public Double getTemper() {
         return temper;
     }
 
-    public void setTemper(Float temper) {
+    public void setTemper(Double temper) {
         this.temper = temper;
     }
 
