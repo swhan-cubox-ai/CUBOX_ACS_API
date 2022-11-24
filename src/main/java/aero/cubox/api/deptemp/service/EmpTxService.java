@@ -9,6 +9,7 @@ import aero.cubox.api.domain.entity.EmpMdmErr;
 import aero.cubox.api.domain.entity.Face;
 import aero.cubox.api.mdm.service.MdmService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -127,8 +128,15 @@ public class EmpTxService {
         Optional<Card> oCard = cardRepository.findByCardNo(cardNo);
         if ( oCard.isEmpty() )
         {
+            String cardNoEx = cardNo.replaceFirst("^0+(?!$)", "");
+            if ( cardNoEx.length() < 8)
+            {
+                cardNoEx = StringUtils.leftPad(cardNoEx, 8, "0'");
+            }
+
             card = Card.builder()
                     .cardNo(cardNo)
+                    .cardNoEx(cardNoEx)
                     .empCd(String.valueOf(mdmItem.get("emp_cd")))
                     .begDt((Timestamp)mdmItem.get("beg_dt"))
                     .endDt((Timestamp)mdmItem.get("end_dt"))

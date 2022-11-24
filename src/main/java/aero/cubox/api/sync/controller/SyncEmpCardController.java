@@ -44,7 +44,7 @@ public class SyncEmpCardController {
 
     @GetMapping(value = {Constants.API.API_EMP})
     @ApiOperation(value="사원정보", notes="사원정보")
-    public ResultVo<EmpVo> syncEmp(
+    public ResultVo<List<EmpVo>> syncEmp(
             @ApiParam(value = "특징점유형 FFT001:씨유박스CPU FFT003:알체라CPU", required = true) @RequestParam String featureTyp
             , @ApiParam(value = "최종조회사원일시", required = true) @RequestParam String lastSyncDt
             , @ApiParam(value = "최종조회사원코드", required = true) @RequestParam String lastSyncEmpCd
@@ -61,7 +61,7 @@ public class SyncEmpCardController {
 
     @GetMapping(value = {Constants.API.API_CARD})
     @ApiOperation(value="카드정보", notes="카드정보")
-    public ResultVo<Card> syncCard(
+    public ResultVo<List<Card>> syncCard(
             @ApiParam(value = "최종조회카드일시", required = true) @RequestParam String lastSyncDt
             , @ApiParam(value = "최종조회사원코드", required = true) @RequestParam String lastSyncEmpCd
             , @ApiParam(value = "조회건수", required = false, defaultValue = "100") @RequestParam(required = false, defaultValue = "100") Integer pageSize
@@ -92,7 +92,7 @@ public class SyncEmpCardController {
 
     @PostMapping(value = {"/enthist"})
     @ApiOperation(value="출입기록등록", notes="출입기록등록")
-    public ResultVo<String> insertEntHist(@RequestBody EntHistVO entHist) throws Exception {
+    public ResultVo insertEntHist(@RequestBody EntHistVO entHist) throws Exception {
         try {
             entHistService.saveEntHist(entHist);
         } catch (Exception ex){

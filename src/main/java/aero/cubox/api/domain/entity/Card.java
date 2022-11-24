@@ -29,6 +29,9 @@ public class Card implements Serializable {
     @Column(name = "card_no")
     private String cardNo;
 
+    @Column(name = "card_no_ex")
+    private String cardNoEx;
+
     @Column(name = "emp_id")
     private Integer empId;
 
