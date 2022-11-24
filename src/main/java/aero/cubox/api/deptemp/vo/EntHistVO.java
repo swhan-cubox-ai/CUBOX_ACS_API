@@ -1,5 +1,7 @@
 package aero.cubox.api.deptemp.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.Column;
 import java.sql.Timestamp;
 

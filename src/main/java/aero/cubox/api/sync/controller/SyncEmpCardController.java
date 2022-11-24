@@ -92,7 +92,7 @@ public class SyncEmpCardController {
 
     @PostMapping(value = {"/enthist"})
     @ApiOperation(value="출입기록등록", notes="출입기록등록")
-    public ResultVo<String> insertEntHist(EntHistVO entHist) throws Exception {
+    public ResultVo<String> insertEntHist(@RequestBody EntHistVO entHist) throws Exception {
         try {
             entHistService.saveEntHist(entHist);
         } catch (Exception ex){

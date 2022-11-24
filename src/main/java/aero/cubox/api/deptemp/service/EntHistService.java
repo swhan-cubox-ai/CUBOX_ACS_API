@@ -46,9 +46,10 @@ public class EntHistService extends AbstractService<EntHist, Integer> {
     @Transactional
     public EntHist saveEntHist(EntHistVO entHistVo) throws Exception {
 
-        byte[] img = null;
+        String img = entHistVo.getEntFaceImg();
         if (entHistVo.getEntFaceImg() != null && !"".equals(entHistVo.getEntFaceImg())) {
-            img = CuboxTerminalUtil.byteArrDecode(entHistVo.getEntFaceImg());
+            //img = CuboxTerminalUtil.byteArrDecode(entHistVo.getEntFaceImg());
+
         }
 
 
@@ -87,9 +88,12 @@ public class EntHistService extends AbstractService<EntHist, Integer> {
 
         if (img != null) {
             EntHistBio entHistBio = new EntHistBio();
-            entHistBio.setEnd_hist_id(entHist.getId());
-            entHistBio.setEnt_face_img(img);
+            entHistBio.setEntHistId(entHist.getId());
+            entHistBio.setEntFaceImg(img);
+            entHistBio.setCreatedAt(new Timestamp(new Date().getTime()));
+            entHistBio.setUpdatedAt(new Timestamp(new Date().getTime()));
             entHistBiorepository.save(entHistBio);
+
         }
         return entHist;
     }

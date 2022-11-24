@@ -22,13 +22,11 @@ public class EntHistBio implements Serializable {
     private static final long serialVersionUID = -8500911657159176772L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ent_hist_id")
+    private Integer entHistId;
 
-    @Column(name = "endHistId")
-    private Integer end_hist_id;
-
-    @Column(name = "entFaceImg")
-    private byte[] ent_face_img;
+    @Column(name = "ent_face_img")
+    private String entFaceImg;
 
     @Column(name = "created_at")
     private Timestamp createdAt;
