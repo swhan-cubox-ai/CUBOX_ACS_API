@@ -4,7 +4,7 @@
 
 <mapper namespace="aero.cubox.api.deptemp.mapper.EntHistMapper">
 
-    <select id="getCardList" resultType="aero.cubox.api.deptemp.vo.EntHistVO">
+    <select id="getTerminalInfoById" resultType="aero.cubox.api.deptemp.vo.EntHistVO">
         select T.terminal_typ, D.door_cd, D.door_nm, D.building_cd, B.building_nm
         FROM T_TERMINAL T
                  join T_DOOR D on T.door_cd = D.door_cd

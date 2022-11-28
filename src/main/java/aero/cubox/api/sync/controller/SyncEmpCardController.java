@@ -98,11 +98,19 @@ public class SyncEmpCardController {
             String termainalCd = entHist.getTerminalCd();
             if(!"".equals(termainalCd)){
                 EntHistVO terminalInfo = entHistService.getTerminalInfoById(termainalCd);
-                entHist.setTerminalTyp(terminalInfo.getTerminalTyp());
-                entHist.setBuildingCd(terminalInfo.getBuildingCd());
-                entHist.setBuildingNm(terminalInfo.getBuildingNm());
-                entHist.setDoorCd(terminalInfo.getDoorCd());
-                entHist.setDoorNm(terminalInfo.getDoorNm());
+                if(terminalInfo != null){
+                    String terminalTyp = terminalInfo.getTerminalTyp();
+                    String buildingCd = terminalInfo.getBuildingCd();
+                    String buildingNm = terminalInfo.getBuildingNm();
+                    String doorCd = terminalInfo.getDoorCd();
+                    String doorNm = terminalInfo.getDoorNm();
+
+                    entHist.setTerminalTyp(terminalTyp);
+                    entHist.setBuildingCd(buildingCd);
+                    entHist.setBuildingNm(buildingNm);
+                    entHist.setDoorCd(doorCd);
+                    entHist.setDoorNm(doorNm);
+                }
             }
 
             entHistService.saveEntHist(entHist);
