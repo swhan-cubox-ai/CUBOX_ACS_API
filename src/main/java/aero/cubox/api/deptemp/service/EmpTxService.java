@@ -51,7 +51,7 @@ public class EmpTxService {
 
     public void SaveEmp(Map<String, Object> mdmItem)
     {
-        String empCd = String.valueOf(mdmItem.get("emp_cd"));
+        String empCd = (String) mdmItem.get("emp_cd");
 
         Emp emp = null;
         Optional<Emp> oEmp = empRepository.findByEmpCd(empCd);
@@ -61,14 +61,14 @@ public class EmpTxService {
             isEmpty = true;
             emp = Emp.builder()
                     .empCd(empCd)
-                    .empNm(String.valueOf(mdmItem.get("emp_nm")))
-                    .deptCd(String.valueOf(mdmItem.get("dept_cd")))
-                    .deptNm(String.valueOf(mdmItem.get("dept_nm")))
-                    .insttCd(String.valueOf(mdmItem.get("instt_cd")))
-                    .insttNm(String.valueOf(mdmItem.get("instt_nm")))
-                    .belongNm(String.valueOf(mdmItem.get("belong_nm")))
-                    .cardClassTyp(String.valueOf(mdmItem.get("card_class_typ")))
-                    .cardStateTyp(String.valueOf(mdmItem.get("card_state_typ")))
+                    .empNm((String) mdmItem.get("emp_nm"))
+                    .deptCd((String) mdmItem.get("dept_cd"))
+                    .deptNm((String) mdmItem.get("dept_nm"))
+                    .insttCd((String) mdmItem.get("instt_cd"))
+                    .insttNm((String) mdmItem.get("instt_nm"))
+                    .belongNm((String)mdmItem.get("belong_nm"))
+                    .cardClassTyp((String)mdmItem.get("card_class_typ"))
+                    .cardStateTyp((String)mdmItem.get("card_state_typ"))
                     .expiredDt((Timestamp) mdmItem.get("expired_dt"))
                     .mdmDt((Timestamp) mdmItem.get("mdm_dt"))
                     .createdAt(new Timestamp(new Date().getTime()))
@@ -90,14 +90,14 @@ public class EmpTxService {
                 return;
             }
 
-            emp.setEmpNm(String.valueOf(mdmItem.get("emp_nm")));
-            emp.setDeptCd(String.valueOf(mdmItem.get("dept_cd")));
-            emp.setDeptNm(String.valueOf(mdmItem.get("dept_nm")));
-            emp.setInsttCd(String.valueOf(mdmItem.get("instt_cd")));
-            emp.setInsttNm(String.valueOf(mdmItem.get("instt_nm")));
-            emp.setBelongNm(String.valueOf(mdmItem.get("belong_nm")));
-            emp.setCardClassTyp(String.valueOf(mdmItem.get("card_class_typ")));
-            emp.setCardStateTyp(String.valueOf(mdmItem.get("card_state_typ")));
+            emp.setEmpNm((String) mdmItem.get("emp_nm"));
+            emp.setDeptCd((String) mdmItem.get("dept_cd"));
+            emp.setDeptNm((String) mdmItem.get("dept_nm"));
+            emp.setInsttCd((String) mdmItem.get("instt_cd"));
+            emp.setInsttNm((String) mdmItem.get("instt_nm"));
+            emp.setBelongNm((String) mdmItem.get("belong_nm"));
+            emp.setCardClassTyp((String) mdmItem.get("card_class_typ"));
+            emp.setCardStateTyp((String) mdmItem.get("card_state_typ"));
             emp.setExpiredDt((Timestamp) mdmItem.get("expired_dt"));
             emp.setMdmDt((Timestamp) mdmItem.get("mdm_dt"));
             emp.setUpdatedAt(new Timestamp(new Date().getTime()));
@@ -122,8 +122,8 @@ public class EmpTxService {
 
     public void SaveCard(Map<String, Object> mdmItem)
     {
-        String cardNo = String.valueOf(mdmItem.get("card_no"));
-        String cardClassTyp = String.valueOf(mdmItem.get("card_class_typ"));
+        String cardNo = (String) mdmItem.get("card_no");
+        String cardClassTyp = (String) mdmItem.get("card_class_typ");
         if ( "04".equals(cardClassTyp))
         {
             cardNo = cardNo.replaceFirst("^0+(?!$)", "");
@@ -140,12 +140,12 @@ public class EmpTxService {
 
             card = Card.builder()
                     .cardNo(cardNo)
-                    .empCd(String.valueOf(mdmItem.get("emp_cd")))
+                    .empCd((String) mdmItem.get("emp_cd"))
                     .begDt((Timestamp)mdmItem.get("beg_dt"))
                     .endDt((Timestamp)mdmItem.get("end_dt"))
-                    .cardClassTyp(String.valueOf(mdmItem.get("card_class_typ")))
-                    .cardStateTyp(String.valueOf(mdmItem.get("card_state_typ")))
-                    .cardSttusSe(String.valueOf(mdmItem.get("card_sttus_se")))
+                    .cardClassTyp((String) mdmItem.get("card_class_typ"))
+                    .cardStateTyp((String) mdmItem.get("card_state_typ"))
+                    .cardSttusSe((String) mdmItem.get("card_sttus_se"))
                     .mdmDt((Timestamp)mdmItem.get("mdm_dt"))
                     .createdAt(new Timestamp(new Date().getTime()))
                     .updatedAt(new Timestamp(new Date().getTime()))
@@ -154,11 +154,11 @@ public class EmpTxService {
         else
         {
             card = oCard.get();
-            card.setEmpCd(String.valueOf(mdmItem.get("emp_cd")));
+            card.setEmpCd((String) mdmItem.get("emp_cd"));
             card.setBegDt((Timestamp)mdmItem.get("beg_dt"));
             card.setEndDt((Timestamp)mdmItem.get("end_dt"));
-            card.setCardStateTyp(String.valueOf(mdmItem.get("card_state_typ")));
-            card.setCardSttusSe(String.valueOf(mdmItem.get("card_sttus_se")));
+            card.setCardStateTyp((String) mdmItem.get("card_state_typ"));
+            card.setCardSttusSe((String) mdmItem.get("card_sttus_se"));
             card.setMdmDt((Timestamp)mdmItem.get("mdm_dt"));
             card.setUpdatedAt(new Timestamp(new Date().getTime()));
 

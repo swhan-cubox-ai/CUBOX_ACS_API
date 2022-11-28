@@ -71,8 +71,8 @@ public class EmpScheduleService {
                 {
                     EmpMdmErr empMdmErr = EmpMdmErr.builder()
                             .tblNm(tblNm)
-                            .empCd(String.valueOf(mdmItem.get("emp_cd")))
-                            .cardNo(String.valueOf(mdmItem.get("card_no")))
+                            .empCd((String) mdmItem.get("emp_cd"))
+                            .cardNo((String) mdmItem.get("card_no"))
                             .mdmDt((Timestamp)mdmItem.get("mdm_dt"))
                             .error(ex.toString())
                             .createdAt(new Timestamp(new Date().getTime()))
@@ -90,6 +90,7 @@ public class EmpScheduleService {
 
     // 일반출입증/공무원증은 10분 마다, 방문증은 10초마다 동기화하고 있는데
     @Scheduled(cron = "* 0/10 * * * *") // 10분
+    //@Scheduled(cron = "0/10 * * * * *") // 10분
     public void syncCard10Min() {
 
         log.info("syncCard 10 Min ....");
@@ -114,8 +115,8 @@ public class EmpScheduleService {
                 {
                     EmpMdmErr empMdmErr = EmpMdmErr.builder()
                             .tblNm(tblNm)
-                            .empCd(String.valueOf(mdmItem.get("emp_cd")))
-                            .cardNo(String.valueOf(mdmItem.get("card_no")))
+                            .empCd((String) mdmItem.get("emp_cd"))
+                            .cardNo((String) mdmItem.get("card_no"))
                             .mdmDt((Timestamp)mdmItem.get("mdm_dt"))
                             .error(ex.toString())
                             .createdAt(new Timestamp(new Date().getTime()))
@@ -151,8 +152,8 @@ public class EmpScheduleService {
                 {
                     EmpMdmErr empMdmErr = EmpMdmErr.builder()
                             .tblNm(tblNm)
-                            .empCd(String.valueOf(mdmItem.get("emp_cd")))
-                            .cardNo(String.valueOf(mdmItem.get("card_no")))
+                            .empCd((String) mdmItem.get("emp_cd"))
+                            .cardNo((String) mdmItem.get("card_no"))
                             .mdmDt((Timestamp)mdmItem.get("mdm_dt"))
                             .error(ex.toString())
                             .createdAt(new Timestamp(new Date().getTime()))

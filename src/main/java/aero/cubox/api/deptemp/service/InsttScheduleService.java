@@ -49,11 +49,11 @@ public class InsttScheduleService {
 
 
                 Map<String, Object> insttInfo = mdmInsttRcv.get(i);
-                String insttCd = String.valueOf(insttInfo.get("instt_cd"));
-                String insttNm = String.valueOf(insttInfo.get("instt_nm"));
-                String deptCd = String.valueOf(insttInfo.get("dept_cd"));
-                String deptNm = String.valueOf(insttInfo.get("dept_nm"));
-                String insttYn = String.valueOf(insttInfo.get("instt_yn"));
+                String insttCd = (String) insttInfo.get("instt_cd");
+                String insttNm = (String) insttInfo.get("instt_nm");
+                String deptCd = (String) insttInfo.get("dept_cd");
+                String deptNm = (String) insttInfo.get("dept_nm");
+                String insttYn = (String) insttInfo.get("instt_yn");
 
                 int updatedCnt = 0;
                 if ("Y".equals(insttYn)) {
