@@ -78,15 +78,16 @@ public class SyncEmpCardController {
     @GetMapping(value = {Constants.API.API_FACE})
     @ApiOperation(value="사진", notes="사진")
     public ResultVo<String> syncFace(
-           @ApiParam(value = "사원코드", required = true) @RequestParam String empCd
+           @ApiParam(value = "사진Id", required = true) @RequestParam String faceId
     ) throws Exception {
         Map<String, Object> params = new HashMap<>();
-        params.put("empCd", empCd);
+        params.put("id", faceId);
         Face face = faceService.getFace(params);
+        if(face == null){
+            return ResultVo.fail("get FaceInfo Fail");
+        }
         byte[] imgBytes = face.getFaceImg();
-
         String encodeImg = CuboxTerminalUtil.byteArrEncode(imgBytes);
-
         return ResultVo.ok(encodeImg);
     }
 
@@ -94,6 +95,16 @@ public class SyncEmpCardController {
     @ApiOperation(value="출입기록등록", notes="출입기록등록")
     public ResultVo insertEntHist(@RequestBody EntHistVO entHist) throws Exception {
         try {
+            String termainalCd = entHist.getTerminalCd();
+            if(!"".equals(termainalCd)){
+                EntHistVO terminalInfo = entHistService.getTerminalInfoById(termainalCd);
+                entHist.setTerminalTyp(terminalInfo.getTerminalTyp());
+                entHist.setBuildingCd(terminalInfo.getBuildingCd());
+                entHist.setBuildingNm(terminalInfo.getBuildingNm());
+                entHist.setDoorCd(terminalInfo.getDoorCd());
+                entHist.setDoorNm(terminalInfo.getDoorNm());
+            }
+
             entHistService.saveEntHist(entHist);
         } catch (Exception ex){
             return ResultVo.fail("save fail", ex);

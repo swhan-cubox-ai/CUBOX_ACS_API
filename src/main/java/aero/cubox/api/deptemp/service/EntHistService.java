@@ -101,4 +101,9 @@ public class EntHistService extends AbstractService<EntHist, Integer> {
 
     //public List<Card> getCardList(Map<String, Object> params) { return mapper.getCardList(params);}
 
+    public EntHistVO getTerminalInfoById(String terminalCd) {
+        return mapper.getTerminalInfoById(terminalCd);
+    }
+
+
 }

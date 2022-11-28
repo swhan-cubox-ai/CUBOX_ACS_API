@@ -34,7 +34,7 @@ public class CardTest {
         cardList.add("00000001154");
         cardList.add("000000000");
         cardList.add("0001");
-        cardList.add("12345678999848");
+        cardList.add("1740110-14143");
         for(int i=0; i<cardList.size(); i++){
             String originalCard = cardList.get(i);
             String cardNo = cardList.get(i);

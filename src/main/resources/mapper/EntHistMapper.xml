@@ -1,0 +1,15 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="aero.cubox.api.deptemp.mapper.EntHistMapper">
+
+    <select id="getCardList" resultType="aero.cubox.api.deptemp.vo.EntHistVO">
+        select T.terminal_typ, D.door_cd, D.door_nm, D.building_cd, B.building_nm
+        FROM T_TERMINAL T
+                 join T_DOOR D on T.door_cd = D.door_cd
+                 join T_BUILDING B on B.building_cd = D.building_cd
+        where T.terminal_cd = #{terminalCd}
+    </select>
+
+</mapper>
