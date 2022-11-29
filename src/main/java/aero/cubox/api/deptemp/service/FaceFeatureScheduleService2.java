@@ -129,31 +129,37 @@ public class FaceFeatureScheduleService2 {
         RestTemplate restTemplate = new RestTemplate();
 
         try{
-            ResponseEntity<String> response = restTemplate.exchange(archera_host + "/facefeatures", HttpMethod.POST, requestEntity , String.class);
-            JSONObject jObj = new JSONObject(response.getBody());
-            int statusCode = response.getStatusCodeValue();
+//            ResponseEntity<String> response = restTemplate.exchange(archera_host + "/facefeatures", HttpMethod.POST, requestEntity , String.class);
+//            JSONObject jObj = new JSONObject(response.getBody());
+//            int statusCode = response.getStatusCodeValue();
+//
+//            int count = jObj.getInt("count");
+//            JSONObject returnMsgO = jObj.getJSONObject("return_msg");
+//            String returnCd = (String) returnMsgO.get("return_code");
+//            String returnMsg = (String) returnMsgO.get("return_msg");
 
-            int count = jObj.getInt("count");
-            JSONObject returnMsgO = jObj.getJSONObject("return_msg");
-            String returnCd = (String) returnMsgO.get("return_code");
-            String returnMsg = (String) returnMsgO.get("return_msg");
+            String returnCd = "";
+            String returnMsg = "";
+            int count = 1;
+            int statusCode = 200;
 
             if(count == 1){ // feature를 추출하지 못한 파일도 성공코드로 출력하여, count 0 일경우만 정상으로 간주.
                 if (statusCode == 200) {
+
                     // 성공 -- 추출된 feature 값을 바이트배열변환, 암호화 처리후 저장
-                    JSONArray feturesInfo = jObj.getJSONArray("faces_with_features");
-                    JSONObject featuresInfo = feturesInfo.getJSONObject(0);
-                    JSONArray featuresJSON = featuresInfo.getJSONArray("feature_vector");
-                    float[] vectors = new float[featuresJSON.length()];
-                    for (int k=0; k<featuresJSON.length(); k++){
-                        float vector = Float.parseFloat(featuresJSON.get(k).toString());
-                        vectors[k] = vector;
-                    }
+//                    JSONArray feturesInfo = jObj.getJSONArray("faces_with_features");
+//                    JSONObject featuresInfo = feturesInfo.getJSONObject(0);
+//                    JSONArray featuresJSON = featuresInfo.getJSONArray("feature_vector");
+//                    float[] vectors = new float[featuresJSON.length()];
+//                    for (int k=0; k<featuresJSON.length(); k++){
+//                        float vector = Float.parseFloat(featuresJSON.get(k).toString());
+//                        vectors[k] = vector;
+//                    }
+//
+//                    byte[] bytes = CuboxTerminalUtil.floatArrayToByteArray(vectors);
+//                    String feature = CuboxTerminalUtil.byteArrEncode(bytes);
 
-                    byte[] bytes = CuboxTerminalUtil.floatArrayToByteArray(vectors);
-                    String feature = CuboxTerminalUtil.byteArrEncode(bytes);
-
-
+                    String feature = "";
 
                     // STEP 2 - mask feature
 
