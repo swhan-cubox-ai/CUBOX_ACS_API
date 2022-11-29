@@ -106,7 +106,8 @@ public class FaceFeatureScheduleService2 {
                 .createdAt(new Timestamp(new Date().getTime()))
                 .updateAt(new Timestamp(new Date().getTime()))
                 .build();
-        System.out.println(faceFeatureErr);
+        log.info("##########"+faceFeatureErr.getEmpCd() + "error ####################");
+        log.info(faceFeatureErr.getError());
         faceService.saveFaceFeatrueErr(faceFeatureErr);
     }
 

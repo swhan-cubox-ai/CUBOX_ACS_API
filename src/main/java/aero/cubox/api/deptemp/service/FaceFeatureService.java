@@ -25,7 +25,7 @@ public class FaceFeatureService extends AbstractService<FaceFeature, Integer> {
     public List<FaceFeature> findAllByFaceFeatureAlchera()
     {
         String faceFeatureTyp = "FFT003";
-        return repository.findAllByFaceFeatureTypAndFeatureMaskIsNullOrderByIdAsc(faceFeatureTyp);
+        return repository.findTop10ByFaceFeatureTypAndFeatureMaskIsNullOrderByIdAsc(faceFeatureTyp);
     }
 
 }

@@ -10,6 +10,6 @@ public interface FaceFeatureRepository extends JpaRepository<FaceFeature, Intege
 
     Optional<FaceFeature> findFirstByFaceIdAndEmpCdAndFaceFeatureTyp(Integer faceId, String empCd, String faceFeatureTyp);
 
-    List<FaceFeature> findAllByFaceFeatureTypAndFeatureMaskIsNullOrderByIdAsc(String faceFeatureTyp);
+    List<FaceFeature> findTop10ByFaceFeatureTypAndFeatureMaskIsNullOrderByIdAsc(String faceFeatureTyp);
 
 }
