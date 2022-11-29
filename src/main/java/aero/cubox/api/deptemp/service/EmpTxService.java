@@ -51,7 +51,7 @@ public class EmpTxService {
 
     public void SaveEmp(Map<String, Object> mdmItem)
     {
-        String empCd = (String) mdmItem.get("emp_cd");
+        String empCd = String.valueOf(mdmItem.get("emp_cd"));
 
         Emp emp = null;
         Optional<Emp> oEmp = empRepository.findByEmpCd(empCd);
@@ -140,7 +140,7 @@ public class EmpTxService {
 
             card = Card.builder()
                     .cardNo(cardNo)
-                    .empCd((String) mdmItem.get("emp_cd"))
+                    .empCd(String.valueOf(mdmItem.get("emp_cd")))
                     .begDt((Timestamp)mdmItem.get("beg_dt"))
                     .endDt((Timestamp)mdmItem.get("end_dt"))
                     .cardClassTyp((String) mdmItem.get("card_class_typ"))
@@ -154,7 +154,7 @@ public class EmpTxService {
         else
         {
             card = oCard.get();
-            card.setEmpCd((String) mdmItem.get("emp_cd"));
+            card.setEmpCd(String.valueOf(mdmItem.get("emp_cd")));
             card.setBegDt((Timestamp)mdmItem.get("beg_dt"));
             card.setEndDt((Timestamp)mdmItem.get("end_dt"));
             card.setCardStateTyp((String) mdmItem.get("card_state_typ"));

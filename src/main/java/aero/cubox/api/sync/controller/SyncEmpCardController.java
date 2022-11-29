@@ -63,12 +63,12 @@ public class SyncEmpCardController {
     @ApiOperation(value="카드정보", notes="카드정보")
     public ResultVo<List<Card>> syncCard(
             @ApiParam(value = "최종조회카드일시", required = true) @RequestParam String lastSyncDt
-            , @ApiParam(value = "최종조회사원코드", required = true) @RequestParam String lastSyncEmpCd
+            , @ApiParam(value = "최종조회카드번호", required = true) @RequestParam String lastSyncCardNo
             , @ApiParam(value = "조회건수", required = false, defaultValue = "100") @RequestParam(required = false, defaultValue = "100") Integer pageSize
     ) {
         Map<String, Object> params = new HashMap<>();
         params.put("lastSyncDt", lastSyncDt);
-        params.put("lastSyncEmpCd", lastSyncEmpCd);
+        params.put("lastSyncCardNo", lastSyncCardNo);
         params.put("pageSize", pageSize);
         List<Card> list = cardService.getCardList(params);
         return ResultVo.ok(list);

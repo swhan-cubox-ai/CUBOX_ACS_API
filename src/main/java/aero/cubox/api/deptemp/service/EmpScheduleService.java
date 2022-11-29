@@ -71,7 +71,7 @@ public class EmpScheduleService {
                 {
                     EmpMdmErr empMdmErr = EmpMdmErr.builder()
                             .tblNm(tblNm)
-                            .empCd((String) mdmItem.get("emp_cd"))
+                            .empCd(String.valueOf(mdmItem.get("emp_cd")))
                             .cardNo((String) mdmItem.get("card_no"))
                             .mdmDt((Timestamp)mdmItem.get("mdm_dt"))
                             .error(ex.toString())
@@ -115,7 +115,7 @@ public class EmpScheduleService {
                 {
                     EmpMdmErr empMdmErr = EmpMdmErr.builder()
                             .tblNm(tblNm)
-                            .empCd((String) mdmItem.get("emp_cd"))
+                            .empCd(String.valueOf(mdmItem.get("emp_cd")))
                             .cardNo((String) mdmItem.get("card_no"))
                             .mdmDt((Timestamp)mdmItem.get("mdm_dt"))
                             .error(ex.toString())
@@ -152,7 +152,7 @@ public class EmpScheduleService {
                 {
                     EmpMdmErr empMdmErr = EmpMdmErr.builder()
                             .tblNm(tblNm)
-                            .empCd((String) mdmItem.get("emp_cd"))
+                            .empCd(String.valueOf(mdmItem.get("emp_cd")))
                             .cardNo((String) mdmItem.get("card_no"))
                             .mdmDt((Timestamp)mdmItem.get("mdm_dt"))
                             .error(ex.toString())

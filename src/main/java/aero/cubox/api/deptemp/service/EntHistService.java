@@ -54,7 +54,9 @@ public class EntHistService extends AbstractService<EntHist, Integer> {
 
 
         EntHist entHist = new EntHist();
-        entHist.setEvtDt(entHistVo.getEvtDt());
+
+        //entHist.setEvtDt(entHistVo.getEvtDt());
+        entHist.setEvtDt(Timestamp.valueOf(entHistVo.getEvtDt()));
         entHist.setEntEvtTyp(entHistVo.getEntEvtTyp());
         entHist.setTerminalCd(entHistVo.getTerminalCd());
         entHist.setEmpCd(entHistVo.getEmpCd());
@@ -64,13 +66,16 @@ public class EntHistService extends AbstractService<EntHist, Integer> {
         entHist.setCardClassTyp(entHistVo.getCardClassTyp());
         entHist.setCardStateTyp(entHistVo.getCardStateTyp());
         entHist.setCardTagTyp(entHistVo.getCardTagTyp());
-        entHist.setBegDt(entHistVo.getBegDt());
-        entHist.setEndDt(entHistVo.getEndDt());
+        entHist.setBegDt(Timestamp.valueOf(entHistVo.getBegDt()));
+        //entHist.setEndDt(entHistVo.getEndDt());
+        entHist.setBegDt(Timestamp.valueOf(entHistVo.getEndDt()));
         entHist.setAuthWayTyp(entHistVo.getAuthWayTyp());
         entHist.setMatchScore(entHistVo.getMatchScore());
         entHist.setFaceThreshold(entHistVo.getFaceThreshold());
-        entHist.setCaptureAt(entHistVo.getCaptureAt());
-        entHist.setTagAt(entHistVo.getTagAt());
+//        entHist.setCaptureAt(entHistVo.getCaptureAt());
+//        entHist.setTagAt(entHistVo.getTagAt());
+        entHist.setBegDt(Timestamp.valueOf(entHistVo.getCaptureAt()));
+        entHist.setBegDt(Timestamp.valueOf(entHistVo.getTagAt()));
         entHist.setTagCardNo(entHistVo.getTagCardNo());
         entHist.setTagEmpCd(entHistVo.getTagEmpCd());
         entHist.setTemper(entHistVo.getTemper());

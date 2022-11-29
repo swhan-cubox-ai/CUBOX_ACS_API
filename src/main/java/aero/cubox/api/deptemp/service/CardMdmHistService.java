@@ -32,7 +32,7 @@ public class CardMdmHistService extends AbstractService<CardMdmHist, Integer> {
 
         CardMdmHist hist = CardMdmHist.builder()
             .tblNm(tblNm)
-            .empCd((String) mdmItem.get("emp_cd"))
+            .empCd(String.valueOf(mdmItem.get("emp_cd")))
             .cardNo((String) mdmItem.get("card_no"))
             .begDt((Timestamp)mdmItem.get("beg_dt"))
             .endDt((Timestamp)mdmItem.get("end_dt"))

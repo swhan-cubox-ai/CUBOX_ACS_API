@@ -6,9 +6,9 @@
     <select id="getCardList" resultType="aero.cubox.api.domain.entity.Card">
         SELECT C.*
         FROM T_CARD C
-        WHERE C.mdm_dt >= #{lastSyncDt}
-          AND C.emp_cd > #{lastSyncEmpCd}
-        ORDER BY C.mdm_dt ASC, C.emp_cd ASC
+        WHERE C.updated_at > #{lastSyncDt}
+          OR (C.updated_at = #{lastSyncDt} AND C.card_no > #{lastSyncCardNo})
+        ORDER BY C.updated_at ASC, C.card_no ASC
         LIMIT #{pageSize}
     </select>
 

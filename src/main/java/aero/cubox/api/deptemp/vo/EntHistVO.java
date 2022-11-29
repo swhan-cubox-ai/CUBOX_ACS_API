@@ -9,7 +9,7 @@ public class EntHistVO {
 
     private Integer id;
 
-    private Timestamp evtDt;
+    private String evtDt;
 
     private String entEvtTyp;
 
@@ -29,9 +29,9 @@ public class EntHistVO {
 
     private String cardTagTyp;
 
-    private Timestamp begDt;
+    private String begDt;
 
-    private Timestamp endDt;
+    private String endDt;
 
     private String authWayTyp;
 
@@ -39,9 +39,9 @@ public class EntHistVO {
 
     private Float faceThreshold;
 
-    private Timestamp captureAt;
+    private String captureAt;
 
-    private Timestamp tagAt;
+    private String tagAt;
 
     private String tagCardNo;
 
@@ -65,9 +65,9 @@ public class EntHistVO {
 
     private String deptNm;
 
-    private Timestamp createdAt;
+    private String createdAt;
 
-    private Timestamp updatedAt;
+    private String updatedAt;
 
     private String entFaceImg;
 
@@ -79,11 +79,11 @@ public class EntHistVO {
         this.id = id;
     }
 
-    public Timestamp getEvtDt() {
+    public String getEvtDt() {
         return evtDt;
     }
 
-    public void setEvtDt(Timestamp evtDt) {
+    public void setEvtDt(String evtDt) {
         this.evtDt = evtDt;
     }
 
@@ -159,19 +159,19 @@ public class EntHistVO {
         this.cardTagTyp = cardTagTyp;
     }
 
-    public Timestamp getBegDt() {
+    public String getBegDt() {
         return begDt;
     }
 
-    public void setBegDt(Timestamp begDt) {
+    public void setBegDt(String begDt) {
         this.begDt = begDt;
     }
 
-    public Timestamp getEndDt() {
+    public String getEndDt() {
         return endDt;
     }
 
-    public void setEndDt(Timestamp endDt) {
+    public void setEndDt(String endDt) {
         this.endDt = endDt;
     }
 
@@ -199,19 +199,19 @@ public class EntHistVO {
         this.faceThreshold = faceThreshold;
     }
 
-    public Timestamp getCaptureAt() {
+    public String getCaptureAt() {
         return captureAt;
     }
 
-    public void setCaptureAt(Timestamp captureAt) {
+    public void setCaptureAt(String captureAt) {
         this.captureAt = captureAt;
     }
 
-    public Timestamp getTagAt() {
+    public String getTagAt() {
         return tagAt;
     }
 
-    public void setTagAt(Timestamp tagAt) {
+    public void setTagAt(String tagAt) {
         this.tagAt = tagAt;
     }
 
@@ -303,19 +303,19 @@ public class EntHistVO {
         this.deptNm = deptNm;
     }
 
-    public Timestamp getCreatedAt() {
+    public String getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Timestamp createdAt) {
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Timestamp getUpdatedAt() {
+    public String getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Timestamp updatedAt) {
+    public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
     }
 
