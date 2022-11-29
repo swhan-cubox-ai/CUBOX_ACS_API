@@ -76,7 +76,7 @@ public class FaceFeatureScheduleService2 {
                 else
                 {
                     Face face = oFace.get();
-                    String archeraStatus = archeraApi(face);
+                    String archeraStatus = archeraApi(face, faceFeature);
                     log.info(i + " data complete.  Archera Status" + archeraStatus);
                     if("ok".equals(archeraStatus)){
                         face.setUpdatedAt(new Timestamp(new Date().getTime()));
@@ -116,7 +116,7 @@ public class FaceFeatureScheduleService2 {
      * @param face
      * @return
      */
-    public String archeraApi(Face face){
+    public String archeraApi(Face face, FaceFeature faceFeature){
 
         String featureStatus = "err";
 
@@ -177,15 +177,19 @@ public class FaceFeatureScheduleService2 {
                         // faceFeatures, align, mask 모두 성공시 저장
                         if("ok".equals(maskStatus)){
                             String feature_mask = maskResult.get("maskFeature");
-                            FaceFeature faceFeature = null;
-                            faceFeature = FaceFeature.builder()
-                                    .faceId(face.getId())
-                                    .empCd(face.getEmpCd())
-                                    .faceFeatureTyp("FFT003") //archera CPU
-                                    .feature(feature)
-                                    .featureMask(feature_mask)
-                                    .createdAt(new Timestamp(new Date().getTime()))
-                                    .build();
+//                            FaceFeature faceFeature = null;
+//                            faceFeature = FaceFeature.builder()
+//                                    .faceId(face.getId())
+//                                    .empCd(face.getEmpCd())
+//                                    .faceFeatureTyp("FFT003") //archera CPU
+//                                    .feature(feature)
+//                                    .featureMask(feature_mask)
+//                                    .createdAt(new Timestamp(new Date().getTime()))
+//                                    .build();
+
+                            faceFeature.setFeatureMask(feature_mask);
+                            faceFeature.setUpdatedAt(new Timestamp(new Date().getTime()));
+
                             log.info(String.valueOf(face.getId())+ "= id #########");
                             log.info(feature);
                             log.info(feature_mask);
