@@ -11,4 +11,12 @@
         LIMIT 1
     </select>
 
+
+    <select id="getFaceFeatureMasknull" resultType="aero.cubox.api.domain.entity.Face">
+        select face_img FROM T_FACE f
+         join T_FACE_FEATURE ff on f.id =ff.face_id and ff.face_feature_typ = 'FFT003' and ff.feature_mask is null
+        limit 100
+    </select>
+
+
 </mapper>

@@ -65,4 +65,9 @@ public class FaceService extends AbstractService<Face, Integer> {
         return mapper.getFace(params);
     }
 
+    public List<Face> getFaceFeatureMasknull()
+    {
+        return mapper.getFaceFeatureMasknull();
+    }
+
 }

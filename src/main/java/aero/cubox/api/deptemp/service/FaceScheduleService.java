@@ -31,7 +31,8 @@ import java.util.*;
 @Service
 @Slf4j
 @EnableScheduling
-@Profile("imsiface")
+//@Profile("imsiface")
+@Profile("local")
 public class FaceScheduleService {
 
     @Autowired

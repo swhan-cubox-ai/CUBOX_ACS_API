@@ -38,6 +38,9 @@ public class FaceFeature implements Serializable {
     @Column(name = "feature")
     private String feature;
 
+    @Column(name = "feature_mask")
+    private String featureMask;
+
     @Column(name = "created_at")
     private Timestamp createdAt;
 

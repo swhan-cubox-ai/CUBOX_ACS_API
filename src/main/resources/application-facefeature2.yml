@@ -1,0 +1,40 @@
+spring:
+  datasource:
+    jdbc-url: jdbc:mysql://172.30.134.249:3306/cubox_acs?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul
+    username: acs
+    password: cubox2022!
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      auto-commit: true
+      maximum-pool-size: 15
+      minimum-idle: 15
+  datasource2:
+    jdbc-url: jdbc:CUBRID:172.30.110.83:30000:gacsmdm:mdmsjsc:chungsamdmsjsc!@:?charset=UTF-8
+    username: mdmsjsc
+    password: chungsamdmsjsc!@
+    driver-class-name: cubrid.jdbc.driver.CUBRIDDriver
+    hikari:
+      auto-commit: true
+      maximum-pool-size: 15
+      minimum-idle: 15
+  jpa:
+    show-sql: true
+    database: mysql
+  devtools:
+    restart:
+      enabled: true
+    livereload:
+      enabled: true
+
+server:
+  port: 8090
+
+cuboxacs:
+  tokenTimeoutMinute: 600
+  refreshTokenTimeoutMinute: 1440
+  jwtSecretKey: fKbSemnZa9KSNauW
+  upload_directory : /home/gacs
+  move_directory : /home/gacs
+  cubox_frs_host: http://172.30.134.248:8081
+  archera_api_host: http://172.30.134.249:9297
+

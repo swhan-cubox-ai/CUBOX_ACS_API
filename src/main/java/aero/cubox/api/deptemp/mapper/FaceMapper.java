@@ -11,4 +11,6 @@ import java.util.Map;
 public interface FaceMapper {
 
     public Face getFace(Map<String, Object> params);
+
+    public List<Face> getFaceFeatureMasknull();
 }

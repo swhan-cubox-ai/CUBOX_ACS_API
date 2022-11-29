@@ -20,21 +20,14 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.sql.Timestamp;
 import java.util.*;
 
 @Service
 @Slf4j
 @EnableScheduling
-//@Profile("imsimdm")
-//@Profile("facefeature")
-@Profile("local")
-public class FaceFeatureScheduleService {
+@Profile("facefeature2")
+public class FaceFeatureScheduleService2 {
 
     @Autowired
     private FaceService faceService;
@@ -55,13 +48,13 @@ public class FaceFeatureScheduleService {
     String archera_host;
 
     @Scheduled(cron = "0/10 * * * * *")
-    public void getFeatures() throws JSONException {
+    public void getFeatures2() throws JSONException {
 
-        log.info("getFeatures....");
+        log.info("getFeatures2....");
 
         while ( true )
         {
-            List<Face> faceList = faceService.findTop100ByFaceStateTyp("FST001"); // 대기상태
+            List<Face> faceList = faceService.getFaceFeatureMasknull(); //
             if ( faceList.size() == 0)
             {
                 break;
@@ -71,132 +64,18 @@ public class FaceFeatureScheduleService {
 
                 Face face = faceList.get(i);
 
-                int cnt = 0;
-                String cuboxStatus = cuboxApi(face);
-                log.info(i + " data complete. cubox Status : " + cuboxStatus);
-                if("ok".equals(cuboxStatus)) cnt++;
-
                 String archeraStatus = archeraApi(face);
                 log.info(i + " data complete.  Archera Status" + archeraStatus);
-                if("ok".equals(archeraStatus)) cnt++;
-
-                // cubox, Alchera 둘다 성공시 FACE 정보 업데이트.
-                if(cnt == 2){
-                    face.setFaceStateTyp("FST002"); // 성공
-
-                    // 이미지 특징점 추출 성공 시 T_EMP.face_id 갱신
-                    Optional<Emp> oEmp = empService.findByEmpCd(face.getEmpCd());
-                    if ( oEmp.isPresent())
-                    {
-                        Emp emp  = oEmp.get();
-                        emp.setFaceId(face.getId());
-                        emp.setUpdatedAt(new Timestamp(new Date().getTime()));
-                        empService.save(emp);
-                    }
-                    
-                } else { // 둘중하나라도 실패시 추출실패.
-                    face.setFaceStateTyp("FST003"); // 실패
+                if("ok".equals(archeraStatus)){
+                    face.setUpdatedAt(new Timestamp(new Date().getTime()));
+                    log.info("#### " + face.getId() + "### save  ########## ");
+                    faceService.save(face);
                 }
-                faceService.save(face);
-
             }
         }
 
     }
 
-    /**
-     * cubox Api -- feature값 추출 후 DB저장
-     * @param face
-     * @return
-     * @throws JSONException
-     */
-    public String cuboxApi(Face face) throws JSONException {
-        String featureStatus = "err";
-
-        byte[] arr = (byte[]) face.getFaceImg();
-        String filename = "tmp";
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-        headers.add("accept", MediaType.APPLICATION_JSON_VALUE);
-
-        MultiValueMap<String, String> fileMap = new LinkedMultiValueMap<>();
-        ContentDisposition contentDisposition = ContentDisposition
-                .builder("form-data")
-                .name("image")
-                .filename(filename)
-                .build();
-        fileMap.add(HttpHeaders.CONTENT_DISPOSITION, contentDisposition.toString());
-        fileMap.add(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_JPEG_VALUE);
-        HttpEntity<byte[]> fileEntity = new HttpEntity<>(arr, fileMap);
-
-        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-        body.add("image", fileEntity);
-
-        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
-
-        String serverUrl = cubox_host + "/v1/cpu/file/feature";
-
-        RestTemplate restTemplate = new RestTemplate();
-        try{
-
-            ResponseEntity<String> response = restTemplate.postForEntity(serverUrl, requestEntity, String.class);
-
-            JSONObject jObj = new JSONObject(response.getBody());
-            int statusCode = response.getStatusCodeValue();
-
-            //face.setFaceStateTyp("FFT001");  //씨유박스 CPU
-
-            if (statusCode == 200) {
-
-                String feature = (String) jObj.get("feature");
-
-                FaceFeature faceFeature = null;
-//                Optional<FaceFeature> oFaceFeature = faceService.findFaceFeatrue(face.getId(), face.getEmpCd(), "FFT001");
-//                if ( oFaceFeature.isEmpty())
-//                {
-//                    faceFeature = FaceFeature.builder()
-//                            .faceId(face.getId())
-//                            .empCd(face.getEmpCd())
-//                            .faceFeatureTyp("FFT001") //씨유박스 CPU
-//                            .feature(feature)
-//                            .createdAt(new Timestamp(new Date().getTime()))
-//                            .build();
-//                }
-//                else
-//                {
-//                    faceFeature = oFaceFeature.get();
-//                    faceFeature.setFaceId(face.getId());
-//                    faceFeature.setEmpCd(face.getEmpCd());
-//                    faceFeature.setFaceFeatureTyp("FFT001"); //씨유박스 CPU;
-//                    faceFeature.setFeature(feature);
-//                    faceFeature.setCreatedAt(new Timestamp(new Date().getTime()));
-//                }
-                faceFeature = FaceFeature.builder()
-                    .faceId(face.getId())
-                    .empCd(face.getEmpCd())
-                    .faceFeatureTyp("FFT001") //씨유박스 CPU
-                    .feature(feature)
-                    .createdAt(new Timestamp(new Date().getTime()))
-                    .updatedAt(new Timestamp(new Date().getTime()))
-                    .build();
-                faceService.saveFaceFeatrue(faceFeature);
-
-                featureStatus = "ok";
-
-            } else {
-                // Validation Error
-
-                SaveError(face, "FFT001", "data validation Error. StatusCode : " + statusCode);
-            };
-
-
-        } catch (Exception e){
-            SaveError(face, "FFT001", e.getMessage());
-        }
-
-        return featureStatus;
-    };
 
     public void SaveError(Face face, String  faceStateTyp, String errMsg)
     {
@@ -208,6 +87,7 @@ public class FaceFeatureScheduleService {
                 .createdAt(new Timestamp(new Date().getTime()))
                 .updateAt(new Timestamp(new Date().getTime()))
                 .build();
+        System.out.println(faceFeatureErr);
         faceService.saveFaceFeatrueErr(faceFeatureErr);
     }
 
@@ -280,6 +160,9 @@ public class FaceFeatureScheduleService {
                                     .featureMask(feature_mask)
                                     .createdAt(new Timestamp(new Date().getTime()))
                                     .build();
+                            log.info(String.valueOf(face.getId())+ "= id #########");
+                            log.info(feature);
+                            log.info(feature_mask);
                             faceService.saveFaceFeatrue(faceFeature);
 
                             featureStatus = "ok";
