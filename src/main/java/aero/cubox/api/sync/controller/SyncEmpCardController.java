@@ -11,6 +11,7 @@ import aero.cubox.api.domain.entity.Face;
 import aero.cubox.api.domain.vo.ResultVo;
 import aero.cubox.api.sync.vo.EmpVo;
 import aero.cubox.api.util.CuboxTerminalUtil;
+import com.github.pagehelper.util.StringUtil;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,9 +95,12 @@ public class SyncEmpCardController {
     @PostMapping(value = {"/enthist"})
     @ApiOperation(value="출입기록등록", notes="출입기록등록")
     public ResultVo insertEntHist(@RequestBody EntHistVO entHist) throws Exception {
+        if(StringUtil.isEmpty(entHist.getTerminalCd()) || StringUtil.isEmpty(entHist.getEvtDt()) ) {
+            return ResultVo.fail("terminalCd or evtDt is empty");
+        }
         try {
             String termainalCd = entHist.getTerminalCd();
-            if(!"".equals(termainalCd)){
+            if(!StringUtil.isEmpty(termainalCd)){
                 EntHistVO terminalInfo = entHistService.getTerminalInfoById(termainalCd);
                 if(terminalInfo != null){
                     String terminalTyp = terminalInfo.getTerminalTyp();

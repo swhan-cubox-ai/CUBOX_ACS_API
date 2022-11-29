@@ -12,6 +12,7 @@ import aero.cubox.api.domain.entity.EntHistBio;
 import aero.cubox.api.domain.entity.FaceFeature;
 import aero.cubox.api.service.AbstractService;
 import aero.cubox.api.util.CuboxTerminalUtil;
+import com.github.pagehelper.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -56,7 +57,7 @@ public class EntHistService extends AbstractService<EntHist, Integer> {
         EntHist entHist = new EntHist();
 
         //entHist.setEvtDt(entHistVo.getEvtDt());
-        entHist.setEvtDt(Timestamp.valueOf(entHistVo.getEvtDt()));
+        entHist.setEvtDt(Timestamp.valueOf(entHistVo.getEvtDt())); // YYYY-MM-DD hh:mm:ss.ssssss
         entHist.setEntEvtTyp(entHistVo.getEntEvtTyp());
         entHist.setTerminalCd(entHistVo.getTerminalCd());
         entHist.setEmpCd(entHistVo.getEmpCd());
@@ -66,16 +67,16 @@ public class EntHistService extends AbstractService<EntHist, Integer> {
         entHist.setCardClassTyp(entHistVo.getCardClassTyp());
         entHist.setCardStateTyp(entHistVo.getCardStateTyp());
         entHist.setCardTagTyp(entHistVo.getCardTagTyp());
-        entHist.setBegDt(Timestamp.valueOf(entHistVo.getBegDt()));
+        if (!StringUtil.isEmpty(entHistVo.getBegDt())) { entHist.setBegDt(Timestamp.valueOf(entHistVo.getBegDt())); }
         //entHist.setEndDt(entHistVo.getEndDt());
-        entHist.setBegDt(Timestamp.valueOf(entHistVo.getEndDt()));
+        if (!StringUtil.isEmpty(entHistVo.getEndDt())) { entHist.setBegDt(Timestamp.valueOf(entHistVo.getEndDt())); }
         entHist.setAuthWayTyp(entHistVo.getAuthWayTyp());
         entHist.setMatchScore(entHistVo.getMatchScore());
         entHist.setFaceThreshold(entHistVo.getFaceThreshold());
 //        entHist.setCaptureAt(entHistVo.getCaptureAt());
 //        entHist.setTagAt(entHistVo.getTagAt());
-        entHist.setBegDt(Timestamp.valueOf(entHistVo.getCaptureAt()));
-        entHist.setBegDt(Timestamp.valueOf(entHistVo.getTagAt()));
+        if (!StringUtil.isEmpty(entHistVo.getCaptureAt())) { entHist.setBegDt(Timestamp.valueOf(entHistVo.getCaptureAt())); }
+        if (!StringUtil.isEmpty(entHistVo.getTagAt())) { entHist.setBegDt(Timestamp.valueOf(entHistVo.getTagAt())); }
         entHist.setTagCardNo(entHistVo.getTagCardNo());
         entHist.setTagEmpCd(entHistVo.getTagEmpCd());
         entHist.setTemper(entHistVo.getTemper());
