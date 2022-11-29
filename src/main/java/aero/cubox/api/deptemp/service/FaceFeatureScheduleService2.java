@@ -32,6 +32,8 @@ public class FaceFeatureScheduleService2 {
     @Autowired
     private FaceService faceService;
 
+    @Autowired
+    private FaceFeatureService faceFeatureService;
 
     @Autowired
     private EmpService empService;
@@ -54,23 +56,40 @@ public class FaceFeatureScheduleService2 {
 
         while ( true )
         {
-            List<Face> faceList = faceService.getFaceFeatureMasknull(); //
-            if ( faceList.size() == 0)
+            List<FaceFeature> faceFeatureList = faceFeatureService.findAllByFaceFeatureAlchera();
+            //List<Face> faceList = faceService.getFaceFeatureMasknull(); //
+            if ( faceFeatureList.size() == 0)
             {
                 break;
             }
 
-            for(int i=0; i<faceList.size(); i++) {
+            for(int i=0; i<faceFeatureList.size(); i++) {
 
-                Face face = faceList.get(i);
+                FaceFeature faceFeature = faceFeatureList.get(i);
 
-                String archeraStatus = archeraApi(face);
-                log.info(i + " data complete.  Archera Status" + archeraStatus);
-                if("ok".equals(archeraStatus)){
-                    face.setUpdatedAt(new Timestamp(new Date().getTime()));
-                    log.info("#### " + face.getId() + "### save  ########## ");
-                    faceService.save(face);
+                Optional<Face> oFace = faceService.fetchById(faceFeature.getFaceId());
+                if ( oFace.isEmpty() )
+                {
+                    // no expected
+                    faceFeatureService.delete(faceFeature.getId());
                 }
+                else
+                {
+                    Face face = oFace.get();
+                    String archeraStatus = archeraApi(face);
+                    log.info(i + " data complete.  Archera Status" + archeraStatus);
+                    if("ok".equals(archeraStatus)){
+                        face.setUpdatedAt(new Timestamp(new Date().getTime()));
+                        log.info("#### " + face.getId() + "### save  ########## ");
+                        faceService.save(face);
+                    }
+                    else {
+                        // 실패 시 feature 도 삭제
+                        faceFeatureService.delete(faceFeature.getId());
+                    }
+                }
+
+
             }
         }
 
@@ -133,6 +152,11 @@ public class FaceFeatureScheduleService2 {
                     byte[] bytes = CuboxTerminalUtil.floatArrayToByteArray(vectors);
                     String feature = CuboxTerminalUtil.byteArrEncode(bytes);
 
+
+
+                    // STEP 2 - mask feature
+
+                    // /alignedfaces
                     // alignedFace , masking 진행후 특징점을 리턴
                     Map<String, String> alignResult = alignFace(requestEntity);
                     String alignStatus = alignResult.get("alignStatus"); // ok or err
@@ -143,6 +167,7 @@ public class FaceFeatureScheduleService2 {
                         String alignedImage = alignResult.get("alignedImage");
                         byte[] decodedBytes = Base64.getDecoder().decode(alignedImage);
 
+                        // /feature/masking
                         Map<String, String> maskResult = featureMask(decodedBytes);
 
                         String maskStatus = maskResult.get("maskStatus"); // ok or err

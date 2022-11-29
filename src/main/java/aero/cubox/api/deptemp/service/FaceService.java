@@ -29,6 +29,7 @@ public class FaceService extends AbstractService<Face, Integer> {
     @Autowired
     private FaceRepository repository;
 
+    // TO-DO FaceFeatureService로 이동
     @Autowired
     private FaceFeatureRepository faceFeatureRepo;
 
