@@ -115,7 +115,7 @@ public class SyncEmpCardController {
             if(!StringUtil.isEmpty(empCd)){
                 Optional<Emp> oEmp  = empService.findByEmpCd(empCd);
                 Emp emp = oEmp.get();
-                if( oEmp.isEmpty() ){
+                if( oEmp.isPresent() ){
                     String deptNm = emp.getDeptNm();
                     String deptCd = emp.getDeptCd();
                     String belongNm = emp.getBelongNm();

@@ -87,6 +87,8 @@ public class EntHistService extends AbstractService<EntHist, Integer> {
         entHist.setBuildingCd(entHistVo.getBuildingCd());
         entHist.setBuildingNm(entHistVo.getBuildingNm());
         entHist.setDeptCd(entHistVo.getDeptCd());
+        entHist.setDeptNm(entHistVo.getDeptNm());
+        entHist.setBelongNm(entHistVo.getBelongNm());
         entHist.setCreatedAt(new Timestamp(new Date().getTime()));
         entHist.setUpdatedAt(new Timestamp(new Date().getTime()));
 
