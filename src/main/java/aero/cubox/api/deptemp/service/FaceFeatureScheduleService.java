@@ -71,17 +71,41 @@ public class FaceFeatureScheduleService {
 
                 Face face = faceList.get(i);
 
+                String archeraOk = "N";
+                String cuboxOk = "N";
+
                 int cnt = 0;
                 String cuboxStatus = cuboxApi(face);
                 log.info(i + " data complete. cubox Status : " + cuboxStatus);
-                if("ok".equals(cuboxStatus)) cnt++;
+//                if("ok".equals(cuboxStatus)) cnt++;
+                if("ok".equals(cuboxStatus)) cuboxOk = "Y";
 
                 String archeraStatus = archeraApi(face);
                 log.info(i + " data complete.  Archera Status" + archeraStatus);
-                if("ok".equals(archeraStatus)) cnt++;
+//                if("ok".equals(archeraStatus)) cnt++;
+                if("ok".equals(archeraStatus)) archeraOk = "Y";
+
+//                // cubox, Alchera 둘다 성공시 FACE 정보 업데이트.
+//                if(cnt == 2){
+//                    face.setFaceStateTyp("FST002"); // 성공
+//
+//                    // 이미지 특징점 추출 성공 시 T_EMP.face_id 갱신
+//                    Optional<Emp> oEmp = empService.findByEmpCd(face.getEmpCd());
+//                    if ( oEmp.isPresent())
+//                    {
+//                        Emp emp  = oEmp.get();
+//                        emp.setFaceId(face.getId());
+//                        emp.setUpdatedAt(new Timestamp(new Date().getTime()));
+//                        empService.save(emp);
+//                    }
+//
+//                } else { // 둘중하나라도 실패시 추출실패.
+//                    face.setFaceStateTyp("FST003"); // 실패
+//                }
+//                faceService.save(face);
 
                 // cubox, Alchera 둘다 성공시 FACE 정보 업데이트.
-                if(cnt == 2){
+                if("Y".equals(archeraOk)){ //알체라 성공시 성공
                     face.setFaceStateTyp("FST002"); // 성공
 
                     // 이미지 특징점 추출 성공 시 T_EMP.face_id 갱신
@@ -93,8 +117,8 @@ public class FaceFeatureScheduleService {
                         emp.setUpdatedAt(new Timestamp(new Date().getTime()));
                         empService.save(emp);
                     }
-                    
-                } else { // 둘중하나라도 실패시 추출실패.
+
+                } else if ("N".equals(archeraOk)){ // 알체라실패시 실패
                     face.setFaceStateTyp("FST003"); // 실패
                 }
                 faceService.save(face);

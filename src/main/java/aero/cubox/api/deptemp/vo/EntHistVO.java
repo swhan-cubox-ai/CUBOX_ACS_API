@@ -72,6 +72,8 @@ public class EntHistVO {
 
     private String deptNm;
 
+    private String belongNm;
+
     private String createdAt;
 
     private String updatedAt;

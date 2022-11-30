@@ -4,10 +4,7 @@ package aero.cubox.api.sync.controller;
 import aero.cubox.api.common.Constants;
 import aero.cubox.api.deptemp.service.*;
 import aero.cubox.api.deptemp.vo.EntHistVO;
-import aero.cubox.api.domain.entity.Card;
-import aero.cubox.api.domain.entity.EntHist;
-import aero.cubox.api.domain.entity.EntHistBio;
-import aero.cubox.api.domain.entity.Face;
+import aero.cubox.api.domain.entity.*;
 import aero.cubox.api.domain.vo.ResultVo;
 import aero.cubox.api.sync.vo.EmpVo;
 import aero.cubox.api.util.CuboxTerminalUtil;
@@ -18,10 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @RestController
@@ -114,6 +108,20 @@ public class SyncEmpCardController {
                     entHist.setBuildingNm(buildingNm);
                     entHist.setDoorCd(doorCd);
                     entHist.setDoorNm(doorNm);
+                }
+            }
+
+            String empCd = entHist.getEmpCd();
+            if(!StringUtil.isEmpty(empCd)){
+                Optional<Emp> oEmp  = empService.findByEmpCd(empCd);
+                Emp emp = oEmp.get();
+                if( oEmp.isEmpty() ){
+                    String deptNm = emp.getDeptNm();
+                    String deptCd = emp.getDeptCd();
+                    String belongNm = emp.getBelongNm();
+                    entHist.setDeptCd(deptCd);
+                    entHist.setDeptNm(deptNm);
+                    entHist.setBelongNm(belongNm);
                 }
             }
 

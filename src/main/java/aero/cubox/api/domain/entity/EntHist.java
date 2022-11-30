@@ -112,6 +112,9 @@ public class EntHist implements Serializable {
     @Column(name = "dept_nm")
     private String deptNm;
 
+    @Column(name = "belong_nm")
+    private String belongNm;
+
     @Column(name = "created_at")
     private Timestamp createdAt;
 

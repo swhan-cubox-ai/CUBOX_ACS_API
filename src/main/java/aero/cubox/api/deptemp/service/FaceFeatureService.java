@@ -28,4 +28,18 @@ public class FaceFeatureService extends AbstractService<FaceFeature, Integer> {
         return repository.findTop10ByFaceFeatureTypAndFeatureMaskIsNullOrderByIdAsc(faceFeatureTyp);
     }
 
+    public List<FaceFeature> findAllByFaceFeatureAlchera2()
+    {
+        String faceFeatureTyp = "FFT003";
+        int faceId = 145000;
+        return repository.findTop10ByFaceFeatureTypAndFeatureMaskIsNullAndFaceIdIsLessThanOrderByIdAsc(faceFeatureTyp, faceId);
+    }
+
+    public List<FaceFeature> findAllByFaceFeatureAlchera3()
+    {
+        String faceFeatureTyp = "FFT003";
+        int faceId = 145000;
+        return repository.findTop10ByFaceFeatureTypAndFeatureMaskIsNullAndFaceIdIsGreaterThanEqualOrderByIdAsc(faceFeatureTyp, faceId);
+    }
+
 }
