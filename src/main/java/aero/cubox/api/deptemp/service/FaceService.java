@@ -15,6 +15,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -69,6 +70,16 @@ public class FaceService extends AbstractService<Face, Integer> {
     public List<Face> getFaceFeatureMasknull()
     {
         return mapper.getFaceFeatureMasknull();
+    }
+
+    public List<Face> feature2732()
+    {
+        List<Face> test = new ArrayList<>();
+        return test;
+    }
+
+    public List<Face> findTop100ByIdGreaterThanOrderByIdAsc(int id){
+        return repository.findTop100ByIdGreaterThanOrderByIdAsc(id);
     }
 
 }

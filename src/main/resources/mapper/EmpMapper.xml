@@ -4,7 +4,7 @@
 
 <mapper namespace="aero.cubox.api.deptemp.mapper.EmpMapper">
     <select id="getEmpList" resultType="aero.cubox.api.sync.vo.EmpVo">
-        SELECT E.*, F.feature
+        SELECT E.*, F.feature, F.feature_mask
         FROM T_EMP E
             LEFT OUTER JOIN T_FACE_FEATURE F ON E.face_id = F.face_id AND F.face_feature_typ = #{featureTyp}
         WHERE E.updated_at > #{lastSyncDt}

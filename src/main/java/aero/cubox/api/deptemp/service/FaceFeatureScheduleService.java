@@ -42,6 +42,10 @@ public class FaceFeatureScheduleService {
 
     @Autowired
     private EmpService empService;
+    @Autowired
+    private FaceFeatureService faceFeatureService;
+
+
 
     @Value("${cuboxacs.upload_directory}")
     String upload_directory;
@@ -68,43 +72,22 @@ public class FaceFeatureScheduleService {
             }
 
             for(int i=0; i<faceList.size(); i++) {
+                FaceFeature faceFeature  = new FaceFeature();
 
                 Face face = faceList.get(i);
 
                 String archeraOk = "N";
-                String cuboxOk = "N";
 
-                int cnt = 0;
-                String cuboxStatus = cuboxApi(face);
+                String cuboxStatus = cuboxApi(face, faceFeature);
                 log.info(i + " data complete. cubox Status : " + cuboxStatus);
-//                if("ok".equals(cuboxStatus)) cnt++;
-                if("ok".equals(cuboxStatus)) cuboxOk = "Y";
 
-                String archeraStatus = archeraApi(face);
-                log.info(i + " data complete.  Archera Status" + archeraStatus);
-//                if("ok".equals(archeraStatus)) cnt++;
+                //String archeraStatus = archeraApi(face, faceFeature);
+                String archeraStatus = archeraApiTmp(face, faceFeature);
+                log.info(i + " data complete.  Archera Status " + archeraStatus);
                 if("ok".equals(archeraStatus)) archeraOk = "Y";
 
-//                // cubox, Alchera 둘다 성공시 FACE 정보 업데이트.
-//                if(cnt == 2){
-//                    face.setFaceStateTyp("FST002"); // 성공
-//
-//                    // 이미지 특징점 추출 성공 시 T_EMP.face_id 갱신
-//                    Optional<Emp> oEmp = empService.findByEmpCd(face.getEmpCd());
-//                    if ( oEmp.isPresent())
-//                    {
-//                        Emp emp  = oEmp.get();
-//                        emp.setFaceId(face.getId());
-//                        emp.setUpdatedAt(new Timestamp(new Date().getTime()));
-//                        empService.save(emp);
-//                    }
-//
-//                } else { // 둘중하나라도 실패시 추출실패.
-//                    face.setFaceStateTyp("FST003"); // 실패
-//                }
-//                faceService.save(face);
 
-                // cubox, Alchera 둘다 성공시 FACE 정보 업데이트.
+                // Alchera 성공시 FACE 정보 업데이트.
                 if("Y".equals(archeraOk)){ //알체라 성공시 성공
                     face.setFaceStateTyp("FST002"); // 성공
                 } else if ("N".equals(archeraOk)){ // 알체라실패시 실패
@@ -134,7 +117,7 @@ public class FaceFeatureScheduleService {
      * @return
      * @throws JSONException
      */
-    public String cuboxApi(Face face) throws JSONException {
+    public String cuboxApi(Face face, FaceFeature faceFeature) throws JSONException {
         String featureStatus = "err";
 
         byte[] arr = (byte[]) face.getFaceImg();
@@ -169,48 +152,22 @@ public class FaceFeatureScheduleService {
             JSONObject jObj = new JSONObject(response.getBody());
             int statusCode = response.getStatusCodeValue();
 
-            //face.setFaceStateTyp("FFT001");  //씨유박스 CPU
-
             if (statusCode == 200) {
 
                 String feature = (String) jObj.get("feature");
 
-                FaceFeature faceFeature = null;
-//                Optional<FaceFeature> oFaceFeature = faceService.findFaceFeatrue(face.getId(), face.getEmpCd(), "FFT001");
-//                if ( oFaceFeature.isEmpty())
-//                {
-//                    faceFeature = FaceFeature.builder()
-//                            .faceId(face.getId())
-//                            .empCd(face.getEmpCd())
-//                            .faceFeatureTyp("FFT001") //씨유박스 CPU
-//                            .feature(feature)
-//                            .createdAt(new Timestamp(new Date().getTime()))
-//                            .build();
-//                }
-//                else
-//                {
-//                    faceFeature = oFaceFeature.get();
-//                    faceFeature.setFaceId(face.getId());
-//                    faceFeature.setEmpCd(face.getEmpCd());
-//                    faceFeature.setFaceFeatureTyp("FFT001"); //씨유박스 CPU;
-//                    faceFeature.setFeature(feature);
-//                    faceFeature.setCreatedAt(new Timestamp(new Date().getTime()));
-//                }
-                faceFeature = FaceFeature.builder()
-                    .faceId(face.getId())
-                    .empCd(face.getEmpCd())
-                    .faceFeatureTyp("FFT001") //씨유박스 CPU
-                    .feature(feature)
-                    .createdAt(new Timestamp(new Date().getTime()))
-                    .updatedAt(new Timestamp(new Date().getTime()))
-                    .build();
-                faceService.saveFaceFeatrue(faceFeature);
+                faceFeature.setFaceId(face.getId());
+                faceFeature.setEmpCd(face.getEmpCd());
+                faceFeature.setFeature(feature);
+                faceFeature.setFaceFeatureTyp("FFT001");
+                faceFeature.setCreatedAt(new Timestamp(new Date().getTime()));
+                faceFeature.setUpdatedAt(new Timestamp(new Date().getTime()));
+                faceFeatureService.save(faceFeature);
 
                 featureStatus = "ok";
 
             } else {
                 // Validation Error
-
                 SaveError(face, "FFT001", "data validation Error. StatusCode : " + statusCode);
             };
 
@@ -235,19 +192,141 @@ public class FaceFeatureScheduleService {
         faceService.saveFaceFeatrueErr(faceFeatureErr);
     }
 
+
+
+    public String archeraApiTmp(Face face, FaceFeature faceFeature) {
+        // lm_confidence 조회
+        Map<String, Object> landmark_result = getArcheraResponse(face, faceFeature, "/faces");
+        String landmark_status = String.valueOf(landmark_result.get("status"));
+
+        if("ok".equals(landmark_status)){
+            JSONObject landmarkObject = (JSONObject) landmark_result.get("body");
+            int count = landmarkObject.getInt("count");
+            if(count == 0){
+                SaveError(face, "FFT003", "[/faces] face Found  null" );
+                return landmark_status;
+            }
+            JSONArray landmarkInfoS = landmarkObject.getJSONArray("faces");
+            JSONObject landmarkInfo = landmarkInfoS.getJSONObject(0);
+            JSONObject landmarkJSON = landmarkInfo.getJSONObject("landmark");
+            // 성공 -- 랜드마크점수가 기준점이상이면 성공처리
+            float landmark = Float.parseFloat(String.valueOf(landmarkJSON.get("lm_confidence")));
+            // 0.88 초과 성공
+            if(landmark >0.88){
+                landmark_status = archeraFeatureApi(face, faceFeature);
+            } else { // 0.88 이하 실패
+                SaveError(face, "FFT003", "[_] landmark UnderScore : " + landmark);
+            }
+        }
+        return landmark_status;
+    }
+
+    public String archeraFeatureApi(Face face, FaceFeature faceFeature){
+        Map<String, Object> feature_result = getArcheraResponse(face, faceFeature, "/facefeatures/masking");
+        String feature_status = String.valueOf(feature_result.get("status"));
+        try{
+
+            if("ok".equals(feature_status)) {
+                JSONObject featureObject = (JSONObject) feature_result.get("body");
+
+                // 성공 -- 추출된 feature 값을 바이트배열변환, 암호화 처리후 저장
+                JSONArray featuresInfoS = featureObject.getJSONArray("faces_with_masked_features");
+                JSONObject featuresInfo = featuresInfoS.getJSONObject(0);
+                JSONArray featuresJSON = featuresInfo.getJSONArray("normal_feature");
+                float[] vectors = new float[featuresJSON.length()];
+                for (int k=0; k<featuresJSON.length(); k++){
+                    float vector = Float.parseFloat(featuresJSON.get(k).toString());
+                    vectors[k] = vector;
+                }
+
+                byte[] bytes = CuboxTerminalUtil.floatArrayToByteArray(vectors);
+                String feature = CuboxTerminalUtil.byteArrEncode(bytes);
+
+                JSONArray maskJSON = featuresInfo.getJSONArray("masked_feature");
+                float[] vectors2 = new float[maskJSON.length()];
+                for (int k=0; k<maskJSON.length(); k++){
+                    float vector = Float.parseFloat(maskJSON.get(k).toString());
+                    vectors2[k] = vector;
+                }
+
+                byte[] maskBytes = CuboxTerminalUtil.floatArrayToByteArray(vectors2);
+                String maskFeature = CuboxTerminalUtil.byteArrEncode(maskBytes);
+
+                faceFeature.setFaceId(face.getId());
+                faceFeature.setEmpCd(face.getEmpCd());
+                faceFeature.setFeature(feature);
+                faceFeature.setFeatureMask(maskFeature);
+                faceFeature.setFaceFeatureTyp("FFT003");
+                faceFeature.setCreatedAt(new Timestamp(new Date().getTime()));
+                faceFeature.setUpdatedAt(new Timestamp(new Date().getTime()));
+                faceFeatureService.save(faceFeature);
+            }
+        } catch (Exception ex){
+            SaveError(face, "FFT003",  "[ /facefeatures/masking ] " + ex.getMessage());
+        }
+
+        return feature_status;
+    }
+
+    public Map<String, Object> getArcheraResponse(Face face, FaceFeature faceFeature, String url){
+        byte[] arr = face.getFaceImg();
+
+        HttpEntity<byte[]> requestEntity = new HttpEntity<>(arr);
+        RestTemplate restTemplate = new RestTemplate();
+        Map<String, Object> responseResult = new HashMap<>();
+        responseResult.put("status", "err");
+
+        try{
+            ResponseEntity<String> response = restTemplate.exchange(archera_host + url, HttpMethod.POST, requestEntity , String.class);
+
+            JSONObject jBody = new JSONObject(response.getBody());
+            int statusCode = response.getStatusCodeValue();
+
+            int count = jBody.getInt("count");
+            JSONObject returnMsgO = jBody.getJSONObject("return_msg");
+            String returnCd = (String) returnMsgO.get("return_code");
+            String returnMsg = (String) returnMsgO.get("return_msg");
+
+            if(statusCode == 200){
+                responseResult.put("status", "ok");
+                if(count == 0){
+                    SaveError(face, "FFT003", "[ " +url+" ] Data is null. return_code:" + returnCd + " return_msg:" + returnMsg);
+                    responseResult.put("status", "err");
+                    return responseResult;
+                }
+                responseResult.put("count", count);
+                responseResult.put("body", jBody);
+            } else if (statusCode == 400) {
+                SaveError(face, "FFT003", "[ " +url+" ] Data validation Error. return_code:" + returnCd + " return_msg:" + returnMsg);
+            } else if (statusCode == 406){
+                //API 사용 제한
+                SaveError(face, "FFT003", "[ " +url+" ] API usage restrictions. return_code:" + returnCd + "return_msg:" + returnMsg );
+            } else if (statusCode == 500){
+                //실패
+                SaveError(face, "FFT003", "[ " +url+" ] Fail. return_code:" + returnCd + " return_msg:" + returnMsg );
+            } else {
+                //실패
+                SaveError(face, "FFT003", "[ " +url+" ] Fail. statusCode:" + statusCode + " returnCd:" + returnMsg + " return_msg:" + returnMsg );
+            }
+
+        } catch (Exception ex){
+            // 예외처리 오류 처리
+            SaveError(face, "FFT003",  "[ " +url+" ] " + ex.getMessage());
+            responseResult.put("status", "ex");
+        }
+        return responseResult;
+    }
+
     /**
      * archera Api -- feature값 추출 후 DB저장
      * @param face
      * @return
      */
-    public String archeraApi(Face face){
+    public String archeraApi(Face face, FaceFeature faceFeature){
 
         String featureStatus = "err";
 
-        byte[] arr = (byte[]) face.getFaceImg();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.TEXT_PLAIN);
+        byte[] arr = face.getFaceImg();
 
         HttpEntity<byte[]> requestEntity = new HttpEntity<>(arr);
         RestTemplate restTemplate = new RestTemplate();
@@ -287,16 +366,15 @@ public class FaceFeatureScheduleService {
                     byte[] maskBytes = CuboxTerminalUtil.floatArrayToByteArray(vectors2);
                     String maskFeature = CuboxTerminalUtil.byteArrEncode(maskBytes);
 
-                    FaceFeature faceFeature = null;
-                    faceFeature = FaceFeature.builder()
-                            .faceId(face.getId())
-                            .empCd(face.getEmpCd())
-                            .faceFeatureTyp("FFT003") //archera CPU
-                            .feature(feature)
-                            .featureMask(maskFeature)
-                            .createdAt(new Timestamp(new Date().getTime()))
-                            .build();
-                    faceService.saveFaceFeatrue(faceFeature);
+                    faceFeature.setFaceId(face.getId());
+                    faceFeature.setEmpCd(face.getEmpCd());
+                    faceFeature.setFeature(feature);
+                    faceFeature.setFeatureMask(maskFeature);
+                    faceFeature.setFaceFeatureTyp("FFT003");
+                    faceFeature.setCreatedAt(new Timestamp(new Date().getTime()));
+                    faceFeature.setUpdatedAt(new Timestamp(new Date().getTime()));
+                    faceFeatureService.save(faceFeature);
+                    //faceService.saveFaceFeatrue(faceFeature);
                     featureStatus = "ok";
                 } else if (statusCode == 400) {
                     SaveError(face, "FFT003", "[features] Data validation Error. return_code:" + returnCd + " return_msg:" + returnMsg);
@@ -319,5 +397,4 @@ public class FaceFeatureScheduleService {
 
         return featureStatus;
     }
-
 }

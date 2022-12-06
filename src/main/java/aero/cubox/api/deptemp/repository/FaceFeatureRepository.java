@@ -16,4 +16,8 @@ public interface FaceFeatureRepository extends JpaRepository<FaceFeature, Intege
 
     List<FaceFeature> findTop10ByFaceFeatureTypAndFeatureMaskIsNullAndFaceIdIsGreaterThanEqualOrderByIdAsc(String faceFeatureTyp, int faceId);
 
+    List<FaceFeature> findTop100ByFaceFeatureTypAndIdGreaterThanOrderByIdAsc(String faceFeatureTyp, int id);
+
+    List<FaceFeature> findTop100ByFaceFeatureTypAndFeatureMaskIsNotNullAndIdGreaterThanOrderByIdAsc(String faceFeatureTyp, int id);
+
 }

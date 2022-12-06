@@ -1,12 +1,8 @@
 package aero.cubox.api.sync.vo;
 
 import lombok.*;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Timestamp;
 
 @Builder
 @NoArgsConstructor
@@ -35,17 +31,19 @@ public class EmpVo implements Serializable {
 
     private Integer faceId;
 
-    private Timestamp expiredDt;
+    private String expiredDt;
 
-    private Timestamp mdmDt;
+    private String mdmDt;
 
     private String deleteYn;
 
-    private Timestamp deletedAt;
+    private String deletedAt;
 
-    private Timestamp createdAt;
+    private String createdAt;
 
-    private Timestamp updatedAt;
+    private String updatedAt;
 
     private String feature;
+
+    private String featureMask;
 }
