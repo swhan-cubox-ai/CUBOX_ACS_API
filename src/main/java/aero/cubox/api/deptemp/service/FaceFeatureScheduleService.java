@@ -73,6 +73,7 @@ public class FaceFeatureScheduleService {
 
             for(int i=0; i<faceList.size(); i++) {
                 FaceFeature faceFeature  = new FaceFeature();
+                FaceFeature faceFeature2  = new FaceFeature();
 
                 Face face = faceList.get(i);
 
@@ -82,7 +83,7 @@ public class FaceFeatureScheduleService {
                 log.info(i + " data complete. cubox Status : " + cuboxStatus);
 
                 //String archeraStatus = archeraApi(face, faceFeature);
-                String archeraStatus = archeraApiTmp(face, faceFeature);
+                String archeraStatus = archeraApiTmp(face, faceFeature2);
                 log.info(i + " data complete.  Archera Status " + archeraStatus);
                 if("ok".equals(archeraStatus)) archeraOk = "Y";
 

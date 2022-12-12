@@ -1,7 +1,6 @@
 package aero.cubox.api.deptemp.repository;
 
 import aero.cubox.api.domain.entity.Face;
-import aero.cubox.api.domain.entity.FaceFeature;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -13,7 +12,7 @@ public interface FaceRepository extends JpaRepository<Face, Integer> {
 
     Optional<Face> findFirstByEmpCdAndFaceStateTypOrderByIdDesc(String empCd, String faceStateTyp);
 
-    List<Face> findTop100ByFaceStateTypOrderByCreatedAt(String faceStateTyp);
+    List<Face> findTop100ByFaceStateTypOrderById(String faceStateTyp);
 
 
     List<Face> findTop100ByIdGreaterThanOrderByIdAsc(int id);

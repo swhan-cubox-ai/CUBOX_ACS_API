@@ -8,11 +8,9 @@ import aero.cubox.api.domain.entity.Face;
 import aero.cubox.api.domain.entity.FaceFeature;
 import aero.cubox.api.domain.entity.FaceFeatureErr;
 import aero.cubox.api.service.AbstractService;
-import aero.cubox.api.sync.vo.EmpVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -44,7 +42,7 @@ public class FaceService extends AbstractService<Face, Integer> {
 
     public List<Face> findTop100ByFaceStateTyp(String faceStateTyp)
     {
-        return repository.findTop100ByFaceStateTypOrderByCreatedAt(faceStateTyp);
+        return repository.findTop100ByFaceStateTypOrderById(faceStateTyp);
     }
 
     public void saveFaceFeatrue(FaceFeature faceFeature)

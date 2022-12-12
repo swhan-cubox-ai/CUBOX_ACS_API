@@ -3,10 +3,7 @@ package aero.cubox.api.deptemp.service;
 import aero.cubox.api.deptemp.repository.CardRepository;
 import aero.cubox.api.deptemp.repository.EmpRepository;
 import aero.cubox.api.deptemp.repository.FaceRepository;
-import aero.cubox.api.domain.entity.Card;
-import aero.cubox.api.domain.entity.Emp;
-import aero.cubox.api.domain.entity.EmpMdmErr;
-import aero.cubox.api.domain.entity.Face;
+import aero.cubox.api.domain.entity.*;
 import aero.cubox.api.mdm.service.MdmService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -42,6 +39,9 @@ public class EmpTxService {
     @Autowired
     EmpMdmErrService empMdmErrService;
 
+    @Autowired
+    InsttService insttService;
+
     @Transactional
     public void SaveEmpCard(Map<String, Object> mdmItem)
     {
@@ -55,6 +55,16 @@ public class EmpTxService {
 
         Emp emp = null;
         Optional<Emp> oEmp = empRepository.findByEmpCd(empCd);
+        String insttCd = "";
+        String insttNm = "";
+        if(!StringUtils.isEmpty((String) mdmItem.get("instt_cd"))){
+            Optional<Instt> oInstt = insttService.findByInsttCd((String) mdmItem.get("instt_cd"));
+            if(oInstt.isEmpty()){
+                Instt instt = oInstt.get();
+                insttCd = instt.getInsttCd();
+                insttNm = instt.getInsttNm();
+            }
+        }
 
         boolean isEmpty = false;
         if (oEmp.isEmpty()) {
@@ -64,8 +74,8 @@ public class EmpTxService {
                     .empNm((String) mdmItem.get("emp_nm"))
                     .deptCd((String) mdmItem.get("dept_cd"))
                     .deptNm((String) mdmItem.get("dept_nm"))
-                    .insttCd((String) mdmItem.get("instt_cd"))
-                    .insttNm((String) mdmItem.get("instt_nm"))
+                    .insttCd(insttCd)
+                    .insttNm(insttNm)
                     .belongNm((String)mdmItem.get("belong_nm"))
                     .cardClassTyp((String)mdmItem.get("card_class_typ"))
                     .cardStateTyp((String)mdmItem.get("card_state_typ"))
@@ -93,8 +103,8 @@ public class EmpTxService {
             emp.setEmpNm((String) mdmItem.get("emp_nm"));
             emp.setDeptCd((String) mdmItem.get("dept_cd"));
             emp.setDeptNm((String) mdmItem.get("dept_nm"));
-            emp.setInsttCd((String) mdmItem.get("instt_cd"));
-            emp.setInsttNm((String) mdmItem.get("instt_nm"));
+            emp.setInsttCd(insttCd);
+            emp.setInsttNm(insttNm);
             emp.setBelongNm((String) mdmItem.get("belong_nm"));
             emp.setCardClassTyp((String) mdmItem.get("card_class_typ"));
             emp.setCardStateTyp((String) mdmItem.get("card_state_typ"));
