@@ -14,7 +14,6 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
 import java.util.*;
 
 
@@ -36,6 +35,17 @@ public class SyncEmpCardController {
 
     @Autowired
     EntHistBioService entHistBioService;
+
+    @GetMapping(value = "/health")
+    @ApiOperation(value="health", notes="health")
+    public ResultVo<Map<String, String>> health(
+    ) {
+        Map<String, Object> params = new HashMap<>();
+        Map<String, String> health = new HashMap<>();
+        health.put("status", "ok");
+
+        return ResultVo.ok(health);
+    }
 
     @GetMapping(value = {Constants.API.API_EMP})
     @ApiOperation(value="사원정보", notes="사원정보")
