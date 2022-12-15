@@ -23,4 +23,6 @@ public interface MdmMapper {
     // 방문자출입증
     List<Map<String, Object>> getMdmTcEmVisit();
     int updateMdmTcEmVisit(Map<String, Object> cardItem);
+
+    String getHealthCubrid();
 }

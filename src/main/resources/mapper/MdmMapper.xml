@@ -168,4 +168,12 @@
 		WHERE hr_no = #{emp_cd}
 		  AND creat_dt = #{mdm_dt}
 	</update>
+
+	<!-- mdm 헬스체크용 -->
+	<select id="getHealthCubrid" resultType="string">
+		SELECT creat_dt FROM TC_EM_VISIT
+		order by creat_dt desc
+			limit 1
+	</select>
+
 </mapper>

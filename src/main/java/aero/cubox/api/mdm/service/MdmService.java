@@ -61,5 +61,8 @@ public class MdmService  {
     // --카드, 직원
 
 
+    public String getHealthCubrid(){
+        return mapper.getHealthCubrid();
+    }
 
 }
