@@ -10,18 +10,15 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Service
 @Slf4j
 @EnableScheduling
-@Profile("imsimdm")
-//@Profile("local")
+@Profile("prod")
 public class EmpScheduleService {
 
     @Autowired
@@ -90,7 +87,6 @@ public class EmpScheduleService {
 
     // 일반출입증/공무원증은 10분 마다, 방문증은 10초마다 동기화하고 있는데
     @Scheduled(cron = "* 0/10 * * * *") // 10분
-    //@Scheduled(cron = "0/10 * * * * *") // 10분
     public void syncCard10Min() {
 
         log.info("syncCard 10 Min ....");

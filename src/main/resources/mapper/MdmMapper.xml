@@ -55,6 +55,7 @@
 	<!-- mdm 일반출입증조회 -->
 	<select id="getMdmTcEmCgpn" resultType="map">
 		SELECT
+		    em.cgpn_hr_sn,
 			em.hr_no as emp_cd,
 			em.gvrn_gbd_code,
 			dep.instt_code as instt_cd,
@@ -90,12 +91,13 @@
 		UPDATE TC_EM_CGPN
 		SET process_yn_mdmsjsc = 'Y'
 		WHERE hr_no = #{emp_cd}
-		AND creat_dt = #{mdm_dt}
+		AND cgpn_hr_sn = #{cgpn_hr_sn}
 	</update>
 
 	<!-- mdm 공무원증조회 -->
 	<select id="getMdmTcEmPbsvnt" resultType="map">
 		SELECT
+			   em.cgpn_hr_sn,
 			   em.hr_no as emp_cd,
 			   em.gvrn_gbd_code,
 			   dep.instt_code as instt_cd,
@@ -131,12 +133,13 @@
 		UPDATE TC_EM_PBSVNT
 		SET process_yn_mdmsjsc = 'Y'
 		WHERE hr_no = #{emp_cd}
-		  AND creat_dt = #{mdm_dt}
+		  AND cgpn_hr_sn = #{cgpn_hr_sn}
 	</update>
 
 	<!-- mdm 방문증조회 -->
 	<select id="getMdmTcEmVisit" resultType="map">
 		SELECT
+			   em.cgpn_hr_sn,
 			   em.hr_no as emp_cd,
 			   em.gvrn_gbd_code,
 			   dep.instt_code as instt_cd,
@@ -166,7 +169,7 @@
 		UPDATE TC_EM_VISIT
 		SET process_yn_mdmsjsc = 'Y'
 		WHERE hr_no = #{emp_cd}
-		  AND creat_dt = #{mdm_dt}
+		  AND cgpn_hr_sn = #{cgpn_hr_sn}
 	</update>
 
 	<!-- mdm 헬스체크용 -->

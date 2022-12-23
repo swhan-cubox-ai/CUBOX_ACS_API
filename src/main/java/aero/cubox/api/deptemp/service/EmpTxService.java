@@ -1,5 +1,6 @@
 package aero.cubox.api.deptemp.service;
 
+import aero.cubox.api.deptemp.mapper.EmpMapper;
 import aero.cubox.api.deptemp.repository.CardRepository;
 import aero.cubox.api.deptemp.repository.EmpRepository;
 import aero.cubox.api.deptemp.repository.FaceRepository;
@@ -23,8 +24,7 @@ import java.util.Optional;
 
 @Service
 @Slf4j
-//@Profile("local")
-@Profile("imsimdm")
+@Profile("prod")
 public class EmpTxService {
 
     @Autowired
@@ -41,6 +41,9 @@ public class EmpTxService {
 
     @Autowired
     InsttService insttService;
+
+    @Autowired
+    EmpMapper empMapper;
 
     @Transactional
     public void SaveEmpCard(Map<String, Object> mdmItem)
@@ -84,12 +87,13 @@ public class EmpTxService {
                     .createdAt(new Timestamp(new Date().getTime()))
                     .updatedAt(new Timestamp(new Date().getTime()))
                     .build();
-
+            empMapper.insertEmp(emp);
             // 성공분 중 가장 최근에 등록된 사진
-            Optional<Face> oFace = faceRepository.findFirstByEmpCdAndFaceStateTypOrderByIdDesc(empCd, "FST002");
-            if (oFace.isPresent()) {
-                emp.setFaceId(oFace.get().getId());
-            }
+            // TO-DO 속도 오래 걸림. 해결방안 강구 필요
+//            Optional<Face> oFace = faceRepository.findFirstByEmpCdAndFaceStateTypOrderByIdDesc(empCd, "FST002");
+//            if (oFace.isPresent()) {
+//                emp.setFaceId(oFace.get().getId());
+//            }
 
 
         } else {
@@ -112,19 +116,21 @@ public class EmpTxService {
             emp.setMdmDt((Timestamp) mdmItem.get("mdm_dt"));
             emp.setUpdatedAt(new Timestamp(new Date().getTime()));
 
+            empMapper.updateEmp(emp);
         }
-        emp = empRepository.save(emp);
+//        emp = empRepository.save(emp);
 
 
-        if (isEmpty) {
-            // MDM보다 먼저 올라온 사진
-            List<Face> faceList = faceRepository.findAllByEmpCd(empCd);
-            for(Face face : faceList)
-            {
-                face.setEmpId(emp.getId());
-                faceRepository.save(face);
-            }
-        }
+
+//        if (isEmpty) {
+//            // MDM보다 먼저 올라온 사진
+//            List<Face> faceList = faceRepository.findAllByEmpCd(empCd);
+//            for(Face face : faceList)
+//            {
+//                face.setEmpId(emp.getId());
+//                faceRepository.save(face);
+//            }
+//        }
 
     }
 

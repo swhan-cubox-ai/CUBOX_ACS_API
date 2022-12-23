@@ -20,20 +20,13 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.sql.Timestamp;
 import java.util.*;
 
 @Service
 @Slf4j
 @EnableScheduling
-//@Profile("imsimdm")
-@Profile("facefeature")
-//@Profile("local")
+@Profile("prod")
 public class FaceFeatureScheduleService {
 
     @Autowired
@@ -79,8 +72,8 @@ public class FaceFeatureScheduleService {
 
                 String archeraOk = "N";
 
-                String cuboxStatus = cuboxApi(face, faceFeature);
-                log.info(i + " data complete. cubox Status : " + cuboxStatus);
+                //String cuboxStatus = cuboxApi(face, faceFeature);
+                //log.info(i + " data complete. cubox Status : " + cuboxStatus);
 
                 //String archeraStatus = archeraApi(face, faceFeature);
                 String archeraStatus = archeraApiTmp(face, faceFeature2);

@@ -20,7 +20,7 @@ import java.util.Optional;
 @Service
 @Slf4j
 @EnableScheduling
-@Profile("imsimdm")
+@Profile("prod")
 public class InsttScheduleService {
 
     @Autowired

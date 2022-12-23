@@ -13,4 +13,71 @@
         LIMIT #{pageSize}
     </select>
 
+    <insert id="addEmp" parameterType="aero.cubox.api.domain.entity.Emp" >
+        INSERT
+        INTO T_EMP
+        (
+            emp_cd
+        , emp_nm
+        , dept_cd
+        , dept_nm
+        , instt_cd
+        , instt_nm
+        , belong_nm
+        , card_class_typ
+        , card_state_typ
+        , face_id
+        ,expired_dt
+        ,mdm_dt
+        ,delete_yn
+        ,deleted_at
+        ,created_at
+        ,updated_at
+        )
+        VALUES(
+                  #{empCd}
+              , #{empNm}
+              , #{deptCd}
+              , #{deptNm}
+              , #{insttCd}
+              , #{insttNm}
+              , #{belongNm}
+              , #{cardClassTyp}
+              , #{cardStateTyp}
+              , #{faceId}
+              ,#{expiredDt}
+              ,#{mdmDt}
+              ,#{deleteYn}
+              ,#{deletedAt}
+              ,#{createdAt}
+              ,#{updatedAt}
+
+              )
+    </insert>
+
+
+    <update id="updateEmp" parameterType="aero.cubox.api.domain.entity.Emp" >
+        UPDATE
+            T_EMP
+        SET
+            emp_cd = #{empCd}
+          , emp_nm = #{empNm}
+          , dept_cd =#{deptCd}
+          , dept_nm = #{deptNm}
+          , instt_cd =#{insttCd}
+          , instt_nm =#{insttNm}
+          , belong_nm =#{belongNm}
+          , card_class_typ =#{cardClassTyp}
+          , card_state_typ =#{cardStateTyp}
+          , face_id = #{faceId}
+          ,expired_dt =#{expiredDt}
+          ,mdm_dt =#{mdmDt}
+          ,delete_yn =#{deleteYn}
+          ,deleted_at =#{deletedAt}
+          ,created_at =#{createdAt}
+          ,updated_at =#{updatedAt}
+        WHERE
+            id = #{id}
+    </update>
+
 </mapper>

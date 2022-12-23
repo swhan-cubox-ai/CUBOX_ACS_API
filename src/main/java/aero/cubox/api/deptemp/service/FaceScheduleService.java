@@ -31,8 +31,7 @@ import java.util.*;
 @Service
 @Slf4j
 @EnableScheduling
-@Profile("imsiface")
-//@Profile("local")
+@Profile("prod")
 public class FaceScheduleService {
 
     @Autowired
@@ -89,32 +88,33 @@ public class FaceScheduleService {
                     .updatedAt(new Timestamp(new Date().getTime()))
                     .build();
             Optional<Emp> oEmp = empService.findByEmpCd(emp_cd);
-//            if ( oEmp.isPresent())
-//            {
-//                face.setEmpId(oEmp.get().getId());
-//            }
-//            face = faceService.save(face);
+            if ( oEmp.isPresent())
+            {
+                face.setEmpId(oEmp.get().getId());
+            }
+            face = faceService.save(face);
 
             // 기존에 등록된 사진이 있다면 SKIP
 //            if ( oEmp.isPresent() &&  oEmp.get().getFaceId() != null )
 //            {
 //                //skip
 //            } else {
-                if ( oEmp.isPresent() ) {
-                    face.setEmpId(oEmp.get().getId());
-                }
-                face = faceService.save(face);
+//                if ( oEmp.isPresent() ) {
+//                    face.setEmpId(oEmp.get().getId());
+//                }
+//                face = faceService.save(face);
 //            }
 
-            // 파일 동기화 처리 이후 파일 이동.
-            String filePath = file.getPath();
-            Path resourcePath = Paths.get(filePath);
-            Path backupPath = Paths.get(move_directory+"\\" + fileName);
+            // 파일 동기화 처리 이후 파일 이동. window
+//            String filePath = file.getPath();
+//            Path resourcePath = Paths.get(filePath);
+//            Path backupPath = Paths.get(move_directory+"/" + fileName);
+            //Files.move(resourcePath, backupPath, StandardCopyOption.REPLACE_EXISTING);
+
+            file.renameTo(new File(move_directory+"/" + fileName));
 
             // TO-DO
             // ERROR
-
-            Files.move(resourcePath, backupPath, StandardCopyOption.REPLACE_EXISTING);
 
         }
     }
