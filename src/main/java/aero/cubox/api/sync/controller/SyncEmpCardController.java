@@ -89,7 +89,7 @@ public class SyncEmpCardController {
     @PostMapping(value = {"/enthist"})
     @ApiOperation(value="출입기록등록", notes="출입기록등록")
     public ResultVo insertEntHist(@RequestBody EntHistVO entHist) throws Exception {
-        if(StringUtil.isEmpty(entHist.getTerminalCd()) || StringUtil.isEmpty(entHist.getEvtDt()) ) {
+        if(StringUtil.isEmpty(entHist.getTerminalCd())) {
             return ResultVo.fail("terminalCd or evtDt is empty");
         }
         try {

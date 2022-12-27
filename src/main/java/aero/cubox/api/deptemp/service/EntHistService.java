@@ -57,7 +57,7 @@ public class EntHistService extends AbstractService<EntHist, Integer> {
         EntHist entHist = new EntHist();
 
         //entHist.setEvtDt(entHistVo.getEvtDt());
-        entHist.setEvtDt(Timestamp.valueOf(entHistVo.getEvtDt())); // YYYY-MM-DD hh:mm:ss.ssssss
+        entHist.setEvtDt(entHistVo.getEvtDt()); // YYYY-MM-DD hh:mm:ss.ssssss
         entHist.setEntEvtTyp(entHistVo.getEntEvtTyp());
         entHist.setTerminalCd(entHistVo.getTerminalCd());
         entHist.setEmpCd(entHistVo.getEmpCd());

@@ -2,10 +2,12 @@ package aero.cubox.api.deptemp.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.annotation.processing.Generated;
 import javax.persistence.Column;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @ToString
 @NoArgsConstructor
@@ -16,7 +18,8 @@ public class EntHistVO {
 
     private Integer id;
 
-    private String evtDt;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS")
+    private LocalDateTime evtDt;
 
     private String entEvtTyp;
 

@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Builder
 @NoArgsConstructor
@@ -29,7 +30,7 @@ public class EntHist implements Serializable {
     private Integer id;
 
     @Column(name = "evt_dt")
-    private Timestamp evtDt;
+    private LocalDateTime evtDt;
 
     @Column(name = "ent_evt_typ")
     private String entEvtTyp;
