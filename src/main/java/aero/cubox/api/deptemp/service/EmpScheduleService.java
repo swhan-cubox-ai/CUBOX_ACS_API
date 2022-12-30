@@ -86,7 +86,7 @@ public class EmpScheduleService {
 
 
     // 일반출입증/공무원증은 10분 마다, 방문증은 10초마다 동기화하고 있는데
-    @Scheduled(cron = "* 0/10 * * * *") // 10분
+    @Scheduled(cron = "0 0/10 * * * *") // 10분
     public void syncCard10Min() {
 
         log.info("syncCard 10 Min ....");
@@ -103,7 +103,7 @@ public class EmpScheduleService {
             }
 
             for (int i = 0; i < mdmCgpnList.size(); i++) {
-                    Map<String, Object> mdmItem = mdmCgpnList.get(i);
+                Map<String, Object> mdmItem = mdmCgpnList.get(i);
                 try {
                     empTxService.SaveEmpCard(mdmItem);
                 }

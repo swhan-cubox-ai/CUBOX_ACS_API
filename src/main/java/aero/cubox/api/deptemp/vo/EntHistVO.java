@@ -8,6 +8,7 @@ import javax.annotation.processing.Generated;
 import javax.persistence.Column;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @ToString
 @NoArgsConstructor
@@ -18,8 +19,8 @@ public class EntHistVO {
 
     private Integer id;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS")
-    private LocalDateTime evtDt;
+//    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS")
+    private String evtDt;
 
     private String entEvtTyp;
 

@@ -12,10 +12,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 
 @RunWith(SpringRunner.class)
@@ -37,6 +34,7 @@ public class CardTest {
     private FaceFeatureRepository faceFeatureRepository;
     @Autowired
     private FaceFeatureService faceFeatureService;
+
 
     @Test
     public void testTmp() {

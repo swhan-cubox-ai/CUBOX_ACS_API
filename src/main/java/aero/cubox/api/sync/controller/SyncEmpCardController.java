@@ -89,7 +89,7 @@ public class SyncEmpCardController {
     @PostMapping(value = {"/enthist"})
     @ApiOperation(value="출입기록등록", notes="출입기록등록")
     public ResultVo insertEntHist(@RequestBody EntHistVO entHist) throws Exception {
-        if(StringUtil.isEmpty(entHist.getTerminalCd())) {
+        if(StringUtil.isEmpty(entHist.getTerminalCd()) || StringUtil.isEmpty(entHist.getEvtDt()) ) {
             return ResultVo.fail("terminalCd or evtDt is empty");
         }
         try {
@@ -130,6 +130,14 @@ public class SyncEmpCardController {
             return ResultVo.fail("save fail", ex);
         }
         return ResultVo.ok();
+    }
+
+    @GetMapping(value = {"/getTimezone"})
+    @ApiOperation(value="타임존확인", notes="타임존확인")
+    public ResultVo<String> timeZoneTest() throws Exception {
+        TimeZone tz = TimeZone.getDefault();
+        System.out.println("##############################" + tz);
+        return ResultVo.ok(tz);
     }
 
 }

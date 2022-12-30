@@ -26,7 +26,7 @@ import java.util.*;
 @Service
 @Slf4j
 @EnableScheduling
-@Profile("facefeature2")
+@Profile("notuse")
 public class FaceFeatureScheduleService2 {
 
     @Autowired

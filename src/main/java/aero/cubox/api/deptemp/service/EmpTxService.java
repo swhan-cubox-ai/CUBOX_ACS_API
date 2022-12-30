@@ -62,7 +62,7 @@ public class EmpTxService {
         String insttNm = "";
         if(!StringUtils.isEmpty((String) mdmItem.get("instt_cd"))){
             Optional<Instt> oInstt = insttService.findByInsttCd((String) mdmItem.get("instt_cd"));
-            if(oInstt.isEmpty()){
+            if(oInstt.isPresent()){
                 Instt instt = oInstt.get();
                 insttCd = instt.getInsttCd();
                 insttNm = instt.getInsttNm();

@@ -1,5 +1,6 @@
 package aero.cubox.api.domain.entity;
 
+import com.google.api.client.util.DateTime;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -9,6 +10,7 @@ import java.io.Serializable;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Builder
 @NoArgsConstructor
@@ -30,7 +32,8 @@ public class EntHist implements Serializable {
     private Integer id;
 
     @Column(name = "evt_dt")
-    private LocalDateTime evtDt;
+    private Timestamp evtDt;
+//    private LocalDateTime evtDt;
 
     @Column(name = "ent_evt_typ")
     private String entEvtTyp;

@@ -65,4 +65,14 @@ public class MdmService  {
         return mapper.getHealthCubrid();
     }
 
+    public void updateMdmTcEmCgpnReSync(Map<String, Object> param){
+        mapper.updateMdmTcEmCgpnReSync(param);
+    }
+    public void updateMdmTcEmPbsvntReSync(Map<String, Object> param){
+        mapper.updateMdmTcEmPbsvntReSync(param);
+    }
+    public void updateMdmTcEmVisitReSync(Map<String, Object> param){
+        mapper.updateMdmTcEmVisitReSync(param);
+    }
+
 }

@@ -5,6 +5,7 @@ import aero.cubox.api.domain.entity.Face;
 import aero.cubox.api.domain.entity.FaceFeature;
 import aero.cubox.api.domain.entity.FaceFeatureErr;
 import aero.cubox.api.util.CuboxTerminalUtil;
+import aero.cubox.api.util.ImageUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,7 +38,6 @@ public class FaceScheduleService {
     @Autowired
     private FaceService faceService;
 
-
     @Autowired
     private EmpService empService;
 
@@ -66,6 +66,12 @@ public class FaceScheduleService {
 
             File file = fileList[i];
             String fileName = file.getName();
+//            byte[] bytes = null;
+//            if ( ImageUtil.isTooBig(upload_directory+"/"+fileName) )
+//            {
+//                bytes = ImageUtil.getByteFromResizeImage(upload_directory+"/"+fileName);
+//                continue;
+//            }
 
             //파일명 => 직원코드 . 확장자
             int index = fileName.lastIndexOf(".");
@@ -79,20 +85,25 @@ public class FaceScheduleService {
             String emp_cd = fileName.substring(0,index);
 
             byte[] face_img = Files.readAllBytes(file.toPath());
+            try{
+                Face face = Face.builder()
+                        .empCd(emp_cd)
+                        .faceImg(face_img)
+                        .faceStateTyp("FST001") // 대기상태
+                        .createdAt(new Timestamp(new Date().getTime()))
+                        .updatedAt(new Timestamp(new Date().getTime()))
+                        .build();
+                Optional<Emp> oEmp = empService.findByEmpCd(emp_cd);
+                if ( oEmp.isPresent())
+                {
+                    face.setEmpId(oEmp.get().getId());
+                }
 
-            Face face = Face.builder()
-                    .empCd(emp_cd)
-                    .faceImg(face_img)
-                    .faceStateTyp("FST001") // 대기상태
-                    .createdAt(new Timestamp(new Date().getTime()))
-                    .updatedAt(new Timestamp(new Date().getTime()))
-                    .build();
-            Optional<Emp> oEmp = empService.findByEmpCd(emp_cd);
-            if ( oEmp.isPresent())
-            {
-                face.setEmpId(oEmp.get().getId());
+                face = faceService.save(face);
+            } catch (Exception e){
+                file.renameTo(new File(move_directory+"/err/" + fileName));
+                continue;
             }
-            face = faceService.save(face);
 
             // 기존에 등록된 사진이 있다면 SKIP
 //            if ( oEmp.isPresent() &&  oEmp.get().getFaceId() != null )

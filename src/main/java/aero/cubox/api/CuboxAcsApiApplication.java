@@ -6,8 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
 
+import javax.annotation.PostConstruct;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.TimeZone;
 
 @Slf4j
 @SpringBootApplication
@@ -30,6 +32,11 @@ public class CuboxAcsApiApplication {
 				, env.getProperty("server.port")
 				, InetAddress.getLocalHost().getHostAddress()
 				, env.getProperty("server.port"));
+	}
+
+	@PostConstruct
+	public void started(){
+		TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
 	}
 
 }

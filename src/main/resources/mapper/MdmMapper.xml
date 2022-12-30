@@ -179,4 +179,23 @@
 			limit 1
 	</select>
 
+	<!-- mdm 재동기화 누락분 재처리-->
+	<update id="updateMdmTcEmCgpnReSync" parameterType="map">
+		UPDATE tc_em_cgpn
+		SET process_yn_mdmsjsc = 'N'
+		WHERE cgpn_hr_sn = #{cgpn_hr_sn}
+	</update>
+
+	<update id="updateMdmTcEmPbsvntReSync" parameterType="map">
+		UPDATE tc_em_pbsvnt
+		SET process_yn_mdmsjsc = 'N'
+		WHERE cgpn_hr_sn = #{cgpn_hr_sn}
+	</update>
+
+	<update id="updateMdmTcEmVisitReSync" parameterType="map">
+		UPDATE tc_em_visit
+		SET process_yn_mdmsjsc = 'N'
+		WHERE cgpn_hr_sn = #{cgpn_hr_sn}
+	</update>
+
 </mapper>

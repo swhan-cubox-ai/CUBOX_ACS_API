@@ -1,17 +1,12 @@
 package aero.cubox.api.deptemp.service;
 
-import aero.cubox.api.deptemp.mapper.CardMapper;
 import aero.cubox.api.deptemp.mapper.EntHistMapper;
-import aero.cubox.api.deptemp.repository.CardRepository;
 import aero.cubox.api.deptemp.repository.EntHistBioRepository;
 import aero.cubox.api.deptemp.repository.EntHistRepository;
 import aero.cubox.api.deptemp.vo.EntHistVO;
-import aero.cubox.api.domain.entity.Card;
 import aero.cubox.api.domain.entity.EntHist;
 import aero.cubox.api.domain.entity.EntHistBio;
-import aero.cubox.api.domain.entity.FaceFeature;
 import aero.cubox.api.service.AbstractService;
-import aero.cubox.api.util.CuboxTerminalUtil;
 import com.github.pagehelper.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +16,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.ExecutionException;
 
 @Service
 @Slf4j
@@ -56,8 +47,7 @@ public class EntHistService extends AbstractService<EntHist, Integer> {
 
         EntHist entHist = new EntHist();
 
-        //entHist.setEvtDt(entHistVo.getEvtDt());
-        entHist.setEvtDt(entHistVo.getEvtDt()); // YYYY-MM-DD hh:mm:ss.ssssss
+        entHist.setEvtDt(Timestamp.valueOf(entHistVo.getEvtDt())); // YYYY-MM-DD hh:mm:ss.ssssss
         entHist.setEntEvtTyp(entHistVo.getEntEvtTyp());
         entHist.setTerminalCd(entHistVo.getTerminalCd());
         entHist.setEmpCd(entHistVo.getEmpCd());

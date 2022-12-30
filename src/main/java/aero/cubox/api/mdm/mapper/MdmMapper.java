@@ -25,4 +25,10 @@ public interface MdmMapper {
     int updateMdmTcEmVisit(Map<String, Object> cardItem);
 
     String getHealthCubrid();
+
+    // 누락분 처리를 위한 재동기화
+    int updateMdmTcEmCgpnReSync(Map<String, Object> param);
+    int updateMdmTcEmPbsvntReSync(Map<String, Object> param);
+    int updateMdmTcEmVisitReSync(Map<String, Object> param);
+
 }

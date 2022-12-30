@@ -1,0 +1,24 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="aero.cubox.api.deptemp.mapper.TmpEmMapper">
+    <select id="getListCgpn" resultType="aero.cubox.api.domain.entity.TmpEmCgpn">
+        select * from TMP_EM_CGPN
+        where done_yn is null and #{hr_sn} > cgpn_hr_sn
+        order by cgpn_hr_sn desc limit 1000
+    </select>
+
+    <select id="getListPbsvnt" resultType="aero.cubox.api.domain.entity.TmpEmPbsvnt">
+        select * from TMP_EM_PBSVNT
+        where done_yn is null and #{hr_sn} > cgpn_hr_sn
+        order by cgpn_hr_sn desc limit 1000
+    </select>
+
+    <select id="getListVist" resultType="aero.cubox.api.domain.entity.TmpEmVisit">
+        select * from TMP_EM_VISIT
+        where done_yn is null and #{hr_sn} > cgpn_hr_sn
+        order by cgpn_hr_sn desc limit 1000
+    </select>
+
+</mapper>

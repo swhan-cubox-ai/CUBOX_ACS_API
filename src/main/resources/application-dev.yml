@@ -1,8 +1,8 @@
 spring:
   datasource:
-    jdbc-url: jdbc:mysql://172.30.134.249:3306/cubox_acs?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul
-    username: acs
-    password: cubox2022!
+    jdbc-url: jdbc:mysql://172.31.101.73:3306/acs_sj?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul
+    username: acs_user
+    password: welcome1!
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       auto-commit: true
@@ -33,7 +33,8 @@ cuboxacs:
   tokenTimeoutMinute: 600
   refreshTokenTimeoutMinute: 1440
   jwtSecretKey: fKbSemnZa9KSNauW
-  upload_directory : /home/gacs
-  move_directory : /home/gacs
-  cubox_frs_host : http://172.30.134.248:8081
-  archera_api_host : http://172.30.134.249:9297
+  upload_directory :  /home/gacs/ftp
+  move_directory : /home/gacs/ftp/imgBackup
+  cubox_frs_host: http://172.30.134.248:8081
+  archera_api_host: http://172.30.134.249:9297
+
