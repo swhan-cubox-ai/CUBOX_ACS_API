@@ -1,21 +1,18 @@
 package aero.cubox.api.deptemp.service;
 
 import aero.cubox.api.deptemp.mapper.EmpMapper;
+import aero.cubox.api.deptemp.mapper.FaceMapper;
 import aero.cubox.api.deptemp.repository.CardRepository;
 import aero.cubox.api.deptemp.repository.EmpRepository;
 import aero.cubox.api.deptemp.repository.FaceRepository;
 import aero.cubox.api.domain.entity.*;
-import aero.cubox.api.mdm.service.MdmService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -44,6 +41,9 @@ public class EmpTxService {
 
     @Autowired
     EmpMapper empMapper;
+
+    @Autowired
+    FaceMapper faceMapper;
 
     @Transactional
     public void SaveEmpCard(Map<String, Object> mdmItem)
@@ -87,6 +87,14 @@ public class EmpTxService {
                     .createdAt(new Timestamp(new Date().getTime()))
                     .updatedAt(new Timestamp(new Date().getTime()))
                     .build();
+
+            Face face = faceMapper.getFaceInfoByEmpCd(empCd);
+            if(face != null){
+                emp.setFaceId(face.getId());
+            } else {
+                emp.setFaceId(0);
+            }
+
             empMapper.insertEmp(emp);
             // 성공분 중 가장 최근에 등록된 사진
             // TO-DO 속도 오래 걸림. 해결방안 강구 필요
@@ -118,9 +126,17 @@ public class EmpTxService {
 
             empMapper.updateEmp(emp);
         }
-//        emp = empRepository.save(emp);
 
 
+        if (isEmpty) {
+            // MDM보다 먼저 올라온 사진
+            List<Face> faceList = faceMapper.getFaceAllInfoByEmpCd(empCd);
+            for(Face face : faceList)
+            {
+                face.setEmpId(emp.getId());
+                faceMapper.updateFaceEmpCd(face);
+            }
+        }
 
 //        if (isEmpty) {
 //            // MDM보다 먼저 올라온 사진

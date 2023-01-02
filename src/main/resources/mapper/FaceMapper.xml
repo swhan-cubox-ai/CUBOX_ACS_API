@@ -18,5 +18,27 @@
         limit 100
     </select>
 
+    <select id="getFaceInfoByEmpCd" resultType="aero.cubox.api.domain.entity.Face">
+        SELECT id FROM T_FACE
+        WHERE emp_cd = #{empCd}
+        AND FACE_STATE_TYP = 'FST002'
+        ORDER BY id DESC
+            LIMIT 1
+    </select>
+
+    <select id="getFaceAllInfoByEmpCd" resultType="aero.cubox.api.domain.entity.Face">
+        SELECT id FROM T_FACE
+        WHERE emp_cd = #{empCd}
+    </select>
+
+    <update id="updateFaceEmpCd" parameterType="aero.cubox.api.domain.entity.Face" >
+        UPDATE
+            T_FACE
+        SET
+            emp_cd = #{empCd}
+          ,updated_at = now(6)
+        WHERE
+            id = #{id}
+    </update>
 
 </mapper>

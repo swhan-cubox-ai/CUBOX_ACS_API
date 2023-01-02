@@ -44,7 +44,7 @@
               , #{belongNm}
               , #{cardClassTyp}
               , #{cardStateTyp}
-              , #{faceId}
+              , ifnull(#{faceId}, '0')
               ,#{expiredDt}
               ,#{mdmDt}
               ,'N'
@@ -69,7 +69,7 @@
           , belong_nm =#{belongNm}
           , card_class_typ =#{cardClassTyp}
           , card_state_typ =#{cardStateTyp}
-          , face_id = #{faceId}
+          , face_id = ifnull(#{faceId}, '0')
           ,expired_dt =#{expiredDt}
           ,mdm_dt =#{mdmDt}
           ,delete_yn =#{deleteYn}
