@@ -48,6 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/health")
                 .antMatchers("/health_cubrid")
                 .antMatchers("/acs/v1/**")
+                .antMatchers("/acs/v1/**")
         ;
     }
 

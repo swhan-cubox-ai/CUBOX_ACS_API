@@ -53,6 +53,15 @@ public class CardMdmHist implements Serializable {
     @Column(name = "mdm_dt")
     private Timestamp mdmDt;
 
+    @Column(name = "fetch_at")
+    private Timestamp fetchAt;
+
+    @Column(name = "start_at")
+    private Timestamp startAt;
+
+    @Column(name = "done_at")
+    private Timestamp doneAt;
+
     @Column(name = "created_at")
     private Timestamp createdAt;
 

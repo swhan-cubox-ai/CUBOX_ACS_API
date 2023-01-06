@@ -18,7 +18,8 @@ public class KafkaTest {
         try {
 
             //kafka 브로커
-            String kafkaBootstrapServer = "bpdev01.smartgbmo.go.kr:6667,bpdev02.smartgbmo.go.kr:6667,bpdev03.smartgbmo.go.kr:6667";
+//            String kafkaBootstrapServer = "bpdev01.smartgbmo.go.kr:6667,bpdev02.smartgbmo.go.kr:6667,bpdev03.smartgbmo.go.kr:6667";
+            String kafkaBootstrapServer = "bpcta3.gbmo.go.kr:6667,bpcta4.gbmo.go.kr:6667,bpcta5.gbmo.go.kr:6667,bpcta6.gbmo.go.kr:6667,bpcta7.gbmo.go.kr:6667";
 
             //kafka topic -- 필요한 Tag 만 Add  
             ArrayList<String> topics = new ArrayList<String>();

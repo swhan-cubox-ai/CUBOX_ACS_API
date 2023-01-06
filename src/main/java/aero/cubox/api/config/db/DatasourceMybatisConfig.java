@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableTransactionManagement
 @MapperScan(basePackages = { "aero.cubox.api.auth", "aero.cubox.api.cmmncd", "aero.cubox.api.demo"
-        ,"aero.cubox.api.user" ,"aero.cubox.api.deptemp"
+        ,"aero.cubox.api.user" ,"aero.cubox.api.deptemp", "aero.cubox.api.common"
         }, sqlSessionFactoryRef = "db2SqlSessionFactory")
 public class DatasourceMybatisConfig {
 

@@ -40,6 +40,9 @@ public class EmpTxService {
     InsttService insttService;
 
     @Autowired
+    DeptService deptService;
+
+    @Autowired
     EmpMapper empMapper;
 
     @Autowired
@@ -58,14 +61,23 @@ public class EmpTxService {
 
         Emp emp = null;
         Optional<Emp> oEmp = empRepository.findByEmpCd(empCd);
-        String insttCd = "";
         String insttNm = "";
+        String deptNm = "";
         if(!StringUtils.isEmpty((String) mdmItem.get("instt_cd"))){
             Optional<Instt> oInstt = insttService.findByInsttCd((String) mdmItem.get("instt_cd"));
             if(oInstt.isPresent()){
                 Instt instt = oInstt.get();
-                insttCd = instt.getInsttCd();
+
                 insttNm = instt.getInsttNm();
+            }
+        }
+
+        if(!StringUtils.isEmpty((String) mdmItem.get("dept_cd"))){
+            Optional<Dept> oDept = deptService.findByDeptCd((String) mdmItem.get("dept_cd"));
+            if(oDept.isPresent()){
+                Dept dept = oDept.get();
+
+                deptNm = dept.getDeptNm();
             }
         }
 
@@ -76,8 +88,8 @@ public class EmpTxService {
                     .empCd(empCd)
                     .empNm((String) mdmItem.get("emp_nm"))
                     .deptCd((String) mdmItem.get("dept_cd"))
-                    .deptNm((String) mdmItem.get("dept_nm"))
-                    .insttCd(insttCd)
+                    .deptNm(deptNm)
+                    .insttCd((String) mdmItem.get("instt_cd"))
                     .insttNm(insttNm)
                     .belongNm((String)mdmItem.get("belong_nm"))
                     .cardClassTyp((String)mdmItem.get("card_class_typ"))
@@ -114,8 +126,8 @@ public class EmpTxService {
 
             emp.setEmpNm((String) mdmItem.get("emp_nm"));
             emp.setDeptCd((String) mdmItem.get("dept_cd"));
-            emp.setDeptNm((String) mdmItem.get("dept_nm"));
-            emp.setInsttCd(insttCd);
+            emp.setDeptNm(deptNm);
+            emp.setInsttCd((String) mdmItem.get("instt_cd"));
             emp.setInsttNm(insttNm);
             emp.setBelongNm((String) mdmItem.get("belong_nm"));
             emp.setCardClassTyp((String) mdmItem.get("card_class_typ"));
@@ -133,7 +145,7 @@ public class EmpTxService {
             List<Face> faceList = faceMapper.getFaceAllInfoByEmpCd(empCd);
             for(Face face : faceList)
             {
-                face.setEmpId(emp.getId());
+                face.setEmpCd(emp.getEmpCd());
                 faceMapper.updateFaceEmpCd(face);
             }
         }

@@ -80,4 +80,24 @@
             id = #{id}
     </update>
 
+    <update id="updateEmpInstt" parameterType="aero.cubox.api.domain.entity.Instt" >
+        UPDATE
+            T_EMP
+        SET
+           instt_nm =#{insttNm}
+          ,updated_at = now(6)
+        WHERE
+            instt_cd = #{insttCd}
+    </update>
+
+    <update id="updateEmpDept" parameterType="aero.cubox.api.domain.entity.Dept" >
+        UPDATE
+            T_EMP
+        SET
+            dept_nm =#{deptNm}
+          ,updated_at = now(6)
+        WHERE
+            dept_cd = #{deptCd}
+    </update>
+
 </mapper>

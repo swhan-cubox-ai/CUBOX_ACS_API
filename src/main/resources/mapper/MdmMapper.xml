@@ -27,7 +27,7 @@
 
 	<sql id="card_state_typ">
 	case
-	when em.card_se in ('07','08') then
+	when em.card_se in ('06','07','08') then
 		case when em.card_sttus_se = '02' then 'CST002'
 			when em.card_sttus_se = '04' then 'CST003'
 			when em.card_sttus_se = '05' then 'CST004'
@@ -58,10 +58,8 @@
 		    em.cgpn_hr_sn,
 			em.hr_no as emp_cd,
 			em.gvrn_gbd_code,
-			dep.instt_code as instt_cd,
-			dep.instt_nm,
+			em.instt_code as instt_cd,
 			em.dept_code as dept_cd,
-			dep.lowest_instt_nm as dept_nm,
             em.cgpn_nm as emp_nm,
             em.psitn_nm as belong_nm,
             em.card_se as card_class_typ,
@@ -80,7 +78,6 @@
             em.gbd_intrlck3,
             em.gbd_intrlck4
 		FROM TC_EM_CGPN em
-		 LEFT OUTER JOIN TI_CMN_INSTT_RCV dep on em.dept_code  = dep.lowest_instt_code
 		WHERE (em.card_se = '04' AND em.process_yn_mdmsjsc = 'N' AND em.gbd_intrlck1='Y')
 		   OR (em.card_se = '05' AND em.process_yn_mdmsjsc = 'N' AND em.gvrn_gbd_code = '05')
 		ORDER BY em.creat_dt ASC, em.hr_no ASC
@@ -100,10 +97,8 @@
 			   em.cgpn_hr_sn,
 			   em.hr_no as emp_cd,
 			   em.gvrn_gbd_code,
-			   dep.instt_code as instt_cd,
-			   dep.instt_nm,
+			   em.instt_code as instt_cd,
 			   em.dept_code as dept_cd,
-			   dep.lowest_instt_nm as dept_nm,
 			   em.cgpn_nm as emp_nm,
 			   em.psitn_nm as belong_nm,
 			   em.card_se as card_class_typ,
@@ -122,7 +117,6 @@
 			   em.gbd_intrlck3,
 			   em.gbd_intrlck4
 		FROM TC_EM_PBSVNT em
-		 LEFT OUTER JOIN TI_CMN_INSTT_RCV dep on em.dept_code  = dep.lowest_instt_code
 		WHERE em.process_yn_mdmsjsc = 'N'
 		  AND em.gbd_intrlck1 = 'Y'
 		ORDER BY em.creat_dt ASC, em.hr_no ASC
@@ -142,10 +136,8 @@
 			   em.cgpn_hr_sn,
 			   em.hr_no as emp_cd,
 			   em.gvrn_gbd_code,
-			   dep.instt_code as instt_cd,
-			   dep.instt_nm,
+			   em.instt_code as instt_cd,
 			   em.dept_code as dept_cd,
-			   dep.lowest_instt_nm as dept_nm,
 			   em.cgpn_nm as emp_nm,
 			   em.psitn_nm as belong_nm,
 			   em.card_se as card_class_typ,
@@ -160,7 +152,6 @@
 			   em.creat_dt as mdm_dt,
 			   em.process_yn_mdmsjsc
 		FROM TC_EM_VISIT em
-		LEFT OUTER JOIN TI_CMN_INSTT_RCV dep on em.dept_code  = dep.lowest_instt_code
 		WHERE em.process_yn_mdmsjsc = 'N'
 		ORDER BY em.creat_dt ASC, em.hr_no ASC
 		LIMIT 500

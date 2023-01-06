@@ -25,6 +25,7 @@ public class Constants {
         public static final String API_ACS_PREFIX = "/acs/v1";
         public static final String API_AUTH = "/auth";
         public static final String API_CMMNCD = "/cmmncd";
+        public static final String API_CMMN = "/acs/common";
 
         public static final String API_DEMO = "/demo";
 

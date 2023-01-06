@@ -40,6 +40,9 @@ public class CardMdmHistService extends AbstractService<CardMdmHist, Integer> {
             .cardStateTyp((String) mdmItem.get("card_state_typ"))
             .cardSttusSe((String) mdmItem.get("card_sttus_se"))
             .mdmDt((Timestamp)mdmItem.get("mdm_dt"))
+            .fetchAt((Timestamp)mdmItem.get("fetch_at"))
+            .startAt((Timestamp)mdmItem.get("start_at"))
+            .doneAt((Timestamp)mdmItem.get("done_at"))
             .createdAt(new Timestamp(new Date().getTime()))
             .updatedAt(new Timestamp(new Date().getTime()))
             .build();

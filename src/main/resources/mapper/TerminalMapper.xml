@@ -1,0 +1,32 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="aero.cubox.api.common.mapper.TerminalMapper">
+    <select id="getCUBOXIpAddrList" resultType="string">
+        SELECT ip_addr FROM T_TERMINAL t
+        JOIN T_DOOR d on t.door_cd = d.door_cd
+        WHERE (t.model_nm IS NULL OR t.model_nm != 'LINX')
+          AND d.building_cd = #{buildingCd}
+          AND t.ip_addr is not null
+    </select>
+
+    <select id="getLINXIpAddrList" resultType="string">
+        SELECT ip_addr FROM T_TERMINAL t
+        JOIN T_DOOR d on t.door_cd = d.door_cd
+        WHERE t.model_nm = 'LINX'
+          AND d.building_cd = #{buildingCd}
+          AND t.ip_addr is not null
+    </select>
+
+    <select id="getTerminalInfo" resultType="aero.cubox.api.domain.entity.DoorAlarmHist">
+        SELECT
+         t.id as terminal_id, t.terminal_cd, t.terminal_typ, t.model_nm,
+         t.mgmt_num, t.ip_addr, t.complex_auth_typ, d.id as door_id, d.door_nm, b.id as building_id, b.building_nm
+        FROM T_TERMINAL t
+         LEFT OUTER JOIN T_DOOR d ON t.door_cd = d.door_cd
+         LEFT OUTER JOIN T_BUILDING b ON d.building_cd = b.building_cd
+        WHERE t.terminal_cd = #{terminalCd}
+    </select>
+
+</mapper>

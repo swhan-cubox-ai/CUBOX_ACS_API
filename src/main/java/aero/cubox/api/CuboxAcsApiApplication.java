@@ -1,9 +1,16 @@
 package aero.cubox.api;
 
+import aero.cubox.api.common.service.KafkaService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.boot.context.event.ApplicationStartedEvent;
+import org.springframework.boot.context.event.ApplicationStartingEvent;
+import org.springframework.boot.context.event.EventPublishingRunListener;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.event.EventListener;
 import org.springframework.core.env.Environment;
 
 import javax.annotation.PostConstruct;
@@ -14,6 +21,9 @@ import java.util.TimeZone;
 @Slf4j
 @SpringBootApplication
 public class CuboxAcsApiApplication {
+
+	@Autowired
+	private static KafkaService kafkaService;
 
 	public static void main(String[] args) throws UnknownHostException {
 
@@ -35,8 +45,11 @@ public class CuboxAcsApiApplication {
 	}
 
 	@PostConstruct
-	public void started(){
-		TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
-	}
+	public void started(){ TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul")); }
+
+//	@EventListener(ApplicationStartedEvent.class)
+//	public void afterStartup() {
+//		kafkaService.runKafka();
+//	}
 
 }

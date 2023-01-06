@@ -1,6 +1,8 @@
 package aero.cubox.api.deptemp.mapper;
 
+import aero.cubox.api.domain.entity.Dept;
 import aero.cubox.api.domain.entity.Emp;
+import aero.cubox.api.domain.entity.Instt;
 import aero.cubox.api.sync.vo.EmpVo;
 import org.springframework.stereotype.Component;
 
@@ -16,4 +18,7 @@ public interface EmpMapper {
     int insertEmp(Emp emp);
 
     int updateEmp(Emp emp);
+
+    int updateEmpInstt(Instt instt);
+    int updateEmpDept(Dept dept);
 }

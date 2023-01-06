@@ -1,5 +1,6 @@
 package aero.cubox.api.deptemp.service;
 
+import aero.cubox.api.deptemp.mapper.EmpMapper;
 import aero.cubox.api.domain.entity.Dept;
 import aero.cubox.api.domain.entity.Instt;
 import aero.cubox.api.mdm.service.MdmService;
@@ -28,6 +29,9 @@ public class InsttScheduleService {
 
     @Autowired
     DeptService deptService;
+
+    @Autowired
+    EmpMapper empMapper;
 
     @Autowired
     private MdmService mdmService;
@@ -79,7 +83,7 @@ public class InsttScheduleService {
                         instt.setUpdatedAt(new Timestamp(new Date().getTime()));
                     }
                     insttService.save(instt);
-
+                    empMapper.updateEmpInstt(instt);
                 } else if ("N".equals(insttYn)) {
 
                     Dept dept = null;
@@ -106,7 +110,7 @@ public class InsttScheduleService {
                         dept.setUpdatedAt(new Timestamp(new Date().getTime()));
                     }
                     deptService.save(dept);
-
+                    empMapper.updateEmpDept(dept);
 
                     // 기관여부가 N 인경우 부서테이블에 입력
                     //updatedCnt = updateDeptRcv(insttInfo);

@@ -1,6 +1,6 @@
 spring:
   datasource:
-    jdbc-url: jdbc:mysql://13.209.174.31:3306/cubox_acs?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul
+    jdbc-url: jdbc:mysql://172.30.134.249:3306/cubox_acs?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul
     username: acs
     password: cubox2022!
     driver-class-name: org.mariadb.jdbc.Driver
@@ -9,9 +9,9 @@ spring:
       maximum-pool-size: 15
       minimum-idle: 15
   datasource2:
-    jdbc-url: jdbc:CUBRID:13.209.174.31:30000:GACS_MDM:dba:cuboxdba:?charset=UTF-8
-    username: dba
-    password: cuboxdba
+    jdbc-url: jdbc:CUBRID:172.30.110.83:30000:gacsmdm:mdmsjsc:chungsamdmsjsc!@:?charset=UTF-8
+    username: mdmsjsc
+    password: chungsamdmsjsc!@
     driver-class-name: cubrid.jdbc.driver.CUBRIDDriver
     hikari:
       auto-commit: true
@@ -33,7 +33,8 @@ cuboxacs:
   tokenTimeoutMinute: 600
   refreshTokenTimeoutMinute: 1440
   jwtSecretKey: fKbSemnZa9KSNauW
-  upload_directory : C:\\imgTmp
-  move_directory : C:\\imgBackup
+  upload_directory: /home/gacs/ftp
+  move_directory: /home/gacs/ftp/imgBackup
   cubox_frs_host : http://3.35.157.138:8081
   archera_api_host : http://192.168.26.188:9297
+  digitwin_host: http://172.31.101.45:10002

@@ -6,13 +6,22 @@ import aero.cubox.api.deptemp.service.*;
 import aero.cubox.api.deptemp.vo.EntHistVO;
 import aero.cubox.api.domain.entity.*;
 import aero.cubox.api.domain.vo.ResultVo;
+import aero.cubox.api.sync.service.DoorAlarmHistService;
+import aero.cubox.api.sync.vo.DoorAlarmVO;
 import aero.cubox.api.sync.vo.EmpVo;
 import aero.cubox.api.util.CuboxTerminalUtil;
+import aero.cubox.api.util.DigitalTwinUtil;
 import com.github.pagehelper.util.StringUtil;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
 
@@ -35,6 +44,11 @@ public class SyncEmpCardController {
 
     @Autowired
     EntHistBioService entHistBioService;
+    @Autowired
+    DoorAlarmHistService doorAlarmHistService;
+
+    @Value("${cuboxacs.digitwin_host}")
+    String digitwin_host;
 
 
     @GetMapping(value = {Constants.API.API_EMP})
@@ -132,12 +146,46 @@ public class SyncEmpCardController {
         return ResultVo.ok();
     }
 
+    // 워크쓰루 요건없음. TODO - linx 단말기 로직적용
+    @PostMapping(value = {"/entAlarm"})
+    @ApiOperation(value="알람전송", notes="알람전송")
+    public ResultVo sendEntAlarm(@RequestBody DoorAlarmVO doorAlarm) throws Exception {
+        if(StringUtil.isEmpty(doorAlarm.getTerminalCd()) || StringUtil.isEmpty(doorAlarm.getEvtDt()) || StringUtil.isEmpty(doorAlarm.getDoorAlarmTyp()) ) {
+            return ResultVo.fail("terminalCd or evtDt or doorAlarmTyp is empty");
+        }
+        try {
+            doorAlarmHistService.insertDoorAlarmHist(doorAlarm);
+
+            JSONObject[] arr = new JSONObject[1];
+
+            JSONObject jObject = new JSONObject();
+            jObject.put("evtDt", doorAlarm.getEvtDt());
+            jObject.put("doorAlarmTyp", doorAlarm.getDoorAlarmTyp());
+            jObject.put("terminalCd", doorAlarm.getTerminalCd());
+
+            arr[0] = jObject;
+
+            String doorAlarmStr = Arrays.toString(arr);
+            String encodedAlarm = DigitalTwinUtil.strEncode(doorAlarmStr);
+
+            HttpEntity<String> requestEntity = new HttpEntity<>(encodedAlarm);
+            RestTemplate restTemplate = new RestTemplate();
+            ResponseEntity<String> response = restTemplate.exchange(digitwin_host + "/acs/cubox/event", HttpMethod.POST, requestEntity , String.class);
+        } catch (Exception ex){
+            return ResultVo.fail("alarm send fail", ex);
+        }
+        return ResultVo.ok();
+    }
+
+
+
     @GetMapping(value = {"/getTimezone"})
     @ApiOperation(value="타임존확인", notes="타임존확인")
     public ResultVo<String> timeZoneTest() throws Exception {
         TimeZone tz = TimeZone.getDefault();
         System.out.println("##############################" + tz);
-        return ResultVo.ok(tz);
+        String test = "1###################";
+        return ResultVo.ok(test);
     }
 
 }

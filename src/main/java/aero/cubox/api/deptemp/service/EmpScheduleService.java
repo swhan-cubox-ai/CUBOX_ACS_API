@@ -50,15 +50,23 @@ public class EmpScheduleService {
 
         String tblNm = "TC_EM_VISIT";
 
+
         // TC_EM_VISIT
         // 방문자출입증
         while (true) {
+
+            Timestamp fetchTime = new Timestamp(new Date().getTime());
+
             List<Map<String, Object>> mdmVisitList = mdmService.getMdmTcEmVisit();
             if (mdmVisitList.size() == 0) {
                 break;
             }
 
             for (int i = 0; i < mdmVisitList.size(); i++) {
+
+                // TO-DO START_TIME
+                Timestamp startTime = new Timestamp(new Date().getTime());
+
                 Map<String, Object> mdmItem = mdmVisitList.get(i);
 
                 try {
@@ -77,7 +85,14 @@ public class EmpScheduleService {
                     empMdmErrService.save(empMdmErr);
                 }
 
+                // TO-DO DONE_TIME
+                Timestamp doneTime = new Timestamp(new Date().getTime());
+
+                mdmItem.put("fetch_at", fetchTime);
+                mdmItem.put("start_at", startTime);
+                mdmItem.put("done_at", doneTime);
                 cardMdmHistService.SaveCard(tblNm, mdmItem);
+
                 // 동기화 진행한 데이터는 연계데이터처리유무컬럼(process_yn_mdmsjsc => Y) 업데이트  (PK = card_no)
                 mdmService.updateMdmTcEmVisit(mdmItem);
             }
@@ -96,6 +111,7 @@ public class EmpScheduleService {
         // TC_EM_CGPN
         // 일반출입증
         while (true) {
+            Timestamp fetchTime = new Timestamp(new Date().getTime());
 
             List<Map<String, Object>> mdmCgpnList = mdmService.getMdmTcEmCgpn();
             if (mdmCgpnList.size() == 0) {
@@ -103,6 +119,9 @@ public class EmpScheduleService {
             }
 
             for (int i = 0; i < mdmCgpnList.size(); i++) {
+
+                Timestamp startTime = new Timestamp(new Date().getTime());
+
                 Map<String, Object> mdmItem = mdmCgpnList.get(i);
                 try {
                     empTxService.SaveEmpCard(mdmItem);
@@ -120,6 +139,11 @@ public class EmpScheduleService {
                     empMdmErrService.save(empMdmErr);
                 }
 
+                Timestamp doneTime = new Timestamp(new Date().getTime());
+
+                mdmItem.put("fetch_at", fetchTime);
+                mdmItem.put("start_at", startTime);
+                mdmItem.put("done_at", doneTime);
                 cardMdmHistService.SaveCard(tblNm, mdmItem);
                 // 동기화 진행한 데이터는 연계데이터처리유무컬럼(process_yn_mdmsjsc N => Y) 업데이트  (PK = card_no)
                 mdmService.updateMdmTcEmCgpn(mdmItem);
@@ -133,12 +157,17 @@ public class EmpScheduleService {
         // TC_EM_PBSVNT
         // 공무원증
         while (true) {
+            Timestamp fetchTime = new Timestamp(new Date().getTime());
+
             List<Map<String, Object>> mdmPbsvntist = mdmService.getMdmTcEmPbsvnt();
             if (mdmPbsvntist.size() == 0) {
                 break;
             }
 
             for (int i = 0; i < mdmPbsvntist.size(); i++) {
+
+                Timestamp startTime = new Timestamp(new Date().getTime());
+
                 Map<String, Object> mdmItem = mdmPbsvntist.get(i);
 
                 try {
@@ -157,6 +186,11 @@ public class EmpScheduleService {
                     empMdmErrService.save(empMdmErr);
                 }
 
+                Timestamp doneTime = new Timestamp(new Date().getTime());
+
+                mdmItem.put("fetch_at", fetchTime);
+                mdmItem.put("start_at", startTime);
+                mdmItem.put("done_at", doneTime);
                 cardMdmHistService.SaveCard(tblNm, mdmItem);
                 // 동기화 진행한 데이터는 연계데이터처리유무컬럼(process_yn_mdmsjsc => Y) 업데이트  (PK = card_no)
                 mdmService.updateMdmTcEmPbsvnt(mdmItem);

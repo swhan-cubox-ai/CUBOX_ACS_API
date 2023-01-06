@@ -1,5 +1,6 @@
 package aero.cubox.api;
 
+import aero.cubox.api.common.mapper.TerminalMapper;
 import aero.cubox.api.deptemp.repository.FaceFeatureRepository;
 import aero.cubox.api.deptemp.service.FaceFeatureService;
 import aero.cubox.api.domain.entity.FaceFeature;
@@ -8,8 +9,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.client.RestTemplate;
 
 import java.sql.Timestamp;
 import java.util.*;
@@ -34,6 +38,9 @@ public class CardTest {
     private FaceFeatureRepository faceFeatureRepository;
     @Autowired
     private FaceFeatureService faceFeatureService;
+
+    @Autowired
+    TerminalMapper terminalMapper;
 
 
     @Test
@@ -78,4 +85,22 @@ public class CardTest {
             }
         }
     }
+
+    @Test
+    public void test3() {
+        List<String> ipAddrList = terminalMapper.getCUBOXIpAddrList("03");
+        String port = ":5000";
+        String api = "/fire?fireOn=true";
+        for(String ip : ipAddrList){
+            String uri = "http://" + ip + port + api;
+            if("172.29.7.5".equals(ip) || "172.29.7.4".equals(ip)){
+                continue;
+            }
+            RestTemplate restTemplate = new RestTemplate();
+
+//            ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.POST, null , String.class);
+        }
+
+    }
 }
+
